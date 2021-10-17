@@ -1,8 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 import { HoverDataType } from '../Types';
 import { HorizontalArrow, VerticalArrow } from '../Icons';
-
 
 interface Props {
   data: HoverDataType;
@@ -14,20 +12,20 @@ interface TooltipElProps {
 }
 
 const TooltipEl = styled.div<TooltipElProps>`
-	display: block;
-	position: fixed;
-	z-index: 10;
-	border-radius: 1rem;
-	font-size: 1.4rem;
-	background-color: var(--white);
+  display: block;
+  position: fixed;
+  z-index: 10;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  background-color: var(--white);
   box-shadow: 0 0 1rem rgb(0 0 0 / 15%);
   word-wrap: break-word;
-  top: ${props => props.y - 40}px;
-  left: ${props => props.x + 20}px;
+  top: ${(props) => props.y - 40}px;
+  left: ${(props) => props.x + 20}px;
   max-width: 24rem;
 `;
 
-const TooltipTitle =  styled.div`
+const TooltipTitle = styled.div`
   font-size: 1.4rem;
   font-weight: 600;
   color: var(--navy);  
@@ -41,19 +39,18 @@ const TooltipTitle =  styled.div`
   line-height: 1.8rem;
 `;
 
-const SubNote =  styled.span`
+const SubNote = styled.span`
   font-size: 1.2rem;
   color: var(--navy);
 `;
 
-const TooltipBody =  styled.div`
+const TooltipBody = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 2rem;
 `;
 
-
-const RowEl =  styled.div`
+const RowEl = styled.div`
   font-size: 1.3rem;
   color: var(--dark-grey);
   margin-bottom: 1.5rem;
@@ -98,7 +95,7 @@ const ColorIcon = styled.div<ColorIconProps>`
   width: 1.6rem;
   height: 1.6rem;
   margin: 0 0.2rem;
-  background-color: ${props => props.fill ? props.fill : 'var(--yellow)'};
+  background-color: ${(props) => (props.fill ? props.fill : 'var(--yellow)')};
 `;
 
 const SizeIcon = styled.div`
@@ -116,25 +113,32 @@ const IconDiv = styled.div`
 
 export const HoverTooltip = (props: Props) => {
   const {
-    data
+    data,
   } = props;
-  return <TooltipEl x={data.xPosition} y={data.yPosition}>
-    <TooltipHead>
-      <TooltipTitle>
-        {data.country} <SubNote>({data.continent})</SubNote>
-      </TooltipTitle>
-    </TooltipHead>
-    <TooltipBody>
-      {
-        data.rows.map((d,i) => 
+  return (
+    <TooltipEl x={data.xPosition} y={data.yPosition}>
+      <TooltipHead>
+        <TooltipTitle>
+          {data.country}
+          {' '}
+          <SubNote>
+            (
+            {data.continent}
+            )
+          </SubNote>
+        </TooltipTitle>
+      </TooltipHead>
+      <TooltipBody>
+        {
+        data.rows.map((d, i) => (
           <RowEl key={i}>
             <IconDiv>
               {
-                d.type === 'x-axis' ? <HorizontalArrow  size={20} /> :
-                  d.type === 'y-axis' ? <VerticalArrow size={20} /> :
-                    d.type === 'color' ? <ColorIcon fill={d.color} />:
-                      d.type === 'size' ? <SizeIcon />:
-                        null
+                d.type === 'x-axis' ? <HorizontalArrow size={20} />
+                  : d.type === 'y-axis' ? <VerticalArrow size={20} />
+                    : d.type === 'color' ? <ColorIcon fill={d.color} />
+                      : d.type === 'size' ? <SizeIcon />
+                        : null
               }
             </IconDiv>
             <div>
@@ -143,8 +147,9 @@ export const HoverTooltip = (props: Props) => {
               <RowValue>{d.value}</RowValue>
             </div>
           </RowEl>
-        )
+        ))
       }
-    </TooltipBody>
-  </TooltipEl>;
+      </TooltipBody>
+    </TooltipEl>
+  );
 };

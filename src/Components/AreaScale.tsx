@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { OptionsDataType } from '../Types';
 
@@ -6,7 +5,6 @@ interface Props {
   sizeMetric: OptionsDataType;
   maxValue: number;
 }
-
 
 const Title = styled.div`
   font-size: 1.2rem;
@@ -26,19 +24,20 @@ const KeyEl = styled.div`
   width: fit-content;
 `;
 
-
 export const AreaScale = (props: Props) => {
-  const  { 
+  const {
     sizeMetric,
-    maxValue
-  } =  props;
-  return <KeyEl>
-    <Title>{ sizeMetric.Indicator }</Title>
-    <svg width="105" height="56" viewBox="0 0 105 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <text fontSize={12} fontWeight={700} textAnchor='middle' fill="#110848" x={4} y={55}>0</text>
-      <text fontSize={12} fontWeight={700} textAnchor='middle' fill="#110848" x={85} y={55}>{maxValue}</text>
-      <path d="M4 19.5L84 0V40L4 19.5Z" fill="#E9ECF6"/>
-      <circle cx="85" cy="20" r="19" fill="white" stroke="#110848" strokeWidth="2"/>
-    </svg>
-  </KeyEl>;
+    maxValue,
+  } = props;
+  return (
+    <KeyEl>
+      <Title>{ sizeMetric.Indicator }</Title>
+      <svg width='105' height='56' viewBox='0 0 105 56' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <text fontSize={12} fontWeight={700} textAnchor='middle' fill='#110848' x={4} y={55}>0</text>
+        <text fontSize={12} fontWeight={700} textAnchor='middle' fill='#110848' x={85} y={55}>{maxValue}</text>
+        <path d='M4 19.5L84 0V40L4 19.5Z' fill='#E9ECF6' />
+        <circle cx='85' cy='20' r='19' fill='white' stroke='#110848' strokeWidth='2' />
+      </svg>
+    </KeyEl>
+  );
 };

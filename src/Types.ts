@@ -1,4 +1,4 @@
-export interface IndicatorDataType {  
+export interface IndicatorDataType {
   'Indicator': string;
   'Value': number;
 }
@@ -21,7 +21,7 @@ export interface DataType {
   'IndicatorList': string[];
 }
 
-export interface IndicatorOptionsDataType {  
+export interface IndicatorOptionsDataType {
   'Data source link': string;
   'Data source name': string;
   'Indicator': string;
@@ -31,7 +31,7 @@ export interface IndicatorOptionsDataType {
   'Categorical': boolean;
 }
 
-export interface OptionsDataType {  
+export interface OptionsDataType {
   'Data source link': string | null;
   'Data source name': string | null;
   'Indicator Description': string | null;

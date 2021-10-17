@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { createGlobalStyle } from 'styled-components';
-import  { csv } from 'd3-request';
+import { csv } from 'd3-request';
 import { nest } from 'd3-collection';
-import _  from 'lodash';
+import _ from 'lodash';
 import { IndicatorDataType, DataType, IndicatorOptionsDataType } from './Types';
 import { VizArea } from './VizArea';
 import CategoricalData from './Data/CategoricalData.json';
-
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -109,7 +108,7 @@ const GlobalStyle = createGlobalStyle`
 
   .dropdownMain {
     border: 2px solid #f2f7ff !important;
-  	width: 27.6rem !important;
+    width: 27.6rem !important;
     border-radius: 3rem !important;
     background-color: var(--dropdown-bg);
     padding: 0;
@@ -180,48 +179,34 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App = () => {
-  const [data, setData] = useState<DataType[] | undefined>(undefined);
+  const [finalData, setFinalData] = useState<DataType[] | undefined>(undefined);
   const [indicatorsList, setIndicatorsList] = useState<IndicatorOptionsDataType[] | undefined>(undefined);
   const [regionList, setRegionList] = useState<string[] | undefined>(undefined);
   useEffect(() => {
-    csv('./data/Data-explorer-data.csv', function(error, data) {
+    csv('./data/Data-explorer-data.csv', (error, data) => {
       if (error) throw error;
-      const indicatorsDetails: IndicatorOptionsDataType[] = _.sortBy(_.uniqBy(data, 'Indicator').map(d => {
-        return {
-          'Data source link': d['Data source link'] as string,
-          'Data source name': d['Data source name'] as string,
-          'Indicator': d['Indicator'] as string,
-          'Time period': d['Time period'] as string,
-          'Indicator Description': d['Indicator Description'] as string,
-          'Year': d['Year'] as string,
-          'Categorical': CategoricalData.findIndex(el => el.indicator === d['Indicator']) !== -1 ? true : false,
-        };
-      }), d => d.Indicator);
+      const indicatorsDetails: IndicatorOptionsDataType[] = _.sortBy(_.uniqBy(data, 'Indicator').map((d) => ({
+        'Data source link': d['Data source link'] as string,
+        'Data source name': d['Data source name'] as string,
+        Indicator: d.Indicator as string,
+        'Time period': d['Time period'] as string,
+        'Indicator Description': d['Indicator Description'] as string,
+        Year: d.Year as string,
+        Categorical: CategoricalData.findIndex((el) => el.indicator === d.Indicator) !== -1,
+      })), (d) => d.Indicator);
 
-      const regions = _.uniqBy(data, 'Group 1').map(d => d['Group 1']).filter(d => d !== '').sort();
-      const countries = _.sortBy(_.uniqBy(data, 'Country or Area').map(d => {
-        return {
-          country: d['Country or Area'],
-          region: d['Group 1'],
-          LDC: d['LDC'] === 'TRUE' ? true : false,
-          LLDC: d['LLDC'] === 'TRUE' ? true : false,
-          SIDS: d['SIDS'] === 'TRUE' ? true : false,
-        };
-      }), d => d.country);
-      console.log(countries);
+      const regions = _.uniqBy(data, 'Group 1').map((d) => d['Group 1']).filter((d) => d !== '').sort();
       regions.push('Null');
 
       const dataNestedByCountries = nest()
-        .key((d:any) =>  d['Alpha-3 code-1'])
+        .key((d:any) => d['Alpha-3 code-1'])
         .entries(data);
       const formattedData: DataType[] = dataNestedByCountries.map((d:any) => {
-        const indicator: IndicatorDataType[] = _.uniqBy(d.values,'Indicator').map((d:any) => {
-          return {
-            'Indicator': d['Indicator'] as string,
-            'Value': +d['Value'],
-          };
-        });
-        const indicatorList: string[] = _.uniqBy(d.values,'Indicator').map((d:any) =>  d['Indicator'] as string);
+        const indicator: IndicatorDataType[] = _.uniqBy(d.values, 'Indicator').map((el:any) => ({
+          Indicator: el.Indicator as string,
+          Value: +el.Value,
+        }));
+        const indicatorList: string[] = _.uniqBy(d.values, 'Indicator').map((el:any) => el.Indicator as string);
         return {
           'Alpha-2 code': d.values[0]['Alpha-2 code'] as string,
           'Alpha-3 code-1': d.values[0]['Alpha-3 code-1'] as string,
@@ -230,31 +215,33 @@ const App = () => {
           'Group 1': d.values[0]['Group 1'] as string,
           'Group 2': d.values[0]['Group 2'] as string,
           'Group 3': d.values[0]['Group 3'] as string,
-          'LDC': d.values[0]['LDC'] === 'TRUE' ? true : false,
-          'LLDC': d.values[0]['LLDC'] === 'TRUE' ? true : false,
+          LDC: d.values[0].LDC === 'TRUE',
+          LLDC: d.values[0].LLDC === 'TRUE',
           'Latitude (average)': +d.values[0]['Latitude (average)'],
           'Longitude (average)': +d.values[0]['Longitude (average)'],
           'Numeric code': +d.values[0]['Numeric code'],
-          'SIDS': d.values[0]['SIDS'] === 'TRUE' ? true : false,
-          'Indicators': indicator,
-          'IndicatorList': indicatorList,
+          SIDS: d.values[0].SIDS === 'TRUE',
+          Indicators: indicator,
+          IndicatorList: indicatorList,
         };
       });
       setIndicatorsList(indicatorsDetails);
-      setData(formattedData);
+      setFinalData(formattedData);
       setRegionList(regions as string[]);
     });
-  },[]);
+  }, []);
   return (
     <>
       <GlobalStyle />
       {
-        indicatorsList && data && regionList ? 
-          <VizArea
-            data={data}
-            indicators={indicatorsList}
-            regions={regionList}
-          /> : null
+        indicatorsList && finalData && regionList
+          ? (
+            <VizArea
+              data={finalData}
+              indicators={indicatorsList}
+              regions={regionList}
+            />
+          ) : null
       }
     </>
   );

@@ -1,4 +1,3 @@
-import React from 'react';
 import { DataType, OptionsDataType } from '../Types';
 import { Graph } from './Graph';
 
@@ -18,7 +17,7 @@ export const Map = (props: Props) => {
     secondMetric,
     selectedCountryGroup,
     selectedRegion,
-    sizeMetric, 
+    sizeMetric,
   } = props;
 
   return (
@@ -26,7 +25,7 @@ export const Map = (props: Props) => {
       data={data}
       firstMetric={firstMetric}
       secondMetric={secondMetric}
-      selectedCountryGroup = {selectedCountryGroup}
+      selectedCountryGroup={selectedCountryGroup}
       selectedRegion={selectedRegion}
       sizeMetric={sizeMetric}
     />
