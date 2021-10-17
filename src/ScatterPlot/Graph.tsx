@@ -31,28 +31,6 @@ const FlexDiv = styled.div`
   display: flex;
 `;
 
-const Button = styled.button`
-	padding: 2rem;
-	border-radius: 0.2rem;
-	font-size: 1.4rem;
-  font-weight: 700;
-	background-color: var(--bg-blue);
-  color: var(--navy);
-  border: 0;
-  text-transform: uppercase;
-  margin: 0 1rem;
-  cursor: pointer;
-  border-radius: 100px;
-  padding: 1rem 3rem;
-  &:hover {
-    background: #B6D3FE;
-  }
-  &:active{
-    background: #84B5FD;
-  }
-`;
-
-
 const CheckboxEl = styled.div`
 	display: flex;
 	margin: 0.8rem 1rem;
@@ -172,30 +150,16 @@ export const Graph = (props: Props) => {
         .attr('id', 'clip')
         .append('svg:rect')
         .attr('width', graphWidth)
-        .attr('height', graphHeight)
+        .attr('height', height)
         .attr('x', 0)
-        .attr('y', 0);
+        .attr('y', 0 - margin.top);
+      const graphExtra = svg
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
       const mainGraph = svg
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`)
         .call(brushing);
-      const graphExtra = svg
-        .append('g')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
-      graphExtra.append('line')
-        .attr('x1',0)
-        .attr('x2',0)
-        .attr('y1',0)
-        .attr('y2', graphHeight)
-        .attr('stroke-width',1)
-        .attr('stroke','#110848');
-      graphExtra.append('line')
-        .attr('x1',0)
-        .attr('x2',graphWidth)
-        .attr('y1',graphHeight)
-        .attr('y2', graphHeight)
-        .attr('stroke-width',1)
-        .attr('stroke','#110848');
       graphExtra.append('text')
         .attr('transform', `translate(${graphWidth / 2},${graphHeight + 30})`)
         .attr('x',0)
@@ -206,7 +170,7 @@ export const Graph = (props: Props) => {
         .attr('text-anchor','middle')
         .text(firstMetric.Indicator);
       graphExtra.append('text')
-        .attr('transform', `translate(-30,${graphHeight / 2}) rotate(-90)`)
+        .attr('transform', `translate(-40,${graphHeight / 2}) rotate(-90)`)
         .attr('x',0)
         .attr('y',0)
         .attr('fill', '#110848')
@@ -239,6 +203,20 @@ export const Graph = (props: Props) => {
         .call(g => g.selectAll('.tick text')
           .style('fill', 'var(--navy)')
           .attr('font-weight', 700));
+      mainGraph.append('line')
+        .attr('x1',0)
+        .attr('x2',0)
+        .attr('y1',0)
+        .attr('y2', graphHeight)
+        .attr('stroke-width',1)
+        .attr('stroke','#110848');
+      mainGraph.append('line')
+        .attr('x1',0)
+        .attr('x2',graphWidth)
+        .attr('y1',graphHeight)
+        .attr('y2', graphHeight)
+        .attr('stroke-width',1)
+        .attr('stroke','#110848');
       const dataPointsG = mainGraph.append('g')
         .attr('clip-path', 'url(#clip)');
       dataPointsG.selectAll('.dataPoints')
@@ -252,23 +230,32 @@ export const Graph = (props: Props) => {
             {
               title: firstMetric.Indicator,
               value: d.Indicators[d.Indicators.findIndex(el => el.Indicator === firstMetric.Indicator)].Value,
+              type: 'x-axis',
+              metaData: `${firstMetric['Time period']}, Last Updated: ${firstMetric.Year}`,
             },
             {
               title: secondMetric.Indicator,
               value: d.Indicators[d.Indicators.findIndex(el => el.Indicator === secondMetric.Indicator)].Value,
+              type: 'y-axis',
+              metaData: `${secondMetric['Time period']}, Last Updated: ${secondMetric.Year}`,
             }
           ];
           if(sizeMetric.Indicator !== 'Not Selected') {
-            rowData.push({
-              title: sizeMetric.Indicator,
-              value: d.Indicators[d.Indicators.findIndex(el => el.Indicator === sizeMetric.Indicator)].Value,
-            });
-          }
-          if(colorMetric.Indicator !== 'Not Selected' && colorMetric.Indicator !== 'Continents') {
-            rowData.push({
-              title: colorMetric.Indicator,
-              value: d.Indicators.findIndex(el => el.Indicator === colorMetric.Indicator) >= 0 ? d.Indicators[d.Indicators.findIndex(el => el.Indicator === colorMetric.Indicator)].Value : 'NA',
-            });
+            if(colorMetric.Indicator !== 'Not Selected' && colorMetric.Indicator !== 'Continents') {
+              rowData.push({
+                title: colorMetric.Indicator,
+                value: d.Indicators.findIndex(el => el.Indicator === colorMetric.Indicator) >= 0 ? d.Indicators[d.Indicators.findIndex(el => el.Indicator === colorMetric.Indicator)].Value : 'NA',
+                type: 'color',
+                metaData: `${colorMetric['Time period']}, Last Updated: ${firstMetric.Year}`,
+                color: getColor(d, colorMetric, colorDomain),
+              });
+              rowData.push({
+                title: sizeMetric.Indicator,
+                value: d.Indicators[d.Indicators.findIndex(el => el.Indicator === sizeMetric.Indicator)].Value,
+                type: 'size',
+                metaData: `${sizeMetric['Time period']}, Last Updated: ${sizeMetric.Year}`,
+              });
+            }
           }
           setHoverInfo({
             country: d['Country or Area'],
@@ -283,22 +270,31 @@ export const Graph = (props: Props) => {
             {
               title: firstMetric.Indicator,
               value: d.Indicators[d.Indicators.findIndex(el => el.Indicator === firstMetric.Indicator)].Value,
+              type: 'x-axis',
+              metaData: `${firstMetric['Time period']}, Last Updated: ${firstMetric.Year}`,
             },
             {
               title: secondMetric.Indicator,
               value: d.Indicators[d.Indicators.findIndex(el => el.Indicator === secondMetric.Indicator)].Value,
+              type: 'y-axis',
+              metaData: `${secondMetric['Time period']}, Last Updated: ${secondMetric.Year}`,
             }
           ];
           if(colorMetric.Indicator !== 'Not Selected' && colorMetric.Indicator !== 'Continents') {
             rowData.push({
               title: colorMetric.Indicator,
               value: d.Indicators.findIndex(el => el.Indicator === colorMetric.Indicator) >= 0 ? d.Indicators[d.Indicators.findIndex(el => el.Indicator === colorMetric.Indicator)].Value : 'NA',
+              type: 'color',
+              metaData: `${colorMetric['Time period']}, Last Updated: ${firstMetric.Year}`,
+              color: getColor(d, colorMetric, colorDomain),
             });
           }
           if(sizeMetric.Indicator !== 'Not Selected') {
             rowData.push({
               title: sizeMetric.Indicator,
               value: d.Indicators[d.Indicators.findIndex(el => el.Indicator === sizeMetric.Indicator)].Value,
+              type: 'size',
+              metaData: `${sizeMetric['Time period']}, Last Updated: ${sizeMetric.Year}`,
             });
           }
 
@@ -336,7 +332,7 @@ export const Graph = (props: Props) => {
         .attr('dx', (d:any) => radiusScale ? radiusScale(d.Indicators[d.Indicators.findIndex((el: any) => el.Indicator === sizeMetric.Indicator)].Value) + 3 : radius + 3)
         .attr('font-weight','600')
         .attr('fill', (d:any) => getColor(d, colorMetric, colorDomain))
-        .style('display','none')
+        .style('display',() => showLabel ? 'inline' : 'none')
         .text((d:any) => d['Alpha-2 code']);
       if (ResetButtonRef.current && ResetButtonRef !== null) {
         const buttonDiv = select(ResetButtonRef.current);
@@ -376,13 +372,15 @@ export const Graph = (props: Props) => {
 
   return (<>
     <TopSettings>
-      {
-        colorMetric.Indicator !== 'Not Selected' ?
-          <ColorScale 
-            colorMetric = {colorMetric} 
-            colorDomain = {!colorMetric.Categorical ? getRange(data,colorMetric.Indicator, true) : [0,0]} 
-          /> : <div style={{height:'7.2rem'}}/>
-      }
+      <FlexDiv>
+        {
+          colorMetric.Indicator !== 'Not Selected' ?
+            <ColorScale 
+              colorMetric = {colorMetric} 
+              colorDomain = {!colorMetric.Categorical ? getRange(data,colorMetric.Indicator, true) : [0,0]} 
+            /> : <div style={{height:'7.2rem'}}/>
+        }
+      </FlexDiv>
       <FlexDiv>
         <CheckboxEl onClick={() => {setShowLabel(!showLabel);}}>
           <Checkbox selected={showLabel ? true : false}>
@@ -392,8 +390,9 @@ export const Graph = (props: Props) => {
           </Checkbox>
           <CheckboxValue>Show Labels</CheckboxValue>
         </CheckboxEl>
-        <Button ref={ResetButtonRef}>Reset Zoom</Button>
-        <Button 
+        <button className='secondary' ref={ResetButtonRef}>Reset Zoom</button>
+        <button 
+          className='secondary'
           onClick={() => {
           // tslint:disable-next-line: no-floating-promises
             domtoimage
@@ -404,7 +403,7 @@ export const Graph = (props: Props) => {
                 link.href = dataUrl;
                 link.click();
               });
-          }}>Download Image</Button>
+          }}>Download Image</button>
       </FlexDiv>
     </TopSettings>
     <div ref={GraphRef} id="graph-node" />

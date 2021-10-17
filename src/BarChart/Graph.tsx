@@ -21,27 +21,6 @@ const TopSettings = styled.div`
   margin: 1rem 0;
 `;
 
-const Button = styled.button`
-	padding: 2rem;
-	border-radius: 0.2rem;
-	font-size: 1.4rem;
-  font-weight: 700;
-	background-color: var(--bg-blue);
-  color: var(--navy);
-  border: 0;
-  text-transform: uppercase;
-  margin: 0 1rem;
-  cursor: pointer;
-  border-radius: 100px;
-  padding: 1rem 3rem;
-  &:hover {
-    background: #B6D3FE;
-  }
-  &:active{
-    background: #84B5FD;
-  }
-`;
-
 export const Graph = (props: Props) => {
   const {
     data,
@@ -81,7 +60,8 @@ export const Graph = (props: Props) => {
           /> : <div style={{height:'7.2rem'}}/>
       }
       <div>
-        <Button 
+        <button
+          className='secondary' 
           onClick={() => {
           // tslint:disable-next-line: no-floating-promises
             domtoimage
@@ -92,7 +72,7 @@ export const Graph = (props: Props) => {
                 link.href = dataUrl;
                 link.click();
               });
-          }}>Download Image</Button>
+          }}>Download Image</button>
       </div>
     </TopSettings>
     <div id="graph-node">
@@ -100,9 +80,8 @@ export const Graph = (props: Props) => {
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g className='ticks'>
             {yTicks.map((d,i) => 
-              <>
+              <g key={i}>
                 <line
-                  key={i}
                   x1={-1 * margin.left}
                   y1={heightScale(d)}
                   x2={width}
@@ -112,7 +91,6 @@ export const Graph = (props: Props) => {
                   strokeDasharray='4 8'
                 />
                 <text
-                  key={i}
                   x={-1 * margin.left}
                   y={heightScale(d)}
                   fontSize='12px'
@@ -122,7 +100,7 @@ export const Graph = (props: Props) => {
                 >
                   {d}
                 </text>
-              </>
+              </g>
             )}
           </g>
           {
@@ -131,12 +109,17 @@ export const Graph = (props: Props) => {
                 {
                   title: firstMetric.Indicator,
                   value: d.Indicators[d.Indicators.findIndex(el => el.Indicator === firstMetric.Indicator)].Value,
+                  type: 'y-axis',
+                  metaData: `${firstMetric['Time period']}, Last Updated: ${firstMetric.Year}`,
                 },
               ];
               if(colorMetric.Indicator !== 'Not Selected' && colorMetric.Indicator !== 'Continents') {
                 rowData.push({
                   title: colorMetric.Indicator,
                   value: d.Indicators.findIndex(el => el.Indicator === colorMetric.Indicator) >= 0 ? d.Indicators[d.Indicators.findIndex(el => el.Indicator === colorMetric.Indicator)].Value : 'NA',
+                  type: 'color',
+                  metaData: `${colorMetric['Time period']}, Last Updated: ${colorMetric.Year}`,
+                  color: getColor(d, colorMetric, colorDomain),
                 });
               }
               return <rect

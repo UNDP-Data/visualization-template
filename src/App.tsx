@@ -22,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
     --grey-c3: #B5BFCC;
     --dark-grey: #383838;
     --dropdown-bg: #E9ECF6;
+    --yellow: #E9CE2C;
   }
   
   html { 
@@ -60,24 +61,42 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 700;
   }
 
-  button.primary {
-    font-size: 1.3rem;
-    font-weight: 600;
+  button.secondary {
+    padding: 2rem;
+    border-radius: 0.2rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    background-color: var(--bg-blue);
+    color: var(--navy);
+    border: 0;
     text-transform: uppercase;
-    color: var(--light-gray);
-    border-radius: 30px;
-    padding: 1.5rem 2.5rem;
-    background-color: var(---primary-blue);
-    box-shadow: none;
+    margin: 0 1rem;
+    cursor: pointer;
+    border-radius: 100px;
+    padding: 1rem 3rem;
+    &:hover {
+      background: #B6D3FE;
+    }
+    &:active{
+      background: #84B5FD;
+    }
   }
 
-  button.secondary {
-    font-size: 1.6rem;
-    line-height: 2.4rem;
-    font-weight: 600;
+  button.tertiary {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--primary-blue);
+    border: 0;
     text-transform: uppercase;
-    background-color: none;
-    box-shadow: none;
+    background-color: transparent;
+    cursor: pointer;
+    text-decoration: underline;
+    &:hover {
+      color: var(--navy);
+    }
+    &:active{
+      color: var(--navy);
+    }
   }
 
   a:hover {
@@ -88,23 +107,28 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 700;
   }
 
-  .react-dropdown-select-content {
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    font-size: 1.4rem;
-    text-overflow: ellipsis !important;
-    white-space: nowrap;
-    overflow: hidden;
-    height: 3.6rem !important;
-  }
-  .react-dropdown-select {
+  .dropdownMain {
     border: 2px solid #f2f7ff !important;
   	width: 27.6rem !important;
     border-radius: 3rem !important;
     background-color: var(--dropdown-bg);
     padding: 0;
+
+    .react-dropdown-select-content {
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      font-size: 1.4rem;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+      overflow: hidden;
+      height: 3.6rem !important;
+    }
+    
+    .react-dropdown-select-input{
+      display: none;
+    }
   }
-  .react-dropdown-select:hover, .react-dropdown-select:focus {
+  .dropdownMain:hover, .dropdownMain:focus {
     border: 2px solid #919399 !important;
   }
 
@@ -116,9 +140,6 @@ const GlobalStyle = createGlobalStyle`
     fill: var(--gray) !important;
   }
 
-  .react-dropdown-select-input{
-    display: none;
-  }
 
   .react-dropdown-select-dropdown{
     font-size: 1.2rem !important;
@@ -132,6 +153,25 @@ const GlobalStyle = createGlobalStyle`
 
   .react-dropdown-select-item-selected {
     background-color: var(--navy) !important;
+  }
+
+
+  .react-dropdowm-multi {
+    height: auto !important;
+    width: 100% !important;
+    border-radius: 0.5rem !important;
+    background-color: var(--white);
+  }
+
+  .react-dropdown-select-type-multi{
+    height: auto !important;
+    span.react-dropdown-select-option {
+      background-color: var(--medium-grey) !important;
+      border-radius: 0.2rem;
+    }
+  }
+  .react-dropdowm-multi:hover, .react-dropdowm-multi:focus {
+    border: 2px solid #919399 !important;
   }
 
   .italics{
@@ -159,6 +199,16 @@ const App = () => {
       }), d => d.Indicator);
 
       const regions = _.uniqBy(data, 'Group 1').map(d => d['Group 1']).filter(d => d !== '').sort();
+      const countries = _.sortBy(_.uniqBy(data, 'Country or Area').map(d => {
+        return {
+          country: d['Country or Area'],
+          region: d['Group 1'],
+          LDC: d['LDC'] === 'TRUE' ? true : false,
+          LLDC: d['LLDC'] === 'TRUE' ? true : false,
+          SIDS: d['SIDS'] === 'TRUE' ? true : false,
+        };
+      }), d => d.country);
+      console.log(countries);
       regions.push('Null');
 
       const dataNestedByCountries = nest()

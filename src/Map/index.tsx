@@ -6,6 +6,7 @@ interface Props {
     data: DataType[];
     firstMetric: OptionsDataType;
     secondMetric: OptionsDataType;
+    sizeMetric: OptionsDataType;
     selectedCountryGroup: 'All' | 'LDC' | 'LLDC' | 'SIDS';
     selectedRegion: string[];
 }
@@ -17,6 +18,7 @@ export const Map = (props: Props) => {
     secondMetric,
     selectedCountryGroup,
     selectedRegion,
+    sizeMetric, 
   } = props;
 
   return (
@@ -26,6 +28,7 @@ export const Map = (props: Props) => {
       secondMetric={secondMetric}
       selectedCountryGroup = {selectedCountryGroup}
       selectedRegion={selectedRegion}
+      sizeMetric={sizeMetric}
     />
   );
 };

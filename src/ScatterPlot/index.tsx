@@ -30,15 +30,21 @@ export const ScatterPlot = (props: Props) => {
   
   const dataFilteredByCountryGroup = selectedCountryGroup === 'All' ? dataFiltered.filter(d => selectedRegion.indexOf(d['Group 1']) !== -1) : dataFiltered.filter(d => d[selectedCountryGroup] && selectedRegion.indexOf(d['Group 1']) !== -1);
 
+  
   const dataSorted = sizeMetric.Indicator === 'Not Selected' ? dataFilteredByCountryGroup : _.reverse(_.sortBy(dataFilteredByCountryGroup, d => d.Indicators[d.Indicators.findIndex(el => el.Indicator === sizeMetric.Indicator)].Value));
 
   return (
-    <Graph
-      data={dataSorted}
-      firstMetric={firstMetric}
-      secondMetric={secondMetric}
-      sizeMetric={sizeMetric}
-      colorMetric={colorMetric}
-    />
+    <>
+      {
+        dataSorted.length > 0 ? 
+          <Graph
+            data={dataSorted}
+            firstMetric={firstMetric}
+            secondMetric={secondMetric}
+            sizeMetric={sizeMetric}
+            colorMetric={colorMetric}
+          /> : null
+      }
+    </>
   );
 };

@@ -28,3 +28,11 @@ export const CONTINENTS_COLOR = {
 };
 
 export const CONTINENTS = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania', 'Null'];
+
+export const BivariateColorForKey = [
+  ['#E26B8D','#A9597E','#71486F','#3B3861','#082753'],
+  ['#E789A5','#AE7393','#766286','#3E4972','#103762'],
+  ['#ECA4BA','#B28AA6','#797193','#435981','#15406E'],
+  ['#EEC7D4','#B5A9BE','#7D8BA8','#476D93','#1D507E'],
+  ['#F2F2F3','#BACEDB','#83A9C1','#4F85A9','#266291'],
+];

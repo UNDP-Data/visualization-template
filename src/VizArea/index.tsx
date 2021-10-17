@@ -42,8 +42,8 @@ interface SettingTitleProps {
 const SettingTitle = styled.div<SettingTitleProps>`
 	font-size: 1.2rem;
 	line-height: 2.56rem;
-	margin-bottom: 0.3rem;
 	color:var(--navy);
+  margin: 0.5rem 0 0.3rem 0;
 	opacity:${props => props.disabled ? 0.2 : 1};
 `;
 
@@ -114,12 +114,11 @@ const Header = styled.div`
   align-items: center;
 `;
 
-
 export const VizArea = (props: Props) => {
   const {
     data,
     indicators,
-    regions
+    regions,
   } = props;
   const countryGroups = ['All','LDC','LLDC','SIDS'];
   const colorSelectOptions: OptionsDataType[] = [
@@ -165,15 +164,16 @@ export const VizArea = (props: Props) => {
     }
   ];
   indicators.forEach(d => {
-    colorSelectOptions.push({
-      Indicator: d.Indicator,
-      'Data source link': d['Data source link'],
-      'Data source name': d['Data source name'],
-      'Time period': d['Time period'],
-      'Indicator Description': d['Indicator Description'],
-      Year: d.Year,
-      Categorical: d.Categorical,
-    });
+    if(d.Categorical)
+      colorSelectOptions.push({
+        Indicator: d.Indicator,
+        'Data source link': d['Data source link'],
+        'Data source name': d['Data source name'],
+        'Time period': d['Time period'],
+        'Indicator Description': d['Indicator Description'],
+        Year: d.Year,
+        Categorical: d.Categorical,
+      });
     secondMetricSelectOptionsForMap.push({
       Indicator: d.Indicator,
       'Data source link': d['Data source link'],
@@ -228,7 +228,6 @@ export const VizArea = (props: Props) => {
   const [selectedCountryGroup, setSelectedCountryGroup] = useState<'All' | 'LDC' | 'LLDC' | 'SIDS'>('All');
   const [selectedRegion, setSelectedRegion] = useState<string[]>(regions);
   const [helpIconHover, setHelpIconHover] = useState<string | null>(null);
-
   return (
     <Container>
       <Header>
@@ -277,12 +276,27 @@ export const VizArea = (props: Props) => {
       </Header>
       <VizSettingsRow>
         <DropdownContainer>
-          <SettingTitle disabled={false}>
-						Select First Metric
-          </SettingTitle>
+          <DropdownEl>
+            <SettingTitle disabled={false}>
+              Select First Metric
+            </SettingTitle>
+            <div onMouseEnter={() => {setHelpIconHover('firstMetricDescription');}} onMouseLeave={() => {setHelpIconHover(null);}}>
+              <HelpIcon size={20} fill={'#110848'} />
+            </div>
+          </DropdownEl>
+          {
+            helpIconHover === 'firstMetricDescription' ? 
+              <Tooltip 
+                body={selectedVizType !== 'map' ? 
+                  'The option only includes continuous data and is ploted on the x-axis.' :
+                  'This is represnted by the colors. If second parameter is selected the values are quantized in 5 quantiles and colored according you the quantile they lie in the x-axis of the color grid.'
+                }
+              /> : null
+          }
           <DropdownEl>
             <Select
               options={optionForFirstDropDown}
+              className={'dropdownMain'}
               labelField={'Indicator'}
               valueField={'Indicator'}
               onChange={(value: any) => { setFirstMetric(value[0]); }}
@@ -308,12 +322,27 @@ export const VizArea = (props: Props) => {
           }
         </DropdownContainer>
         <DropdownContainer>
-          <SettingTitle disabled={selectedVizType === 'barGraph' ? true : false}>
-						Select Second Metric
-          </SettingTitle>
+          <DropdownEl>
+            <SettingTitle disabled={selectedVizType === 'barGraph' ? true : false}>
+              Select Second Metric
+            </SettingTitle>
+            <div onMouseEnter={() => {setHelpIconHover('secondMetricDescription');}} onMouseLeave={() => {setHelpIconHover(null);}}>
+              <HelpIcon size={20} opacity={selectedVizType === 'barGraph' ? 0.2: 1} fill={'#110848'} />
+            </div>
+          </DropdownEl>
+          {
+            helpIconHover === 'secondMetricDescription' ? 
+              <Tooltip
+                body={selectedVizType !== 'map' ? 
+                  'The option only includes continuous data and is ploted on the y-axis. This option is not active for bar graph view.' :
+                  'This is represnted by the colors. The values are quantized in 5 quantiles and colored according you the quantile they lie in the y-axis of the color grid.'
+                }
+              /> : null
+          }
           <DropdownEl>
             <Select
               options={optionForSecondDropDown}
+              className={'dropdownMain'}
               onChange={(value: any) => { setSecondMetric(value[0]); }}
               values={[secondMetric]}
               labelField={'Indicator'}
@@ -340,12 +369,24 @@ export const VizArea = (props: Props) => {
           }
         </DropdownContainer>
         <DropdownContainer>
-          <SettingTitle disabled={selectedVizType === 'map' ? true : false}>
-						Color By
-          </SettingTitle>
+          <DropdownEl>
+            <SettingTitle disabled={selectedVizType === 'map' ? true : false}>
+              Color By
+            </SettingTitle>
+            <div onMouseEnter={() => {setHelpIconHover('colorMetricDescription');}} onMouseLeave={() => {setHelpIconHover(null);}}>
+              <HelpIcon size={20} opacity={selectedVizType === 'map' ? 0.2: 1} fill={'#110848'} />
+            </div>
+          </DropdownEl>
+          {
+            helpIconHover === 'colorMetricDescription' ? 
+              <Tooltip 
+                body={'The option only includes discreet data and is represented as color of the bars or circle. This option is not active for the map view.'}
+              /> : null
+          }
           <DropdownEl>
             <Select
               options={colorSelectOptions}
+              className={'dropdownMain'}
               onChange={(value: any) => { setColorMetric(value[0]); }}
               values={[colorMetric]}
               labelField={'Indicator'}
@@ -372,12 +413,24 @@ export const VizArea = (props: Props) => {
           }
         </DropdownContainer>
         <DropdownContainer>
-          <SettingTitle disabled={selectedVizType !== 'scatterPlot' ? true : false}>
-						Size By
-          </SettingTitle>
+          <DropdownEl>
+            <SettingTitle disabled={selectedVizType === 'barGraph' ? true : false}>
+              Size By
+            </SettingTitle>
+            <div onMouseEnter={() => {setHelpIconHover('sizeMetricDescription');}} onMouseLeave={() => {setHelpIconHover(null);}}>
+              <HelpIcon size={20} opacity={selectedVizType === 'barGraph' ? 0.2: 1} fill={'#110848'} />
+            </div>
+          </DropdownEl>
+          {
+            helpIconHover === 'sizeMetricDescription' ? 
+              <Tooltip 
+                body={'The option only includes continuous data with minimum value greater than or equal to 0 and is represented by the size of the circle. This option is not active for the bar graph view.'}
+              /> : null
+          }
           <DropdownEl>
             <Select
               options={areaSelectOptions}
+              className={'dropdownMain'}
               onChange={(value: any) => { setSizeMetric(value[0]); }}
               values={[sizeMetric]}
               labelField={'Indicator'}
@@ -386,10 +439,10 @@ export const VizArea = (props: Props) => {
               dropdownPosition="auto"
               searchable={false}
               dropdownGap={2}
-              disabled={selectedVizType !== 'scatterPlot' ? true : false}
+              disabled={selectedVizType === 'barGraph' ? true : false}
             />
             <div onMouseEnter={() => {setHelpIconHover('sizeMetric');}} onMouseLeave={() => {setHelpIconHover(null);}}>
-              <HelpIcon size={24} opacity={selectedVizType !== 'scatterPlot' || sizeMetric['Indicator Description'] === null? 0.2: 1} fill={'#110848'}/>
+              <HelpIcon size={24} opacity={selectedVizType === 'barGraph' || sizeMetric['Indicator Description'] === null? 0.2: 1} fill={'#110848'}/>
             </div>
           </DropdownEl>
           {
@@ -407,7 +460,7 @@ export const VizArea = (props: Props) => {
       <VizSettingsRow>
         <DropdownContainer>
           <SettingTitle disabled={false}>
-						Filter By Region
+                    Filter By Region
           </SettingTitle>
           <CheckboxContainer>
             {
@@ -417,7 +470,7 @@ export const VizArea = (props: Props) => {
                     if(selectedRegion.indexOf(d) !== -1) {
                       const regionsDuplicate = [...selectedRegion].filter(el => el !== d);
                       setSelectedRegion(regionsDuplicate);
-
+    
                     } else {
                       const regionsDuplicate = [...selectedRegion, d];
                       setSelectedRegion(regionsDuplicate);
@@ -437,7 +490,7 @@ export const VizArea = (props: Props) => {
         </DropdownContainer>
         <DropdownContainer>
           <SettingTitle disabled={false}>
-						Filter By Country Groups
+                    Filter By Country Groups
           </SettingTitle>
           <ToggleEl>
             {countryGroups.map((d,i) => {
@@ -452,7 +505,7 @@ export const VizArea = (props: Props) => {
             })}
           </ToggleEl>
         </DropdownContainer>
-      </VizSettingsRow>
+      </VizSettingsRow>   
       {
         selectedVizType === 'scatterPlot' ? 
           <ScatterPlot 
@@ -477,6 +530,7 @@ export const VizArea = (props: Props) => {
               secondMetric={secondMetric}
               selectedCountryGroup={selectedCountryGroup}
               selectedRegion={selectedRegion}
+              sizeMetric={sizeMetric}
             />
       }
     </Container>

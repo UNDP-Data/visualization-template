@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  title: string;
-  body: string | null;
-  sourceName: string | null;
-  sourceLink: string | null;
-  date: string | null;
+  title?: string | null;
+  body?: string | null;
+  sourceName?: string | null;
+  sourceLink?: string | null;
+  date?: string | null;
 }
 
 
@@ -52,36 +52,44 @@ export const Tooltip = (props: Props) => {
     date,
   } = props;
   return <TooltipEl>
-    <TooltipTitle>
-      {title}
-    </TooltipTitle>
+    {
+      title ? 
+        <TooltipTitle>
+          {title}
+        </TooltipTitle>
+        : null
+    }
     {
       body ? 
         <TooltipBody>
           {body}
         </TooltipBody> : null
     }
-    <TooltipSubNote>
-      {
-        sourceName ? 
-          <>
-            Source: {sourceName}
-            <br />
-          </> : null
-      }
-      {
-        sourceLink ? 
-          <>
-            {sourceLink}
-            <br />
-          </> : null
-      }
-      {
-        date ? <>
-          <br />
-          Last Update: {date}
-        </> : null
-      }
-    </TooltipSubNote>
+    {
+      sourceName || sourceLink || date ? 
+        <TooltipSubNote>
+          {
+            sourceName ? 
+              <>
+                Source: {sourceName}
+                <br />
+              </> : null
+          }
+          {
+            sourceLink ? 
+              <>
+                {sourceLink}
+                <br />
+              </> : null
+          }
+          {
+            date ? 
+              <>
+                <br />
+                Last Update: {date}
+              </> : null
+          }
+        </TooltipSubNote> : null
+    }
   </TooltipEl>;
 };

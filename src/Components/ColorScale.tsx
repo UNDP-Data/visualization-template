@@ -35,10 +35,8 @@ const Title = styled.div`
 `;
 
 const KeyEl = styled.div`
-  border: 1px solid #E9ECF6;
   background-color: var(--white);
-  border-radius: 0.8rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0;
 `;
 
 const ColorKeyContainer = styled.div`
@@ -175,4 +173,106 @@ export const ColorScale = (props: Props) => {
       }
     </ColorKeyContainer>
   </KeyEl>;
+};
+
+interface BivariateProps {
+  colors: string[][];
+  BivariateYTitleText: string;
+  BivariateXTitleText: string;
+}
+
+
+const ColorRow = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: 1rem;
+`;
+
+interface ColorBoxProps {
+  fill: string;
+}
+
+const ColorBox = styled.div<ColorBoxProps>`
+  width: 2.4rem;
+  height: 2.4rem;
+  background-color: ${props => props.fill};
+`;
+
+
+const BivariateYTitle = styled.div`
+  width: 12rem;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  text-align: center;
+  transform: rotate(-90deg) translateY(-100%);
+`;
+
+const BivariateXTitle = styled.div`
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  text-align: center;
+  width: 12rem;
+  margin-top: 0.5rem;
+`;
+
+const KeyContainer = styled.div`    
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 2rem;
+`;
+
+const LegendTop = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const BivariateYTitleEl = styled.div`
+  position: relative;
+  width: 42px;
+`;
+
+const NAKeyEl = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+`;
+
+const NAKeyColorBox = styled.div`
+  width: 2.4rem;
+  height: 2.4rem;
+  background-color: #A0A4A8;
+  margin-right: 1rem;
+`;
+
+export const BivariateColorScale = (props: BivariateProps) => {
+  const  { 
+    colors,
+    BivariateYTitleText,
+    BivariateXTitleText,
+  } =  props;
+  return <>
+    <KeyContainer>
+      <LegendTop>
+        <BivariateYTitleEl>
+          <BivariateYTitle>{BivariateYTitleText}</BivariateYTitle>
+        </BivariateYTitleEl>
+        <div>
+          {
+            colors.map((d,i) =>  <ColorRow key={i}>
+              {
+                d.map((el,j) => <ColorBox fill={el} key={j}/>)
+              }
+            </ColorRow>)
+          }
+        </div>
+      </LegendTop>
+      <BivariateXTitle>{BivariateXTitleText}</BivariateXTitle>
+      <NAKeyEl>
+        <NAKeyColorBox />
+        <KeyValue>NA</KeyValue>
+      </NAKeyEl>
+    </KeyContainer>
+  </>;
 };

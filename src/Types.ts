@@ -44,6 +44,9 @@ export interface OptionsDataType {
 export interface HoverRowDataType {
   title: string;
   value: number | 'NA';
+  type: 'x-axis' | 'y-axis' | 'color' | 'size';
+  metaData: string;
+  color?:string;
 }
 
 export interface HoverDataType {
