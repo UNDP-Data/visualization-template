@@ -173,7 +173,7 @@ export const Graph = (props: Props) => {
                   fontSize='12px'
                   textAnchor='middle'
                   fill='#110848'
-                  dy={d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value > 0 ? '15px' : '-5px'}
+                  dy={d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value >= 0 ? '15px' : '-5px'}
                 >
                   {d['Alpha-2 code']}
                 </text>
