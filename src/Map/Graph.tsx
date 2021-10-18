@@ -8,7 +8,7 @@ import { zoom } from 'd3-zoom';
 import world from '../Data/world.json';
 import { HoverTooltip } from '../Components/HoverTooltip';
 import { getRange } from '../Utils/getRange';
-import { BivariateColorForKey, COLOR_SCALE } from '../Constants';
+import { BIVARIATE_COLOR_FOR_KEY, COLOR_SCALE } from '../Constants';
 import {
   DataType, HoverDataType, HoverRowDataType, OptionsDataType,
 } from '../Types';
@@ -101,7 +101,7 @@ export const Graph = (props: Props) => {
             )
             : (
               <BivariateColorScale
-                colors={BivariateColorForKey}
+                colors={BIVARIATE_COLOR_FOR_KEY}
                 BivariateXTitleText={firstMetric.Indicator}
                 BivariateYTitleText={secondMetric.Indicator}
               />

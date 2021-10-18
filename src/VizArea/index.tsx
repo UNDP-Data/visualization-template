@@ -10,6 +10,7 @@ import { ScatterPlot } from '../ScatterPlot';
 import { BarGraph } from '../BarChart';
 import { Map } from '../Map';
 import { getRange } from '../Utils/getRange';
+import { DEFAULT_VALUES } from '../Constants';
 
 interface Props {
   data: DataType[];
@@ -218,11 +219,11 @@ export const VizArea = (props: Props) => {
     Year: d.Year,
     Categorical: d.Categorical,
   }));
-  const [firstMetric, setFirstMetric] = useState(indicatorsSelectOptionsWOCategorical[0]);
-  const [secondMetric, setSecondMetric] = useState(indicatorsSelectOptionsWOCategorical[1]);
+  const [firstMetric, setFirstMetric] = useState(indicatorsSelectOptionsWOCategorical[indicatorsSelectOptionsWOCategorical.findIndex((d) => d.Indicator === DEFAULT_VALUES.firstMetric)]);
+  const [secondMetric, setSecondMetric] = useState(indicatorsSelectOptionsWOCategorical[indicatorsSelectOptionsWOCategorical.findIndex((d) => d.Indicator === DEFAULT_VALUES.secondMetric)]);
   const [optionForFirstDropDown, setOptionForFirstDropdown] = useState(indicatorsSelectOptionsWOCategorical);
   const [optionForSecondDropDown, setOptionForSecondDropdown] = useState(indicatorsSelectOptionsWOCategorical);
-  const [colorMetric, setColorMetric] = useState(colorSelectOptions[1]);
+  const [colorMetric, setColorMetric] = useState(colorSelectOptions[colorSelectOptions.findIndex((d) => d.Indicator === DEFAULT_VALUES.colorMetric)]);
   const [sizeMetric, setSizeMetric] = useState(areaSelectOptions[0]);
   const [selectedVizType, setSelectedVizType] = useState<'scatterPlot' | 'map' | 'barGraph'>('scatterPlot');
   const [selectedCountryGroup, setSelectedCountryGroup] = useState<'All' | 'LDC' | 'LLDC' | 'SIDS'>('All');

@@ -153,7 +153,7 @@ export const Graph = (props: Props) => {
         .attr('id', 'clip')
         .append('svg:rect')
         .attr('width', graphWidth)
-        .attr('height', height)
+        .attr('height', graphHeight + margin.top)
         .attr('x', 0)
         .attr('y', 0 - margin.top);
       const graphExtra = svg
