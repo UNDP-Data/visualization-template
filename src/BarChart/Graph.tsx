@@ -148,7 +148,7 @@ export const Graph = (props: Props) => {
                   y={heightScale(Math.max(0, d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value))}
                   width={xScale.bandwidth()}
                   fill={getColor(d, colorMetric, colorDomain)}
-                  opacity={selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.5}
+                  opacity={selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.1}
                   height={Math.abs(heightScale(d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value) - heightScale(0))}
                   onMouseEnter={(event) => {
                     setHoverInfo({
@@ -185,7 +185,7 @@ export const Graph = (props: Props) => {
                   fontSize='12px'
                   textAnchor='middle'
                   fill='#110848'
-                  opacity={selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.5}
+                  opacity={selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.1}
                   dy={d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value >= 0 ? '15px' : '-5px'}
                 >
                   {d['Alpha-2 code']}
