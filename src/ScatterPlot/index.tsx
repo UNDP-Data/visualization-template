@@ -10,6 +10,7 @@ interface Props {
     sizeMetric: OptionsDataType;
     selectedCountryGroup: 'All' | 'LDC' | 'LLDC' | 'SIDS';
     selectedRegion: string[];
+    selectedCountries: string[];
 }
 
 export const ScatterPlot = (props: Props) => {
@@ -21,13 +22,16 @@ export const ScatterPlot = (props: Props) => {
     sizeMetric,
     selectedCountryGroup,
     selectedRegion,
+    selectedCountries,
   } = props;
 
   const dataFiltered = sizeMetric.Indicator !== 'Not Selected'
     ? data.filter((d) => d.IndicatorList.indexOf(firstMetric.Indicator) !== -1 && d.IndicatorList.indexOf(secondMetric.Indicator) !== -1 && d.IndicatorList.indexOf(sizeMetric.Indicator) !== -1)
     : data.filter((d) => d.IndicatorList.indexOf(firstMetric.Indicator) !== -1 && d.IndicatorList.indexOf(secondMetric.Indicator) !== -1);
 
-  const dataFilteredByCountryGroup = selectedCountryGroup === 'All' ? dataFiltered.filter((d) => selectedRegion.indexOf(d['Group 1']) !== -1) : dataFiltered.filter((d) => d[selectedCountryGroup] && selectedRegion.indexOf(d['Group 1']) !== -1);
+  const dataFilteredByRegions = selectedRegion.length > 0 ? dataFiltered.filter((d) => selectedRegion.indexOf(d['Group 2']) !== -1) : dataFiltered;
+
+  const dataFilteredByCountryGroup = selectedCountryGroup === 'All' ? dataFilteredByRegions : dataFilteredByRegions.filter((d) => d[selectedCountryGroup]);
 
   const dataSorted = sizeMetric.Indicator === 'Not Selected' ? dataFilteredByCountryGroup : _.reverse(_.sortBy(dataFilteredByCountryGroup, (d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === sizeMetric.Indicator)].Value));
 
@@ -42,6 +46,7 @@ export const ScatterPlot = (props: Props) => {
               secondMetric={secondMetric}
               sizeMetric={sizeMetric}
               colorMetric={colorMetric}
+              selectedCountries={selectedCountries}
             />
           ) : null
       }

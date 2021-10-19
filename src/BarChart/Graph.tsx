@@ -14,6 +14,7 @@ interface Props {
   data: DataType[];
   firstMetric: OptionsDataType;
   colorMetric: OptionsDataType;
+  selectedCountries: string[];
 }
 
 const TopSettings = styled.div`
@@ -23,11 +24,18 @@ const TopSettings = styled.div`
   margin: 1rem 0;
 `;
 
+const SubNote = styled.div`
+  margin: 1rem 0;
+  font-size: 1.4rem;
+  color: var(--grey);
+`;
+
 export const Graph = (props: Props) => {
   const {
     data,
     firstMetric,
     colorMetric,
+    selectedCountries,
   } = props;
 
   const [hoverInfo, setHoverInfo] = useState<HoverDataType | null>(null);
@@ -83,6 +91,9 @@ export const Graph = (props: Props) => {
           </button>
         </div>
       </TopSettings>
+      <SubNote>
+        The graph only shows the countries for which the data is available.
+      </SubNote>
       <div id='graph-node'>
         <svg width='100%' viewBox={`0 0 ${width} ${height}`}>
           <g transform={`translate(${margin.left},${margin.top})`}>
@@ -137,6 +148,7 @@ export const Graph = (props: Props) => {
                   y={heightScale(Math.max(0, d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value))}
                   width={xScale.bandwidth()}
                   fill={getColor(d, colorMetric, colorDomain)}
+                  opacity={selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.5}
                   height={Math.abs(heightScale(d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value) - heightScale(0))}
                   onMouseEnter={(event) => {
                     setHoverInfo({
@@ -173,6 +185,7 @@ export const Graph = (props: Props) => {
                   fontSize='12px'
                   textAnchor='middle'
                   fill='#110848'
+                  opacity={selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.5}
                   dy={d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value >= 0 ? '15px' : '-5px'}
                 >
                   {d['Alpha-2 code']}

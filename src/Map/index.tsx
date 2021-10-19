@@ -8,6 +8,7 @@ interface Props {
     sizeMetric: OptionsDataType;
     selectedCountryGroup: 'All' | 'LDC' | 'LLDC' | 'SIDS';
     selectedRegion: string[];
+    selectedCountries: string[];
 }
 
 export const Map = (props: Props) => {
@@ -18,6 +19,7 @@ export const Map = (props: Props) => {
     selectedCountryGroup,
     selectedRegion,
     sizeMetric,
+    selectedCountries,
   } = props;
 
   return (
@@ -28,6 +30,7 @@ export const Map = (props: Props) => {
       selectedCountryGroup={selectedCountryGroup}
       selectedRegion={selectedRegion}
       sizeMetric={sizeMetric}
+      selectedCountries={selectedCountries}
     />
   );
 };

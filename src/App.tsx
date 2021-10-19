@@ -127,6 +127,63 @@ const GlobalStyle = createGlobalStyle`
       display: none;
     }
   }
+  .dropdownMulti {
+    border: 2px solid #f2f7ff !important;
+    width: auto !important;
+    border-radius: 3rem !important;
+    background-color: var(--dropdown-bg);
+    padding: 0;
+
+    .react-dropdown-select-type-multi{
+      padding: 0 !important;
+    }
+
+    .react-dropdown-select-content {
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      font-size: 1.4rem;
+      min-height: 3.6rem !important;
+      height: auto !important;
+    }
+    .react-dropdown-select-option{
+      border-radius: 3rem !important;
+      background-color: var(--navy) !important;
+      color: var(--white) !important;
+      &:first-of-type{
+        margin-left: 0 !important;
+      }
+    }
+  }
+
+  
+  .countrySelect {
+    border: 2px solid #f2f7ff !important;
+    width: auto !important;
+    border-radius: 3rem !important;
+    background-color: var(--dropdown-bg);
+    padding: 0;
+
+    .react-dropdown-select-type-multi{
+      padding: 0 !important;
+    }
+
+    .react-dropdown-select-content {
+      height: auto !important;
+    }
+
+    .react-dropdown-select-option{
+      border-radius: 3rem !important;
+      background-color: var(--navy) !important;
+      color: var(--white) !important;
+      &:nth-of-type(n + 3) {
+        display: inline !important;
+      }
+      &:first-of-type{
+        margin-left: 0 !important;
+      }
+    }
+  }
+
   .dropdownMain:hover, .dropdownMain:focus {
     border: 2px solid #919399 !important;
   }
@@ -155,20 +212,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
 
-  .react-dropdowm-multi {
-    height: auto !important;
-    width: 100% !important;
-    border-radius: 0.5rem !important;
-    background-color: var(--white);
-  }
-
-  .react-dropdown-select-type-multi{
-    height: auto !important;
-    span.react-dropdown-select-option {
-      background-color: var(--medium-grey) !important;
-      border-radius: 0.2rem;
-    }
-  }
   .react-dropdowm-multi:hover, .react-dropdowm-multi:focus {
     border: 2px solid #919399 !important;
   }
@@ -182,6 +225,7 @@ const App = () => {
   const [finalData, setFinalData] = useState<DataType[] | undefined>(undefined);
   const [indicatorsList, setIndicatorsList] = useState<IndicatorOptionsDataType[] | undefined>(undefined);
   const [regionList, setRegionList] = useState<string[] | undefined>(undefined);
+  const [countryList, setCountryList] = useState<string[] | undefined>(undefined);
   useEffect(() => {
     csv('./data/Data-explorer-data.csv', (error, data) => {
       if (error) throw error;
@@ -195,9 +239,7 @@ const App = () => {
         Categorical: CategoricalData.findIndex((el) => el.indicator === d.Indicator) !== -1,
       })), (d) => d.Indicator);
 
-      const regions = _.uniqBy(data, 'Group 1').map((d) => d['Group 1']).filter((d) => d !== '').sort();
-      regions.push('Null');
-
+      const regions = _.uniqBy(data, 'Group 2').map((d) => d['Group 2']).filter((d) => d !== '').sort();
       const dataNestedByCountries = nest()
         .key((d:any) => d['Alpha-3 code-1'])
         .entries(data);
@@ -225,6 +267,7 @@ const App = () => {
           IndicatorList: indicatorList,
         };
       });
+      setCountryList(formattedData.map((d) => d['Country or Area']));
       setIndicatorsList(indicatorsDetails);
       setFinalData(formattedData);
       setRegionList(regions as string[]);
@@ -234,12 +277,13 @@ const App = () => {
     <>
       <GlobalStyle />
       {
-        indicatorsList && finalData && regionList
+        indicatorsList && finalData && regionList && countryList
           ? (
             <VizArea
               data={finalData}
               indicators={indicatorsList}
               regions={regionList}
+              countries={countryList}
             />
           ) : null
       }

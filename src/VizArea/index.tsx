@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Select from 'react-dropdown-select';
 import { DataType, IndicatorOptionsDataType, OptionsDataType } from '../Types';
 import {
-  HelpIcon, ScatterPlotIcon, BarGraphIcon, MapIcon, Tick,
+  ScatterPlotIcon, BarGraphIcon, MapIcon,
 } from '../Icons';
-import { Tooltip } from '../Components/Tooltip';
+import { DropdownUnit } from '../Components/DropdownUnit';
+import { MultiSelectDropdownUnit } from '../Components/MultiSelectDropdownUnit';
 import { ScatterPlot } from '../ScatterPlot';
 import { BarGraph } from '../BarChart';
 import { Map } from '../Map';
@@ -16,6 +16,7 @@ interface Props {
   data: DataType[];
   indicators: IndicatorOptionsDataType[];
   regions: string[];
+  countries: string[];
 }
 
 const Container = styled.div`
@@ -30,12 +31,6 @@ const VizSettingsRow = styled.div`
 
 const DropdownContainer = styled.div`
   margin: 1rem 0.5rem; 
-`;
-
-const DropdownEl = styled.div`
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
 `;
 
 interface SettingTitleProps {
@@ -75,40 +70,6 @@ const ToggleOption = styled.div<ToggleOptionProps>`
   opacity: ${(props) => (props.selected ? 1 : 0.25)};
 `;
 
-const CheckboxContainer = styled.div`
-  display: flex;
-`;
-
-const CheckboxEl = styled.div`
-  display: flex;
-  margin: 0.8rem 1rem;
-  align-items: center;
-  cursor: pointer;
-`;
-
-interface CheckboxDataType {
-  selected: boolean;
-}
-
-const Checkbox = styled.div<CheckboxDataType>`
-  width: 1.4rem;
-  height: 1.4rem;
-  border: 2px solid ${(props) => (props.selected ? 'var(--navy)' : 'var(--grey-c3)')};
-  border-radius: 0.2rem;
-  margin-right: 1rem;
-  background-color: ${(props) => (props.selected ? 'var(--navy)' : 'var(--white)')};
-  &:hover {
-    border: 2px solid var(--navy);
-  };
-`;
-
-const CheckboxValue = styled.div`
-  font-size: 1.2rem;
-  font-weight: 400;
-  margin-top: 0.2rem;
-  text-transform: uppercase;
-`;
-
 const Header = styled.div`
   display: flex;
   width: 100%;
@@ -122,6 +83,7 @@ export const VizArea = (props: Props) => {
     data,
     indicators,
     regions,
+    countries,
   } = props;
   const countryGroups = ['All', 'LDC', 'LLDC', 'SIDS'];
   const colorSelectOptions: OptionsDataType[] = [
@@ -227,8 +189,8 @@ export const VizArea = (props: Props) => {
   const [sizeMetric, setSizeMetric] = useState(areaSelectOptions[0]);
   const [selectedVizType, setSelectedVizType] = useState<'scatterPlot' | 'map' | 'barGraph'>('scatterPlot');
   const [selectedCountryGroup, setSelectedCountryGroup] = useState<'All' | 'LDC' | 'LLDC' | 'SIDS'>('All');
-  const [selectedRegion, setSelectedRegion] = useState<string[]>(regions);
-  const [helpIconHover, setHelpIconHover] = useState<string | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<string[]>([]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   return (
     <Container>
       <Header>
@@ -276,233 +238,72 @@ export const VizArea = (props: Props) => {
         </DropdownContainer>
       </Header>
       <VizSettingsRow>
-        <DropdownContainer>
-          <DropdownEl>
-            <SettingTitle disabled={false}>
-              Select First Metric
-            </SettingTitle>
-            <div onMouseEnter={() => { setHelpIconHover('firstMetricDescription'); }} onMouseLeave={() => { setHelpIconHover(null); }}>
-              <HelpIcon size={20} fill='#110848' />
-            </div>
-          </DropdownEl>
-          {
-            helpIconHover === 'firstMetricDescription'
-              ? (
-                <Tooltip
-                  body={selectedVizType !== 'map'
-                    ? 'The option only includes continuous data and is ploted on the x-axis.'
-                    : 'This is represnted by the colors. If second parameter is selected the values are quantized in 5 quantiles and colored according you the quantile they lie in the x-axis of the color grid.'}
-                />
-              ) : null
+        <DropdownUnit
+          title='Select First Metric'
+          disabled={false}
+          options={optionForFirstDropDown}
+          onChange={(value: any) => { setFirstMetric(value[0]); }}
+          value={[firstMetric]}
+          helpIconDisabled={false}
+          bodyForTooltip={
+            selectedVizType !== 'map'
+              ? 'The option only includes continuous data and is ploted on the x-axis.'
+              : 'This is represnted by the colors. If second parameter is selected the values are quantized in 5 quantiles and colored according you the quantile they lie in the x-axis of the color grid.'
+            }
+          labelField='Indicator'
+          valueField='Indicator'
+        />
+        <DropdownUnit
+          title='Select Second Metric'
+          disabled={selectedVizType === 'barGraph'}
+          options={optionForSecondDropDown}
+          onChange={(value: any) => { setSecondMetric(value[0]); }}
+          value={[secondMetric]}
+          helpIconDisabled={selectedVizType === 'barGraph' || secondMetric['Indicator Description'] === null}
+          bodyForTooltip={
+            selectedVizType !== 'map'
+              ? 'The option only includes continuous data and is ploted on the y-axis. This option is not active for bar graph view.'
+              : 'This is represnted by the colors. The values are quantized in 5 quantiles and colored according you the quantile they lie in the y-axis of the color grid.'
           }
-          <DropdownEl>
-            <Select
-              options={optionForFirstDropDown}
-              className='dropdownMain'
-              labelField='Indicator'
-              valueField='Indicator'
-              onChange={(value: any) => { setFirstMetric(value[0]); }}
-              values={[firstMetric]}
-              dropdownHeight='250px'
-              dropdownPosition='auto'
-              searchable={false}
-              dropdownGap={2}
-            />
-            <div onMouseEnter={() => { setHelpIconHover('firstMetric'); }} onMouseLeave={() => { setHelpIconHover(null); }}>
-              <HelpIcon size={24} fill='#110848' />
-            </div>
-          </DropdownEl>
-          {
-            helpIconHover === 'firstMetric' && firstMetric['Indicator Description'] !== null
-              ? (
-                <Tooltip
-                  title={firstMetric.Indicator}
-                  body={firstMetric['Indicator Description']}
-                  sourceName={firstMetric['Data source name']}
-                  sourceLink={firstMetric['Data source link']}
-                  date={firstMetric.Year ? firstMetric.Year.slice(-4) : null}
-                />
-              ) : null
-          }
-        </DropdownContainer>
-        <DropdownContainer>
-          <DropdownEl>
-            <SettingTitle disabled={selectedVizType === 'barGraph'}>
-              Select Second Metric
-            </SettingTitle>
-            <div onMouseEnter={() => { setHelpIconHover('secondMetricDescription'); }} onMouseLeave={() => { setHelpIconHover(null); }}>
-              <HelpIcon size={20} opacity={selectedVizType === 'barGraph' ? 0.2 : 1} fill='#110848' />
-            </div>
-          </DropdownEl>
-          {
-            helpIconHover === 'secondMetricDescription'
-              ? (
-                <Tooltip
-                  body={selectedVizType !== 'map'
-                    ? 'The option only includes continuous data and is ploted on the y-axis. This option is not active for bar graph view.'
-                    : 'This is represnted by the colors. The values are quantized in 5 quantiles and colored according you the quantile they lie in the y-axis of the color grid.'}
-                />
-              ) : null
-          }
-          <DropdownEl>
-            <Select
-              options={optionForSecondDropDown}
-              className='dropdownMain'
-              onChange={(value: any) => { setSecondMetric(value[0]); }}
-              values={[secondMetric]}
-              labelField='Indicator'
-              valueField='Indicator'
-              dropdownHeight='250px'
-              dropdownPosition='auto'
-              searchable={false}
-              dropdownGap={2}
-              disabled={selectedVizType === 'barGraph'}
-            />
-            <div onMouseEnter={() => { setHelpIconHover('secondMetric'); }} onMouseLeave={() => { setHelpIconHover(null); }}>
-              <HelpIcon size={24} opacity={selectedVizType === 'barGraph' || secondMetric['Indicator Description'] === null ? 0.2 : 1} fill='#110848' />
-            </div>
-          </DropdownEl>
-          {
-            helpIconHover === 'secondMetric' && selectedVizType !== 'barGraph' && secondMetric['Indicator Description'] !== null
-              ? (
-                <Tooltip
-                  title={secondMetric.Indicator}
-                  body={secondMetric['Indicator Description']}
-                  sourceName={secondMetric['Data source name']}
-                  sourceLink={secondMetric['Data source link']}
-                  date={secondMetric.Year ? secondMetric.Year.slice(-4) : null}
-                />
-              ) : null
-          }
-        </DropdownContainer>
-        <DropdownContainer>
-          <DropdownEl>
-            <SettingTitle disabled={selectedVizType === 'map'}>
-              Color By
-            </SettingTitle>
-            <div onMouseEnter={() => { setHelpIconHover('colorMetricDescription'); }} onMouseLeave={() => { setHelpIconHover(null); }}>
-              <HelpIcon size={20} opacity={selectedVizType === 'map' ? 0.2 : 1} fill='#110848' />
-            </div>
-          </DropdownEl>
-          {
-            helpIconHover === 'colorMetricDescription'
-              ? (
-                <Tooltip
-                  body='The option only includes discreet data and is represented as color of the bars or circle. This option is not active for the map view.'
-                />
-              ) : null
-          }
-          <DropdownEl>
-            <Select
-              options={colorSelectOptions}
-              className='dropdownMain'
-              onChange={(value: any) => { setColorMetric(value[0]); }}
-              values={[colorMetric]}
-              labelField='Indicator'
-              valueField='Indicator'
-              dropdownHeight='250px'
-              dropdownPosition='auto'
-              searchable={false}
-              dropdownGap={2}
-              disabled={selectedVizType === 'map'}
-            />
-            <div onMouseEnter={() => { setHelpIconHover('colorMetric'); }} onMouseLeave={() => { setHelpIconHover(null); }}>
-              <HelpIcon size={24} opacity={selectedVizType === 'map' || colorMetric['Indicator Description'] === null ? 0.2 : 1} fill='#110848' />
-            </div>
-          </DropdownEl>
-          {
-            helpIconHover === 'colorMetric' && selectedVizType !== 'map' && colorMetric['Indicator Description'] !== null
-              ? (
-                <Tooltip
-                  title={colorMetric.Indicator}
-                  body={colorMetric['Indicator Description']}
-                  sourceName={colorMetric['Data source name']}
-                  sourceLink={colorMetric['Data source link']}
-                  date={colorMetric.Year ? colorMetric.Year.slice(-4) : null}
-                />
-              ) : null
-          }
-        </DropdownContainer>
-        <DropdownContainer>
-          <DropdownEl>
-            <SettingTitle disabled={selectedVizType === 'barGraph'}>
-              Size By
-            </SettingTitle>
-            <div onMouseEnter={() => { setHelpIconHover('sizeMetricDescription'); }} onMouseLeave={() => { setHelpIconHover(null); }}>
-              <HelpIcon size={20} opacity={selectedVizType === 'barGraph' ? 0.2 : 1} fill='#110848' />
-            </div>
-          </DropdownEl>
-          {
-            helpIconHover === 'sizeMetricDescription'
-              ? (
-                <Tooltip
-                  body='The option only includes continuous data with minimum value greater than or equal to 0 and is represented by the size of the circle. This option is not active for the bar graph view.'
-                />
-              ) : null
-          }
-          <DropdownEl>
-            <Select
-              options={areaSelectOptions}
-              className='dropdownMain'
-              onChange={(value: any) => { setSizeMetric(value[0]); }}
-              values={[sizeMetric]}
-              labelField='Indicator'
-              valueField='Indicator'
-              dropdownHeight='250px'
-              dropdownPosition='auto'
-              searchable={false}
-              dropdownGap={2}
-              disabled={selectedVizType === 'barGraph'}
-            />
-            <div onMouseEnter={() => { setHelpIconHover('sizeMetric'); }} onMouseLeave={() => { setHelpIconHover(null); }}>
-              <HelpIcon size={24} opacity={selectedVizType === 'barGraph' || sizeMetric['Indicator Description'] === null ? 0.2 : 1} fill='#110848' />
-            </div>
-          </DropdownEl>
-          {
-            helpIconHover === 'sizeMetric' && selectedVizType === 'scatterPlot' && sizeMetric['Indicator Description'] !== null
-              ? (
-                <Tooltip
-                  title={sizeMetric.Indicator}
-                  body={sizeMetric['Indicator Description']}
-                  sourceName={sizeMetric['Data source name']}
-                  sourceLink={sizeMetric['Data source link']}
-                  date={sizeMetric.Year ? sizeMetric.Year.slice(-4) : null}
-                />
-              ) : null
-          }
-        </DropdownContainer>
+          labelField='Indicator'
+          valueField='Indicator'
+        />
+        <DropdownUnit
+          title='Color By'
+          disabled={selectedVizType === 'map'}
+          options={colorSelectOptions}
+          onChange={(value: any) => { setColorMetric(value[0]); }}
+          value={[colorMetric]}
+          helpIconDisabled={selectedVizType === 'map' || secondMetric['Indicator Description'] === null}
+          bodyForTooltip='The option only includes discreet data and is represented as color of the bars or circle. This option is not active for the map view.'
+          labelField='Indicator'
+          valueField='Indicator'
+        />
+        <DropdownUnit
+          title='Size By'
+          disabled={selectedVizType === 'barGraph'}
+          options={areaSelectOptions}
+          onChange={(value: any) => { setSizeMetric(value[0]); }}
+          value={[sizeMetric]}
+          helpIconDisabled={selectedVizType === 'barGraph' || sizeMetric['Indicator Description'] === null}
+          bodyForTooltip='The option only includes continuous data with minimum value greater than or equal to 0 and is represented by the size of the circle. This option is not active for the bar graph view.'
+          labelField='Indicator'
+          valueField='Indicator'
+        />
       </VizSettingsRow>
       <VizSettingsRow>
-        <DropdownContainer>
-          <SettingTitle disabled={false}>
-            Filter By Region
-          </SettingTitle>
-          <CheckboxContainer>
-            {
-              regions.map((d, i) => (
-                <CheckboxEl
-                  key={i}
-                  onClick={() => {
-                    if (selectedRegion.indexOf(d) !== -1) {
-                      const regionsDuplicate = [...selectedRegion].filter((el) => el !== d);
-                      setSelectedRegion(regionsDuplicate);
-                    } else {
-                      const regionsDuplicate = [...selectedRegion, d];
-                      setSelectedRegion(regionsDuplicate);
-                    }
-                  }}
-                >
-                  <Checkbox selected={selectedRegion.indexOf(d) !== -1}>
-                    {
-                        selectedRegion.indexOf(d) !== -1 ? <Tick size={12} fill='#ffffff' /> : null
-                      }
-                  </Checkbox>
-                  <CheckboxValue>{d}</CheckboxValue>
-                </CheckboxEl>
-              ))
-            }
-          </CheckboxContainer>
-        </DropdownContainer>
+        <MultiSelectDropdownUnit
+          title='Filter By Region'
+          options={regions.map((d) => ({
+            label: d,
+          }))}
+          disabled={false}
+          onChange={(value: any) => { setSelectedRegion(value); }}
+          value={selectedRegion.map((d) => ({
+            label: d,
+          }))}
+          placeholder='Select a region to filter by'
+        />
         <DropdownContainer>
           <SettingTitle disabled={false}>
             Filter By Country Groups
@@ -519,6 +320,19 @@ export const VizArea = (props: Props) => {
             ))}
           </ToggleEl>
         </DropdownContainer>
+        <MultiSelectDropdownUnit
+          title='Search and Highlight by Country'
+          dropdownClass='countrySelect'
+          options={countries.map((d) => ({
+            label: d,
+          }))}
+          disabled={false}
+          onChange={(value: any) => { setSelectedCountries(value); }}
+          value={selectedCountries.map((d) => ({
+            label: d,
+          }))}
+          placeholder='Select countries to highlight'
+        />
       </VizSettingsRow>
       {
         selectedVizType === 'scatterPlot'
@@ -531,6 +345,7 @@ export const VizArea = (props: Props) => {
               sizeMetric={sizeMetric}
               selectedCountryGroup={selectedCountryGroup}
               selectedRegion={selectedRegion}
+              selectedCountries={selectedCountries}
             />
           ) : selectedVizType === 'barGraph'
             ? (
@@ -540,6 +355,7 @@ export const VizArea = (props: Props) => {
                 colorMetric={colorMetric}
                 selectedCountryGroup={selectedCountryGroup}
                 selectedRegion={selectedRegion}
+                selectedCountries={selectedCountries}
               />
             ) : (
               <Map
@@ -549,6 +365,7 @@ export const VizArea = (props: Props) => {
                 selectedCountryGroup={selectedCountryGroup}
                 selectedRegion={selectedRegion}
                 sizeMetric={sizeMetric}
+                selectedCountries={selectedCountries}
               />
             )
 }

@@ -8,6 +8,7 @@ interface Props {
     colorMetric: OptionsDataType;
     selectedCountryGroup: 'All' | 'LDC' | 'LLDC' | 'SIDS';
     selectedRegion: string[];
+    selectedCountries: string[];
 }
 
 export const BarGraph = (props: Props) => {
@@ -17,11 +18,14 @@ export const BarGraph = (props: Props) => {
     colorMetric,
     selectedCountryGroup,
     selectedRegion,
+    selectedCountries,
   } = props;
 
   const dataFiltered = data.filter((d) => d.IndicatorList.indexOf(firstMetric.Indicator) !== -1);
 
-  const dataFilteredByCountryGroup = selectedCountryGroup === 'All' ? dataFiltered.filter((d) => selectedRegion.indexOf(d['Group 1']) !== -1) : dataFiltered.filter((d) => d[selectedCountryGroup] && selectedRegion.indexOf(d['Group 1']) !== -1);
+  const dataFilteredByRegions = selectedRegion.length > 0 ? dataFiltered.filter((d) => selectedRegion.indexOf(d['Group 2']) !== -1) : dataFiltered;
+
+  const dataFilteredByCountryGroup = selectedCountryGroup === 'All' ? dataFilteredByRegions : dataFilteredByRegions.filter((d) => d[selectedCountryGroup]);
 
   const dataSorted = _.sortBy(dataFilteredByCountryGroup, (d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value);
 
@@ -30,6 +34,7 @@ export const BarGraph = (props: Props) => {
       data={dataSorted}
       firstMetric={firstMetric}
       colorMetric={colorMetric}
+      selectedCountries={selectedCountries}
     />
   );
 };

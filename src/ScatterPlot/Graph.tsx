@@ -19,6 +19,7 @@ interface Props {
   firstMetric: OptionsDataType;
   secondMetric: OptionsDataType;
   colorMetric: OptionsDataType;
+  selectedCountries: string[];
   sizeMetric: OptionsDataType;
 }
 
@@ -63,6 +64,12 @@ const CheckboxValue = styled.div`
   text-transform: uppercase;
 `;
 
+const SubNote = styled.div`
+  margin: 1rem 0;
+  font-size: 1.4rem;
+  color: var(--grey);
+`;
+
 export const Graph = (props: Props) => {
   const {
     data,
@@ -70,6 +77,7 @@ export const Graph = (props: Props) => {
     secondMetric,
     colorMetric,
     sizeMetric,
+    selectedCountries,
   } = props;
 
   const [hoverInfo, setHoverInfo] = useState<HoverDataType | null>(null);
@@ -227,6 +235,7 @@ export const Graph = (props: Props) => {
         .enter()
         .append('g')
         .attr('class', 'dataPoints')
+        .attr('opacity', (d) => (selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.1))
         .attr('transform', (d) => `translate(${xScale(d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value)},${yScale(d.Indicators[d.Indicators.findIndex((el) => el.Indicator === secondMetric.Indicator)].Value)})`)
         .on('mouseover', (event, d) => {
           const rowData: HoverRowDataType[] = [
@@ -334,7 +343,7 @@ export const Graph = (props: Props) => {
         .attr('dx', (d:any) => (radiusScale ? radiusScale(d.Indicators[d.Indicators.findIndex((el: any) => el.Indicator === sizeMetric.Indicator)].Value) + 3 : radius + 3))
         .attr('font-weight', '600')
         .attr('fill', (d:any) => getColor(d, colorMetric, colorDomain))
-        .style('display', () => (showLabel ? 'inline' : 'none'))
+        .style('display', (d:any) => (showLabel ? 'inline' : selectedCountries.length === 0 ? 'none' : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 'inline' : 'none'))
         .text((d:any) => d['Alpha-2 code']);
       if (ResetButtonRef.current && ResetButtonRef !== null) {
         const buttonDiv = select(ResetButtonRef.current);
@@ -368,9 +377,21 @@ export const Graph = (props: Props) => {
     if (GraphRef.current && GraphRef !== null) {
       const graphDiv = select(GraphRef.current);
       if (showLabel) graphDiv.selectAll('.textLabels').style('display', 'inline');
-      else graphDiv.selectAll('.textLabels').style('display', 'none');
+      else graphDiv.selectAll('.textLabels').style('display', (d:any) => (selectedCountries.length === 0 ? 'none' : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 'inline' : 'none'));
     }
   }, [showLabel, GraphRef]);
+
+  useEffect(() => {
+    if (GraphRef.current && GraphRef !== null) {
+      const graphDiv = select(GraphRef.current);
+      graphDiv
+        .selectAll('.dataPoints')
+        .attr('opacity', (d:any) => (selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.1));
+      graphDiv
+        .selectAll('.textLabels')
+        .style('display', (d:any) => (showLabel ? 'inline' : selectedCountries.length === 0 ? 'none' : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 'inline' : 'none'));
+    }
+  }, [selectedCountries, GraphRef]);
 
   return (
     <>
@@ -415,6 +436,11 @@ export const Graph = (props: Props) => {
           </button>
         </FlexDiv>
       </TopSettings>
+      <SubNote>
+        The graph only shows the countries for which the data is available.
+        {' '}
+        <span className='bold'>You can zoom on the graph by dragging on the graph.</span>
+      </SubNote>
       <div ref={GraphRef} id='graph-node' />
       {
       hoverInfo
