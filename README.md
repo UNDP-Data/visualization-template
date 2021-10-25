@@ -1,6 +1,6 @@
 # Access All Data Visualization in DFP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) nad uses [Craco](https://www.npmjs.com/package/@craco/craco) to a configuration layer for CRA. 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and uses [Craco](https://www.npmjs.com/package/@craco/craco) to add a configuration layer for CRA. For this porject, we use [Typescript](https://www.typescriptlang.org/), a strongly typed programming language that builds on JavaScript. Typescript helps in better documentation of the code and communication between developers.
 
 ## Installation
 
@@ -15,7 +15,6 @@ git clone https://github.com/UNDP-Data/Access-All-Data-Viz.git
 cd Access-All-Data-Viz
 npm install
 ```
-
 ### Local Development
 
 To start the project locally, you can run `npm run start` in the project folder in terminal or command prompt.
@@ -23,7 +22,7 @@ To start the project locally, you can run `npm run start` in the project folder 
 This is run the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits. You will also see any lint errors in the console.
- 
+
 ## Tooling Setup
 
 This project uses ESLint integrated with prettier, which verifies and formats your code so you don't have to do it manually. You should have your editor set up to display lint errors and automatically fix those which it is possible to fix. See [http://eslint.org/docs/user-guide/integrations](http://eslint.org/docs/user-guide/integrations).
@@ -61,3 +60,21 @@ __Steps to integrating the visualization in the wordpress page is as follow:__
     ```
 5. You should then see the visualization in previews
 6. Once you are happy with the changes just publish the page and you should see it online
+
+
+## Available Scripts
+
+Craco is used to add a cofiguration layer for CRA. The primary function is to stop the `build` to have optimized chunks of the built script. _This make the using the script in the Wordpress easier._ The configuration file for Craco is placed in the root folder and called `craco.config.js`
+* `npm run build`: Executes `craco build` and builds the app without chunking the main js script file.
+* `npm run start`: Executes `craco start` and start the local server for local deployment.
+* `npm install`: Installs all the dependencies.
+
+## Packages/Library Used
+
+* __React__: React is used as MVC framework.
+* __CRACO__: Craco is used to configure different scripts (See Available Scripts for more details)
+* __styled-components__: Utilises tagged template literals  and the power of CSS, allows to write actual CSS code to style the components in JS/TS.
+* __Various D3 Libraries__: Various D3 libraries are used for visualizations, adding interaction and reading the csv data file.
+* __react-dropdown-select__: Is a dropdown library used for creating different dropdowns.
+* __dom-to-image__: This is used to allow users to download images of various visualization views they create.
+* __lodash__: This is used for manipulating and iterating arrays and objects.
