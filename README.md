@@ -1,46 +1,63 @@
-# Getting Started with Create React App
+# Access All Data Visualization in DFP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) nad uses [Craco](https://www.npmjs.com/package/@craco/craco) to a configuration layer for CRA. 
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+This project uses `npm`. For installation you will need to install `node` and `npm`, if you don't already have it. `node` and `npm` can be installed from [here](https://nodejs.org/en/download/).
 
-### `npm start`
+To install the project, sinply clone the the repo and them run `npm install` in the project folder. You can use terminal on Mac and Command Prompt on Windows.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Run the terminal or command prompt and then run the following
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+git clone https://github.com/UNDP-Data/Access-All-Data-Viz.git
+cd Access-All-Data-Viz
+npm install
+```
 
-### `npm test`
+### Local Development
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To start the project locally, you can run `npm run start` in the project folder in terminal or command prompt.
 
-### `npm run build`
+This is run the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The page will reload if you make edits. You will also see any lint errors in the console.
+ 
+## Tooling Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This project uses ESLint integrated with prettier, which verifies and formats your code so you don't have to do it manually. You should have your editor set up to display lint errors and automatically fix those which it is possible to fix. See [http://eslint.org/docs/user-guide/integrations](http://eslint.org/docs/user-guide/integrations).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This project is build in Visual Studio Code, therefore the project is already set up to work with. Install it from [here](https://code.visualstudio.com/) and then install this [eslint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and you should be good to go.
 
-### `npm run eject`
+## Production Workflow
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+We use [SiteGround](https://tools.siteground.com/filemanager?siteId=TFE3MFlYOEpJUT09) for deployment. To get access to SiteGround contact Naledi Hollbruegge (naledi.hollbruegge@undp.org) or Gayan Peiris (gayan.peiris@undp.org).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+__The development workflow should be roughly as follows:__
+1. Make changes locally (see Local Development)
+2. Commit to a non-main branch. Use git-flow branch naming like `feature/add-filters` or `fix/zooming`
+3. Push it to github
+4. In github, make a Pull Request for branch you created to meger the changes to main
+5. Merge All the changes to main
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+_This help create a good documentation of all the changes, fixes done to the code and also help in version control._
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+__The deployment workflow should be roughly as follow:__
+1. Make changes locally (see Local Development) or pull the final version you want to deploy from github (see Installation)
+2. Test it locally on your system to make sure everything is working properly
+3. Use `npm run build` to build the react app in the build folder
+4. Rename the folder (if you like) and then upload the folder to SiteGround in the `public_html` folder
+5. You should be able to see the visualization in your browser using the URL `www.data.undp.org/<FOLDER_NAME>`
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+__Steps to integrating the visualization in the wordpress page is as follow:__
+1. To integrate the visualization in the a wordpress page first login to [wordpress](https://data.undp.org/wp-admin). To get access to the Wordpress Admin Panel contact Naledi Hollbruegge (naledi.hollbruegge@undp.org) or Gayan Peiris (gayan.peiris@undp.org)
+2. Edit the page you want to add the visualization to using Elementor
+3. Add an HTML element where you want to add the visualization
+4. In the HTML code use (here make sure that the elemnent in which the react app is rendering the visualization is present as div). In the below example and in the code, the react-app is renders in a and HTML element with parameter `data-bucket-embed`; therefore in the HTML code the `div` element has the parameter `data-bucket-embed`. _(You can also use a unique `id` to render the element and  use that to render the visualization)_ 
+    ```
+    <script defer src="https://data.undp.org/<VIZ_FOLDER_NAME>/static/js/main.js"></script>
+    <div id="root" data-bucket-embed></div>
+    ```
+5. You should then see the visualization in previews
+6. Once you are happy with the changes just publish the page and you should see it online
