@@ -50,7 +50,7 @@ __The deployment workflow should be roughly as follow:__
 5. You should be able to see the visualization in your browser using the URL `www.data.undp.org/<FOLDER_NAME>`
 
 __Steps to integrating the visualization in the wordpress page is as follow:__
-1. To integrate the visualization in the a wordpress page first login to [wordpress](https://data.undp.org/wp-admin). To get access to the Wordpress Admin Panel contact Naledi Hollbruegge (naledi.hollbruegge@undp.org) or Gayan Peiris (gayan.peiris@undp.org)
+1. To integrate the visualization in the a wordpress page first login to [wordpress](https://data.undp.org/wp-admin). To get access to the Wordpress Admin Panel contact Naledi Hollbruegge (naledi.hollbruegge@undp.org) or Mustafa Saifee (mustafa.saifee@undp.org)
 2. Edit the page you want to add the visualization to using Elementor
 3. Add an HTML element where you want to add the visualization
 4. In the HTML code use (here make sure that the elemnent in which the react app is rendering the visualization is present as div). In the below example and in the code, the react-app is renders in a and HTML element with parameter `data-bucket-embed`; therefore in the HTML code the `div` element has the parameter `data-bucket-embed`. _(You can also use a unique `id` to render the element and  use that to render the visualization)_ 
