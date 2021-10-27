@@ -34,7 +34,7 @@ const Title = styled.div`
 `;
 
 const KeyEl = styled.div`
-  background-color: var(--white);
+  background-color: rgba(255,255,255,0,8);
   padding: 0.5rem 0;
 `;
 
@@ -183,49 +183,43 @@ export const ColorScale = (props: Props) => {
 };
 
 interface BivariateProps {
-  colors: string[][];
   BivariateYTitleText: string;
   BivariateXTitleText: string;
+  BiVariateXValues: number[] | string[];
+  BiVariateYValues: number[] | string[];
 }
-
-const ColorRow = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-  margin-left: 1rem;
-`;
-
-interface ColorBoxProps {
-  fill: string;
-}
-
-const ColorBox = styled.div<ColorBoxProps>`
-  width: 2.4rem;
-  height: 2.4rem;
-  background-color: ${(props) => props.fill};
-`;
 
 const BivariateYTitle = styled.div`
-  width: 12rem;
   font-size: 1.2rem;
   line-height: 1.2rem;
   text-align: center;
-  transform: rotate(-90deg) translateY(-100%);
+  position: absolute;
+  width: 12rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  transform: translate(-60%) rotate(-90deg);
+  padding-left: 1.4rem;
 `;
 
 const BivariateXTitle = styled.div`
   font-size: 1.2rem;
   line-height: 1.2rem;
   text-align: center;
-  width: 12rem;
   margin-top: 0.5rem;
+  padding-left: 1.4rem;
+  width: 12rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const KeyContainer = styled.div`    
   position: relative;
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-end;
   margin: 2rem;
+  justify-content: flex-start;
 `;
 
 const LegendTop = styled.div`
@@ -235,25 +229,12 @@ const LegendTop = styled.div`
 
 const BivariateYTitleEl = styled.div`
   position: relative;
-  width: 42px;
-`;
-
-const NAKeyEl = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 1rem;
-`;
-
-const NAKeyColorBox = styled.div`
-  width: 2.4rem;
-  height: 2.4rem;
-  background-color: #A0A4A8;
-  margin-right: 1rem;
 `;
 
 export const BivariateColorScale = (props: BivariateProps) => {
   const {
-    colors,
+    BiVariateXValues,
+    BiVariateYValues,
     BivariateYTitleText,
     BivariateXTitleText,
   } = props;
@@ -262,25 +243,82 @@ export const BivariateColorScale = (props: BivariateProps) => {
       <KeyContainer>
         <LegendTop>
           <BivariateYTitleEl>
-            <BivariateYTitle>{BivariateYTitleText}</BivariateYTitle>
+            <BivariateYTitle>{BivariateXTitleText}</BivariateYTitle>
           </BivariateYTitleEl>
-          <div>
+          <svg width='168' height='132' viewBox='0 0 168 132' fill='none' xmlns='http://www.w3.org/2000/svg'>
+            <g>
+              <rect x='12' y='96' width='24' height='24' fill='#F2F2F3' />
+              <rect x='12' y='72' width='24' height='24' fill='#EEC7D4' />
+              <rect x='12' y='48' width='24' height='24' fill='#ECA4BA' />
+              <rect x='12' y='24' width='24' height='24' fill='#E789A5' />
+              <rect x='12' width='24' height='24' fill='#E26B8D' />
+              <rect x='36' y='96' width='24' height='24' fill='#BACEDB' />
+              <rect x='36' y='72' width='24' height='24' fill='#B5A9BE' />
+              <rect x='36' y='48' width='24' height='24' fill='#B28AA6' />
+              <rect x='36' y='24' width='24' height='24' fill='#AE7393' />
+              <rect x='36' width='24' height='24' fill='#A9597E' />
+              <rect x='60' y='96' width='24' height='24' fill='#83A9C1' />
+              <rect x='60' y='72' width='24' height='24' fill='#7D8BA8' />
+              <rect x='60' y='48' width='24' height='24' fill='#797193' />
+              <rect x='60' y='24' width='24' height='24' fill='#766286' />
+              <rect x='60' width='24' height='24' fill='#71486F' />
+              <rect x='84' y='96' width='24' height='24' fill='#4F85A9' />
+              <rect x='84' y='72' width='24' height='24' fill='#476D93' />
+              <rect x='84' y='48' width='24' height='24' fill='#435981' />
+              <rect x='84' y='24' width='24' height='24' fill='#3E4972' />
+              <rect x='84' width='24' height='24' fill='#3B3861' />
+              <rect x='108' y='96' width='24' height='24' fill='#266291' />
+              <rect x='147' y='99' width='21' height='21' fill='#A0A4A8' />
+              <rect x='108' y='72' width='24' height='24' fill='#1D507E' />
+              <rect x='108' y='48' width='24' height='24' fill='#15406E' />
+              <rect x='108' y='24' width='24' height='24' fill='#103762' />
+              <rect x='108' width='24' height='24' fill='#082753' />
+              <text fill='#110848' fontSize='9' x='158' y='129.9' textAnchor='middle'>NA</text>
+              <text transform='translate(145 110) rotate(-90)' fill='#110848' fontSize='9' textAnchor='middle'>NA</text>
+            </g>
             {
-            colors.map((d, i) => (
-              <ColorRow key={i}>
-                {
-                d.map((el, j) => <ColorBox fill={el} key={j} />)
-              }
-              </ColorRow>
-            ))
-          }
-          </div>
+              CategoricalData.findIndex((d) => d.indicator === BivariateYTitleText) !== -1
+                ? (
+                  <g opacity='1'>
+                    <text fill='#110848' fontSize='9' x='24' y='129.9' textAnchor='middle'>{BiVariateYValues[0]}</text>
+                    <text fill='#110848' fontSize='9' x='48' y='129.9' textAnchor='middle'>{BiVariateYValues[1]}</text>
+                    <text fill='#110848' fontSize='9' x='72' y='129.9' textAnchor='middle'>{BiVariateYValues[2]}</text>
+                    <text fill='#110848' fontSize='9' x='96' y='129.9' textAnchor='middle'>{BiVariateYValues[3]}</text>
+                    <text fill='#110848' fontSize='9' x='120' y='129.9' textAnchor='middle'>{BiVariateYValues[4]}</text>
+                  </g>
+                )
+                : (
+                  <g opacity='1'>
+                    <text fill='#110848' fontSize='9' x='36' y='129.9' textAnchor='middle'>{(BiVariateYValues[0] as number).toFixed(1)}</text>
+                    <text fill='#110848' fontSize='9' x='60' y='129.9' textAnchor='middle'>{(BiVariateYValues[1] as number).toFixed(1)}</text>
+                    <text fill='#110848' fontSize='9' x='84' y='129.9' textAnchor='middle'>{(BiVariateYValues[2] as number).toFixed(1)}</text>
+                    <text fill='#110848' fontSize='9' x='108' y='129.9' textAnchor='middle'>{(BiVariateYValues[3] as number).toFixed(1)}</text>
+                  </g>
+                )
+            }
+            {
+              CategoricalData.findIndex((d) => d.indicator === BivariateXTitleText) !== -1
+                ? (
+                  <g opacity='1'>
+                    <text transform='translate(8 108) rotate(-90)' fill='#110848' fontSize='9' textAnchor='middle'>{BiVariateXValues[0]}</text>
+                    <text transform='translate(8 84) rotate(-90)' fill='#110848' fontSize='9' textAnchor='middle'>{BiVariateXValues[1]}</text>
+                    <text transform='translate(8 60) rotate(-90)' fill='#110848' fontSize='9' textAnchor='middle'>{BiVariateXValues[2]}</text>
+                    <text transform='translate(8 36) rotate(-90)' fill='#110848' fontSize='9' textAnchor='middle'>{BiVariateXValues[3]}</text>
+                    <text transform='translate(8 12) rotate(-90)' fill='#110848' fontSize='9' textAnchor='middle'>{BiVariateXValues[4]}</text>
+                  </g>
+                )
+                : (
+                  <g opacity='1'>
+                    <text transform='translate(8 96) rotate(-90)' fill='#110848' fontSize='9' textAnchor='middle'>{(BiVariateXValues[0] as number).toFixed(1)}</text>
+                    <text transform='translate(8 72) rotate(-90)' fill='#110848' fontSize='9' textAnchor='middle'>{(BiVariateXValues[1] as number).toFixed(1)}</text>
+                    <text transform='translate(8 48) rotate(-90)' fill='#110848' fontSize='9' textAnchor='middle'>{(BiVariateXValues[2] as number).toFixed(1)}</text>
+                    <text transform='translate(8 24) rotate(-90)' fill='#110848' fontSize='9' textAnchor='middle'>{(BiVariateXValues[3] as number).toFixed(1)}</text>
+                  </g>
+                )
+            }
+          </svg>
         </LegendTop>
-        <BivariateXTitle>{BivariateXTitleText}</BivariateXTitle>
-        <NAKeyEl>
-          <NAKeyColorBox />
-          <KeyValue>NA</KeyValue>
-        </NAKeyEl>
+        <BivariateXTitle>{BivariateYTitleText}</BivariateXTitle>
       </KeyContainer>
     </>
   );
