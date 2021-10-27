@@ -9,6 +9,7 @@ interface Props {
     selectedCountryGroup: 'All' | 'LDC' | 'LLDC' | 'SIDS';
     selectedRegion: string[];
     selectedCountries: string[];
+    selectedIncomeGroups: string[];
 }
 
 export const BarGraph = (props: Props) => {
@@ -19,6 +20,7 @@ export const BarGraph = (props: Props) => {
     selectedCountryGroup,
     selectedRegion,
     selectedCountries,
+    selectedIncomeGroups,
   } = props;
 
   const dataFiltered = data.filter((d) => d.IndicatorList.indexOf(firstMetric.Indicator) !== -1);
@@ -27,7 +29,9 @@ export const BarGraph = (props: Props) => {
 
   const dataFilteredByCountryGroup = selectedCountryGroup === 'All' ? dataFilteredByRegions : dataFilteredByRegions.filter((d) => d[selectedCountryGroup]);
 
-  const dataSorted = _.sortBy(dataFilteredByCountryGroup, (d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value);
+  const dataFilteredByIncomeGroups = selectedIncomeGroups.length > 0 ? dataFilteredByCountryGroup.filter((d) => selectedIncomeGroups.indexOf(d['Income Group']) !== -1) : dataFilteredByCountryGroup;
+
+  const dataSorted = _.sortBy(dataFilteredByIncomeGroups, (d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value);
 
   return (
     <Graph

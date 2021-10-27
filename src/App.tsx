@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { IndicatorDataType, DataType, IndicatorOptionsDataType } from './Types';
 import { VizArea } from './VizArea';
 import CategoricalData from './Data/CategoricalData.json';
+import CountryTerritoryGroups from './Data/country-territory-groups.json';
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -265,6 +266,7 @@ const App = () => {
           SIDS: d.values[0].SIDS === 'TRUE',
           Indicators: indicator,
           IndicatorList: indicatorList,
+          'Income Group': CountryTerritoryGroups[CountryTerritoryGroups.findIndex((el) => el['Alpha-3 code-1'] === d.values[0]['Alpha-3 code-1'])]['Income group'],
         };
       });
       setCountryList(formattedData.map((d) => d['Country or Area']));

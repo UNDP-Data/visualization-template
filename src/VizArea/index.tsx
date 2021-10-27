@@ -10,7 +10,7 @@ import { ScatterPlot } from '../ScatterPlot';
 import { BarGraph } from '../BarChart';
 import { Map } from '../Map';
 import { getRange } from '../Utils/getRange';
-import { DEFAULT_VALUES } from '../Constants';
+import { DEFAULT_VALUES, INCOME_GROUPS } from '../Constants';
 
 interface Props {
   data: DataType[];
@@ -190,6 +190,7 @@ export const VizArea = (props: Props) => {
   const [selectedVizType, setSelectedVizType] = useState<'scatterPlot' | 'map' | 'barGraph'>('scatterPlot');
   const [selectedCountryGroup, setSelectedCountryGroup] = useState<'All' | 'LDC' | 'LLDC' | 'SIDS'>('All');
   const [selectedRegion, setSelectedRegion] = useState<string[]>([]);
+  const [selectedIncomeGroups, setSelectedIncomeGroups] = useState<string[]>([]);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   return (
     <Container>
@@ -302,7 +303,7 @@ export const VizArea = (props: Props) => {
           value={selectedRegion.map((d) => ({
             label: d,
           }))}
-          placeholder='Select a region to filter by'
+          placeholder='Select regions to filter by'
         />
         <DropdownContainer>
           <SettingTitle disabled={false}>
@@ -320,6 +321,18 @@ export const VizArea = (props: Props) => {
             ))}
           </ToggleEl>
         </DropdownContainer>
+        <MultiSelectDropdownUnit
+          title='Filter By Income Groups'
+          options={INCOME_GROUPS.map((d) => ({
+            label: d,
+          }))}
+          disabled={false}
+          onChange={(value: any) => { setSelectedIncomeGroups(value); }}
+          value={selectedIncomeGroups.map((d) => ({
+            label: d,
+          }))}
+          placeholder='Select income groups to filter by'
+        />
         <MultiSelectDropdownUnit
           title='Search and Highlight by Country'
           dropdownClass='countrySelect'
@@ -346,6 +359,7 @@ export const VizArea = (props: Props) => {
               selectedCountryGroup={selectedCountryGroup}
               selectedRegion={selectedRegion}
               selectedCountries={selectedCountries}
+              selectedIncomeGroups={selectedIncomeGroups}
             />
           ) : selectedVizType === 'barGraph'
             ? (
@@ -356,6 +370,7 @@ export const VizArea = (props: Props) => {
                 selectedCountryGroup={selectedCountryGroup}
                 selectedRegion={selectedRegion}
                 selectedCountries={selectedCountries}
+                selectedIncomeGroups={selectedIncomeGroups}
               />
             ) : (
               <Map
@@ -366,6 +381,7 @@ export const VizArea = (props: Props) => {
                 selectedRegion={selectedRegion}
                 sizeMetric={sizeMetric}
                 selectedCountries={selectedCountries}
+                selectedIncomeGroups={selectedIncomeGroups}
               />
             )
 }
