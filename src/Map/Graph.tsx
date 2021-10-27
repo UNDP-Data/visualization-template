@@ -24,6 +24,7 @@ interface Props {
   selectedRegion: string[];
   selectedCountryGroup: 'All' | 'LDC' | 'LLDC' | 'SIDS';
   selectedCountries: string[];
+  selectedIncomeGroups: string[];
 }
 
 interface FlexDivProps {
@@ -59,6 +60,7 @@ export const Graph = (props: Props) => {
     selectedRegion,
     selectedCountryGroup,
     selectedCountries,
+    selectedIncomeGroups,
   } = props;
 
   const width = 1280;
@@ -210,10 +212,11 @@ export const Graph = (props: Props) => {
               const opacityGroup = selectedCountryGroup === 'All' ? 1 : index !== -1 ? data[index][selectedCountryGroup] ? 1 : 0.25 : 0.25;
               const countryOpacity = selectedCountries.length === 0 ? 1 : index !== -1 ? selectedCountries.indexOf(data[index]['Country or Area']) !== -1 ? 1 : 0.25 : 0.25;
               const opacityRegion = selectedRegion.length === 0 ? 1 : index !== -1 ? selectedRegion.indexOf(data[index]['Group 2']) !== -1 ? 1 : 0.25 : 0.25;
+              const incomeGroupOpacity = selectedIncomeGroups.length === 0 ? 1 : index !== -1 ? selectedIncomeGroups.indexOf(data[index]['Income Group']) !== -1 ? 1 : 0.25 : 0.25;
               return (
                 <g
                   key={i}
-                  opacity={Math.min(opacityGroup, opacityRegion, countryOpacity)}
+                  opacity={Math.min(opacityGroup, opacityRegion, countryOpacity, incomeGroupOpacity)}
                   onMouseEnter={(event) => {
                     setHoverInfo({
                       country: d.properties.NAME,
@@ -308,6 +311,7 @@ export const Graph = (props: Props) => {
                     const opacityGroup = selectedCountryGroup === 'All' || d[selectedCountryGroup] ? 1 : 0.25;
                     const countryOpacity = selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.25;
                     const opacityRegion = selectedRegion.length > 0 ? selectedRegion.indexOf(d['Group 2']) !== -1 ? 1 : 0.25 : 1;
+                    const incomeGroupOpacity = selectedIncomeGroups.length > 0 ? selectedIncomeGroups.indexOf(d['Income Group']) !== -1 ? 1 : 0.25 : 1;
                     const coordinates = projection([d['Longitude (average)'], d['Latitude (average)']]) as [number, number];
                     return (
                       <circle
@@ -318,7 +322,7 @@ export const Graph = (props: Props) => {
                         fill='none'
                         strokeWidth={radiusScale(d.Indicators[d.Indicators.findIndex((el: any) => el.Indicator === sizeMetric.Indicator)].Value) > 0 ? 2 : 0}
                         stroke='#110848'
-                        opacity={Math.min(opacityGroup, opacityRegion, countryOpacity)}
+                        opacity={Math.min(opacityGroup, opacityRegion, countryOpacity, incomeGroupOpacity)}
                       />
                     );
                   })

@@ -44,3 +44,5 @@ export const DEFAULT_VALUES = {
   colorMetric: 'Continents',
   sizeMetric: 'Not Selected',
 };
+
+export const INCOME_GROUPS = ['Low income', 'Lower middle income', 'Upper middle income', 'High income'];

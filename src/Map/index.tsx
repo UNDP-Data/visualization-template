@@ -9,6 +9,7 @@ interface Props {
     selectedCountryGroup: 'All' | 'LDC' | 'LLDC' | 'SIDS';
     selectedRegion: string[];
     selectedCountries: string[];
+    selectedIncomeGroups: string[];
 }
 
 export const Map = (props: Props) => {
@@ -20,6 +21,7 @@ export const Map = (props: Props) => {
     selectedRegion,
     sizeMetric,
     selectedCountries,
+    selectedIncomeGroups,
   } = props;
 
   return (
@@ -31,6 +33,7 @@ export const Map = (props: Props) => {
       selectedRegion={selectedRegion}
       sizeMetric={sizeMetric}
       selectedCountries={selectedCountries}
+      selectedIncomeGroups={selectedIncomeGroups}
     />
   );
 };
