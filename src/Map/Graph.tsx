@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { scaleLinear, scaleQuantile } from 'd3-scale';
+import { scaleLinear, scaleQuantile, scaleThreshold } from 'd3-scale';
 import { select } from 'd3-selection';
 import styled from 'styled-components';
 import domtoimage from 'dom-to-image';
@@ -8,7 +8,7 @@ import { zoom } from 'd3-zoom';
 import world from '../Data/world.json';
 import { HoverTooltip } from '../Components/HoverTooltip';
 import { getRange } from '../Utils/getRange';
-import { BIVARIATE_COLOR_FOR_KEY, COLOR_SCALE } from '../Constants';
+import { COLOR_SCALE } from '../Constants';
 import {
   DataType, HoverDataType, HoverRowDataType, OptionsDataType,
 } from '../Types';
@@ -26,8 +26,21 @@ interface Props {
   selectedCountries: string[];
 }
 
-const FlexDiv = styled.div`
+interface FlexDivProps {
+  marginTop: string;
+  padding: string;
+}
+
+const FlexDiv = styled.div<FlexDivProps>`
   display: flex;
+  margin-top: ${(props) => props.marginTop};
+  margin-left: 2rem;
+  padding: ${(props) => props.padding};
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 0.2rem;
+  border: 1px solid var(--medium-grey);
+  z-index: 10;
+  position: absolute;
 `;
 
 const TopSettings = styled.div`
@@ -55,7 +68,7 @@ export const Graph = (props: Props) => {
   const GraphRef = useRef(null);
   const map: any = world;
 
-  const projection = geoEqualEarth().rotate([0, 0]).scale(225).translate([640, 380]);
+  const projection = geoEqualEarth().rotate([0, 0]).scale(265).translate([610, 380]);
   const mapSvg = useRef<SVGSVGElement>(null);
   const mapG = useRef<SVGGElement>(null);
   useEffect(() => {
@@ -86,30 +99,43 @@ export const Graph = (props: Props) => {
   const xColorScale = !firstMetric.Categorical ? scaleQuantize().domain(getRange(dataFiltered, firstMetric.Indicator, true)).range([0,1,2,3,4]) : scaleQuantile().domain(CategoricalData[CategoricalData.findIndex(el => el.indicator === firstMetric.Indicator)].range).range([0,1,2,3,4]) ;
   const yColorScale = !secondMetric.Categorical ? scaleQuantize().domain(getRange(dataFiltered, secondMetric.Indicator, true)).range([0,1,2,3,4]) : scaleQuantile().domain(CategoricalData[CategoricalData.findIndex(el => el.indicator === secondMetric.Indicator)].range).range([0,1,2,3,4]) ;
   */
-  const xColorScaleQuantile = !firstMetric.Categorical ? scaleQuantile().domain(dataFiltered.map((d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value)).range([0, 1, 2, 3, 4]) : scaleQuantile().domain(CategoricalData[CategoricalData.findIndex((el) => el.indicator === firstMetric.Indicator)].range).range([0, 1, 2, 3, 4]);
-  const yColorScaleQuantile = !secondMetric.Categorical ? scaleQuantile().domain(dataFiltered.map((d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value)).range([0, 1, 2, 3, 4]) : scaleQuantile().domain(CategoricalData[CategoricalData.findIndex((el) => el.indicator === secondMetric.Indicator)].range).range([0, 1, 2, 3, 4]);
+  const xColorScaleQuantile = !firstMetric.Categorical
+    ? scaleQuantile().domain(dataFiltered.map((d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value)).range([0, 1, 2, 3, 4])
+    : CategoricalData[CategoricalData.findIndex((el) => el.indicator === firstMetric.Indicator)].range.length === 5
+      ? scaleQuantile().domain(CategoricalData[CategoricalData.findIndex((el) => el.indicator === firstMetric.Indicator)].range).range([0, 1, 2, 3, 4])
+      : CategoricalData[CategoricalData.findIndex((el) => el.indicator === firstMetric.Indicator)].range.length === 7
+        ? scaleThreshold().domain([2, 3, 4, 5]).range([0, 1, 2, 3, 4])
+        : scaleThreshold().domain([3, 5, 7, 9]).range([0, 1, 2, 3, 4]);
+  const yColorScaleQuantile = !secondMetric.Categorical
+    ? secondMetric.Indicator !== 'Not Selected'
+      ? scaleQuantile().domain(dataFiltered.map((d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === secondMetric.Indicator)].Value)).range([0, 1, 2, 3, 4])
+      : null
+    : CategoricalData[CategoricalData.findIndex((el) => el.indicator === secondMetric.Indicator)].range.length === 5
+      ? scaleQuantile().domain(CategoricalData[CategoricalData.findIndex((el) => el.indicator === secondMetric.Indicator)].range).range([0, 1, 2, 3, 4])
+      : CategoricalData[CategoricalData.findIndex((el) => el.indicator === secondMetric.Indicator)].range.length === 7
+        ? scaleThreshold().domain([2, 3, 4, 5]).range([0, 1, 2, 3, 4])
+        : scaleThreshold().domain([3, 5, 7, 9]).range([0, 1, 2, 3, 4]);
+  const xColorScaleDomain = !firstMetric.Categorical
+    ? scaleQuantile().domain(dataFiltered.map((d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value)).range([0, 1, 2, 3, 4]).quantiles()
+    : CategoricalData[CategoricalData.findIndex((el) => el.indicator === firstMetric.Indicator)].range.length === 5
+      ? [1, 2, 3, 4, 5]
+      : CategoricalData[CategoricalData.findIndex((el) => el.indicator === firstMetric.Indicator)].range.length === 7
+        ? ['1', '2', '3', '4', '5+']
+        : ['1,2', '3,4', '5,6', '7,8', '9,10'];
+  const yColorScaleDomain = !secondMetric.Categorical
+    ? secondMetric.Indicator !== 'Not Selected'
+      ? scaleQuantile().domain(dataFiltered.map((d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === secondMetric.Indicator)].Value)).range([0, 1, 2, 3, 4]).quantiles()
+      : null
+    : CategoricalData[CategoricalData.findIndex((el) => el.indicator === secondMetric.Indicator)].range.length === 5
+      ? [1, 2, 3, 4, 5]
+      : CategoricalData[CategoricalData.findIndex((el) => el.indicator === secondMetric.Indicator)].range.length === 7
+        ? ['1', '2', '3', '4', '5+']
+        : ['1,2', '3,4', '5,6', '7,8', '9,10'];
 
   return (
     <>
       <TopSettings>
-        <FlexDiv>
-          {
-          secondMetric.Indicator === 'Not Selected'
-            ? (
-              <ColorScale
-                colorMetric={firstMetric}
-                colorDomain={!firstMetric.Categorical ? getRange(data, firstMetric.Indicator, true) : [0, 0]}
-              />
-            )
-            : (
-              <BivariateColorScale
-                colors={BIVARIATE_COLOR_FOR_KEY}
-                BivariateXTitleText={firstMetric.Indicator}
-                BivariateYTitleText={secondMetric.Indicator}
-              />
-            )
-        }
-        </FlexDiv>
+        <div style={{ height: '7.2rem' }} />
         <button
           type='button'
           className='secondary'
@@ -144,7 +170,7 @@ export const Graph = (props: Props) => {
                   value: index !== -1 && firstindicatorIndex !== -1 ? data[index].Indicators[firstindicatorIndex].Value : 'NA',
                   type: 'color',
                   metaData: `${firstMetric['Time period']}, Last Updated: ${firstMetric.Year}`,
-                  color: secondMetric.Indicator === 'Not Selected'
+                  color: secondMetric.Indicator === 'Not Selected' || !yColorScaleQuantile
                     ? index !== -1
                       ? getColor(data[index], firstMetric, !firstMetric.Categorical ? getRange(data, firstMetric.Indicator, true) : null)
                       : '#A0A4A8'
@@ -160,7 +186,7 @@ export const Graph = (props: Props) => {
                     value: index !== -1 && secondindicatorIndex !== -1 ? data[index].Indicators[secondindicatorIndex].Value : 'NA',
                     type: 'color',
                     metaData: `${secondMetric['Time period']}, Last Updated: ${secondMetric.Year}`,
-                    color: secondMetric.Indicator === 'Not Selected'
+                    color: secondMetric.Indicator === 'Not Selected' || !yColorScaleQuantile
                       ? index !== -1
                         ? getColor(data[index], firstMetric, !firstMetric.Categorical ? getRange(data, firstMetric.Indicator, true) : null)
                         : '#A0A4A8'
@@ -231,7 +257,7 @@ export const Graph = (props: Props) => {
                           stroke='#fff'
                           strokeWidth={0.25}
                           fill={
-                          secondMetric.Indicator === 'Not Selected'
+                          secondMetric.Indicator === 'Not Selected' || !yColorScaleQuantile
                             ? index !== -1
                               ? getColor(data[index], firstMetric, !firstMetric.Categorical ? getRange(data, firstMetric.Indicator, true) : null)
                               : '#A0A4A8'
@@ -256,7 +282,7 @@ export const Graph = (props: Props) => {
                           stroke='#fff'
                           strokeWidth={0.25}
                           fill={
-                          secondMetric.Indicator === 'Not Selected'
+                          secondMetric.Indicator === 'Not Selected' || !yColorScaleQuantile
                             ? index !== -1
                               ? getColor(data[index], firstMetric, !firstMetric.Categorical ? getRange(data, firstMetric.Indicator, true) : null)
                               : '#A0A4A8'
@@ -303,11 +329,30 @@ export const Graph = (props: Props) => {
           }
           </g>
         </svg>
+        <FlexDiv marginTop={secondMetric.Indicator === 'Not Selected' ? '-10rem' : '-21rem'} padding={secondMetric.Indicator === 'Not Selected' ? '0 1rem' : '0 0 0 1rem'}>
+          {
+            secondMetric.Indicator === 'Not Selected' || !yColorScaleDomain
+              ? (
+                <ColorScale
+                  colorMetric={firstMetric}
+                  colorDomain={!firstMetric.Categorical ? getRange(data, firstMetric.Indicator, true) : [0, 0]}
+                />
+              )
+              : (
+                <BivariateColorScale
+                  BivariateXTitleText={firstMetric.Indicator}
+                  BivariateYTitleText={secondMetric.Indicator}
+                  BiVariateXValues={xColorScaleDomain}
+                  BiVariateYValues={yColorScaleDomain}
+                />
+              )
+            }
+        </FlexDiv>
         {
-        hoverInfo
-          ? <HoverTooltip data={hoverInfo} />
-          : null
-      }
+          hoverInfo
+            ? <HoverTooltip data={hoverInfo} />
+            : null
+        }
       </div>
     </>
   );
