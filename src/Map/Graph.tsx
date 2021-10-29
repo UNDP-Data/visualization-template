@@ -39,7 +39,7 @@ const FlexDiv = styled.div<FlexDivProps>`
   padding: ${(props) => props.padding};
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 0.2rem;
-  border: 1px solid var(--medium-grey);
+  box-shadow: 0 0 1rem rgb(0 0 0 / 10%);
   z-index: 10;
   position: absolute;
 `;
