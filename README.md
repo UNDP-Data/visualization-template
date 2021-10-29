@@ -47,7 +47,8 @@ __The deployment workflow should be roughly as follow:__
 2. Test it locally on your system to make sure everything is working properly
 3. Use `npm run build` to build the react app in the build folder
 4. Rename the folder (if you like) and then upload the folder to SiteGround in the `public_html` folder
-5. You should be able to see the visualization in your browser using the URL `www.data.undp.org/<FOLDER_NAME>`
+5. Change the `src` of the `script` tag in the `index.html` from `/static/js/main.js` to `/<FOLDER_NAME>/static/js/main.js`, if you don't do this `index.html` will try to look for the js file at `www.data.undp.org/static/js/main.js` (which is not the right location) instead of `www.data.undp.org/<FOLDER_NAME>/static/js/main.js`
+6. You should be able to see the visualization in your browser using the URL `www.data.undp.org/<FOLDER_NAME>`
 
 __Steps to integrating the visualization in the wordpress page is as follow:__
 1. To integrate the visualization in the a wordpress page first login to [wordpress](https://data.undp.org/wp-admin). To get access to the Wordpress Admin Panel contact Naledi Hollbruegge (naledi.hollbruegge@undp.org) or Mustafa Saifee (mustafa.saifee@undp.org)
