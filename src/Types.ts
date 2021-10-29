@@ -19,6 +19,7 @@ export interface DataType {
   'SIDS': boolean;
   'Indicators': IndicatorDataType[];
   'IndicatorList': string[];
+  'Income Group': string;
 }
 
 export interface IndicatorOptionsDataType {
