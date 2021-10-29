@@ -266,7 +266,7 @@ const App = () => {
           SIDS: d.values[0].SIDS === 'TRUE',
           Indicators: indicator,
           IndicatorList: indicatorList,
-          'Income Group': CountryTerritoryGroups[CountryTerritoryGroups.findIndex((el) => el['Alpha-3 code-1'] === d.values[0]['Alpha-3 code-1'])]['Income group'],
+          'Income group': CountryTerritoryGroups[CountryTerritoryGroups.findIndex((el) => el['Alpha-3 code-1'] === d.values[0]['Alpha-3 code-1'])]['Income group'],
         };
       });
       setCountryList(formattedData.map((d) => d['Country or Area']));

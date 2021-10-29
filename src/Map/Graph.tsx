@@ -212,7 +212,7 @@ export const Graph = (props: Props) => {
               const opacityGroup = selectedCountryGroup === 'All' ? 1 : index !== -1 ? data[index][selectedCountryGroup] ? 1 : 0.25 : 0.25;
               const countryOpacity = selectedCountries.length === 0 ? 1 : index !== -1 ? selectedCountries.indexOf(data[index]['Country or Area']) !== -1 ? 1 : 0.25 : 0.25;
               const opacityRegion = selectedRegion.length === 0 ? 1 : index !== -1 ? selectedRegion.indexOf(data[index]['Group 2']) !== -1 ? 1 : 0.25 : 0.25;
-              const incomeGroupOpacity = selectedIncomeGroups.length === 0 ? 1 : index !== -1 ? selectedIncomeGroups.indexOf(data[index]['Income Group']) !== -1 ? 1 : 0.25 : 0.25;
+              const incomeGroupOpacity = selectedIncomeGroups.length === 0 ? 1 : index !== -1 ? selectedIncomeGroups.indexOf(data[index]['Income group']) !== -1 ? 1 : 0.25 : 0.25;
               return (
                 <g
                   key={i}
@@ -311,7 +311,7 @@ export const Graph = (props: Props) => {
                     const opacityGroup = selectedCountryGroup === 'All' || d[selectedCountryGroup] ? 1 : 0.25;
                     const countryOpacity = selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.25;
                     const opacityRegion = selectedRegion.length > 0 ? selectedRegion.indexOf(d['Group 2']) !== -1 ? 1 : 0.25 : 1;
-                    const incomeGroupOpacity = selectedIncomeGroups.length > 0 ? selectedIncomeGroups.indexOf(d['Income Group']) !== -1 ? 1 : 0.25 : 1;
+                    const incomeGroupOpacity = selectedIncomeGroups.length > 0 ? selectedIncomeGroups.indexOf(d['Income group']) !== -1 ? 1 : 0.25 : 1;
                     const coordinates = projection([d['Longitude (average)'], d['Latitude (average)']]) as [number, number];
                     return (
                       <circle

@@ -28,6 +28,13 @@ export const CONTINENTS_COLOR = {
   Null: '#A0A4A8',
 };
 
+export const INCOME_GROUPS_COLOR = {
+  'Low income': '#A71D44',
+  'Lower middle income': '#C2617D',
+  'Upper middle income': '#5397FC',
+  'High income': '#0969FA',
+};
+
 export const CONTINENTS = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania', 'Null'];
 
 export const BIVARIATE_COLOR_FOR_KEY = [

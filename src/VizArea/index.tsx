@@ -105,6 +105,15 @@ export const VizArea = (props: Props) => {
       Year: null,
       Categorical: true,
     },
+    {
+      Indicator: 'Income group',
+      'Data source link': null,
+      'Data source name': null,
+      'Time period': null,
+      'Indicator Description': null,
+      Year: null,
+      Categorical: true,
+    },
   ];
   const areaSelectOptions: OptionsDataType[] = [
     {

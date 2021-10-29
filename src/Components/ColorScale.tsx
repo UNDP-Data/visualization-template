@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { OptionsDataType } from '../Types';
-import { COLOR_SCALE, CONTINENTS_COLOR, CONTINENTS } from '../Constants';
+import {
+  COLOR_SCALE, CONTINENTS_COLOR, CONTINENTS, INCOME_GROUPS_COLOR, INCOME_GROUPS,
+} from '../Constants';
 import CategoricalData from '../Data/CategoricalData.json';
 
 interface Props {
@@ -107,10 +109,23 @@ export const ColorScale = (props: Props) => {
               {d}
             </div>
           </ColorKeyEl>
-        )) : colorMetric.Categorical
-          ? (
-            <>
-              {
+        ))
+          : colorMetric.Indicator === 'Income group' ? INCOME_GROUPS.map((d: any, i: number) => (
+            <ColorKeyEl
+              key={i}
+              flex
+            >
+              <ColorKeySquare
+                fill={INCOME_GROUPS_COLOR[d as 'Low income' | 'Lower middle income' | 'Upper middle income' | 'High income']}
+              />
+              <div>
+                {d}
+              </div>
+            </ColorKeyEl>
+          )) : colorMetric.Categorical
+            ? (
+              <>
+                {
               CategoricalData[CategoricalData.findIndex((d) => d.indicator === colorMetric.Indicator)].range.map((d, i) => (
                 <ColorKeyEl key={i}>
                   <ColorKeyRect
@@ -122,29 +137,6 @@ export const ColorScale = (props: Props) => {
                 </ColorKeyEl>
               ))
             }
-              <ColorKeyEl style={{ marginLeft: '1.5rem' }}>
-                <ColorKeyRect
-                  fill='#A0A4A8'
-                />
-                <KeyValue>
-                  NA
-                </KeyValue>
-              </ColorKeyEl>
-            </>
-          )
-          : colorDomain[0] < 0
-            ? (
-              <>
-                <div>
-                  <ColorKeyContDivergent
-                    colors={COLOR_SCALE.Linear.Divergent}
-                    zeroPercent={(-1 * colorDomain[0] * 100) / (colorDomain[1] - colorDomain[0])}
-                  />
-                  <ColorKeyValueCont>
-                    <div>{colorDomain[0]}</div>
-                    <div>{colorDomain[1]}</div>
-                  </ColorKeyValueCont>
-                </div>
                 <ColorKeyEl style={{ marginLeft: '1.5rem' }}>
                   <ColorKeyRect
                     fill='#A0A4A8'
@@ -155,27 +147,50 @@ export const ColorScale = (props: Props) => {
                 </ColorKeyEl>
               </>
             )
-            : (
-              <>
-                <div>
-                  <ColorKeyCont
-                    colors={COLOR_SCALE.Linear.Continuous}
-                  />
-                  <ColorKeyValueCont>
-                    <div>{colorDomain[0]}</div>
-                    <div>{colorDomain[1]}</div>
-                  </ColorKeyValueCont>
-                </div>
-                <ColorKeyEl style={{ marginLeft: '1.5rem' }}>
-                  <ColorKeyRect
-                    fill='#A0A4A8'
-                  />
-                  <KeyValue>
-                    NA
-                  </KeyValue>
-                </ColorKeyEl>
-              </>
-            )
+            : colorDomain[0] < 0
+              ? (
+                <>
+                  <div>
+                    <ColorKeyContDivergent
+                      colors={COLOR_SCALE.Linear.Divergent}
+                      zeroPercent={(-1 * colorDomain[0] * 100) / (colorDomain[1] - colorDomain[0])}
+                    />
+                    <ColorKeyValueCont>
+                      <div>{colorDomain[0]}</div>
+                      <div>{colorDomain[1]}</div>
+                    </ColorKeyValueCont>
+                  </div>
+                  <ColorKeyEl style={{ marginLeft: '1.5rem' }}>
+                    <ColorKeyRect
+                      fill='#A0A4A8'
+                    />
+                    <KeyValue>
+                      NA
+                    </KeyValue>
+                  </ColorKeyEl>
+                </>
+              )
+              : (
+                <>
+                  <div>
+                    <ColorKeyCont
+                      colors={COLOR_SCALE.Linear.Continuous}
+                    />
+                    <ColorKeyValueCont>
+                      <div>{colorDomain[0]}</div>
+                      <div>{colorDomain[1]}</div>
+                    </ColorKeyValueCont>
+                  </div>
+                  <ColorKeyEl style={{ marginLeft: '1.5rem' }}>
+                    <ColorKeyRect
+                      fill='#A0A4A8'
+                    />
+                    <KeyValue>
+                      NA
+                    </KeyValue>
+                  </ColorKeyEl>
+                </>
+              )
       }
       </ColorKeyContainer>
     </KeyEl>

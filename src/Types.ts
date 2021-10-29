@@ -19,7 +19,7 @@ export interface DataType {
   'SIDS': boolean;
   'Indicators': IndicatorDataType[];
   'IndicatorList': string[];
-  'Income Group': string;
+  'Income group': string;
 }
 
 export interface IndicatorOptionsDataType {
@@ -44,9 +44,9 @@ export interface OptionsDataType {
 
 export interface HoverRowDataType {
   title: string;
-  value: number | 'NA';
+  value: number | string;
   type: 'x-axis' | 'y-axis' | 'color' | 'size';
-  metaData: string;
+  metaData: string | null;
   color?:string;
 }
 
