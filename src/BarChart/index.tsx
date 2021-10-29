@@ -29,7 +29,7 @@ export const BarGraph = (props: Props) => {
 
   const dataFilteredByCountryGroup = selectedCountryGroup === 'All' ? dataFilteredByRegions : dataFilteredByRegions.filter((d) => d[selectedCountryGroup]);
 
-  const dataFilteredByIncomeGroups = selectedIncomeGroups.length > 0 ? dataFilteredByCountryGroup.filter((d) => selectedIncomeGroups.indexOf(d['Income Group']) !== -1) : dataFilteredByCountryGroup;
+  const dataFilteredByIncomeGroups = selectedIncomeGroups.length > 0 ? dataFilteredByCountryGroup.filter((d) => selectedIncomeGroups.indexOf(d['Income group']) !== -1) : dataFilteredByCountryGroup;
 
   const dataSorted = _.sortBy(dataFilteredByIncomeGroups, (d) => d.Indicators[d.Indicators.findIndex((el) => el.Indicator === firstMetric.Indicator)].Value);
 
