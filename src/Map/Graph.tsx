@@ -69,7 +69,7 @@ export const Graph = (props: Props) => {
   const [hoverInfo, setHoverInfo] = useState<HoverDataType | null>(null);
   const GraphRef = useRef(null);
   const map: any = world;
-
+  const lowerOpacity = 0.1;
   const projection = geoEqualEarth().rotate([0, 0]).scale(265).translate([610, 380]);
   const mapSvg = useRef<SVGSVGElement>(null);
   const mapG = useRef<SVGGElement>(null);
@@ -209,10 +209,10 @@ export const Graph = (props: Props) => {
                 );
               }
 
-              const opacityGroup = selectedCountryGroup === 'All' ? 1 : index !== -1 ? data[index][selectedCountryGroup] ? 1 : 0.25 : 0.25;
-              const countryOpacity = selectedCountries.length === 0 ? 1 : index !== -1 ? selectedCountries.indexOf(data[index]['Country or Area']) !== -1 ? 1 : 0.25 : 0.25;
-              const opacityRegion = selectedRegion.length === 0 ? 1 : index !== -1 ? selectedRegion.indexOf(data[index]['Group 2']) !== -1 ? 1 : 0.25 : 0.25;
-              const incomeGroupOpacity = selectedIncomeGroups.length === 0 ? 1 : index !== -1 ? selectedIncomeGroups.indexOf(data[index]['Income Group']) !== -1 ? 1 : 0.25 : 0.25;
+              const opacityGroup = selectedCountryGroup === 'All' ? 1 : index !== -1 ? data[index][selectedCountryGroup] ? 1 : lowerOpacity : lowerOpacity;
+              const countryOpacity = selectedCountries.length === 0 ? 1 : index !== -1 ? selectedCountries.indexOf(data[index]['Country or Area']) !== -1 ? 1 : lowerOpacity : lowerOpacity;
+              const opacityRegion = selectedRegion.length === 0 ? 1 : index !== -1 ? selectedRegion.indexOf(data[index]['Group 2']) !== -1 ? 1 : lowerOpacity : lowerOpacity;
+              const incomeGroupOpacity = selectedIncomeGroups.length === 0 ? 1 : index !== -1 ? selectedIncomeGroups.indexOf(data[index]['Income Group']) !== -1 ? 1 : lowerOpacity : lowerOpacity;
               return (
                 <g
                   key={i}
@@ -308,10 +308,10 @@ export const Graph = (props: Props) => {
                 <g>
                   {
                   dataFilteredBySize.map((d, i) => {
-                    const opacityGroup = selectedCountryGroup === 'All' || d[selectedCountryGroup] ? 1 : 0.25;
-                    const countryOpacity = selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : 0.25;
-                    const opacityRegion = selectedRegion.length > 0 ? selectedRegion.indexOf(d['Group 2']) !== -1 ? 1 : 0.25 : 1;
-                    const incomeGroupOpacity = selectedIncomeGroups.length > 0 ? selectedIncomeGroups.indexOf(d['Income Group']) !== -1 ? 1 : 0.25 : 1;
+                    const opacityGroup = selectedCountryGroup === 'All' || d[selectedCountryGroup] ? 1 : lowerOpacity;
+                    const countryOpacity = selectedCountries.length === 0 ? 1 : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 1 : lowerOpacity;
+                    const opacityRegion = selectedRegion.length > 0 ? selectedRegion.indexOf(d['Group 2']) !== -1 ? 1 : lowerOpacity : 1;
+                    const incomeGroupOpacity = selectedIncomeGroups.length > 0 ? selectedIncomeGroups.indexOf(d['Income Group']) !== -1 ? 1 : lowerOpacity : 1;
                     const coordinates = projection([d['Longitude (average)'], d['Latitude (average)']]) as [number, number];
                     return (
                       <circle
