@@ -20,7 +20,7 @@ interface Props {
 }
 
 const Container = styled.div`
-  max-width: 1260px;
+  max-width: 1220px;
 `;
 
 const VizSettingsRow = styled.div`

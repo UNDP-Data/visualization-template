@@ -109,7 +109,7 @@ const GlobalStyle = createGlobalStyle`
 
   .dropdownMain {
     border: 2px solid #f2f7ff !important;
-    width: 26.5rem !important;
+    width: 25rem !important;
     border-radius: 3rem !important;
     background-color: var(--dropdown-bg);
     padding: 0;
