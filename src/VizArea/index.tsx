@@ -94,7 +94,9 @@ export const VizArea = (props: Props) => {
       'Time period': null,
       'Indicator Description': null,
       Year: null,
+      Label: 'Not Selected',
       Categorical: false,
+      disabled: false,
     },
     {
       Indicator: 'Continents',
@@ -103,6 +105,8 @@ export const VizArea = (props: Props) => {
       'Time period': null,
       'Indicator Description': null,
       Year: null,
+      Label: 'Continent',
+      disabled: false,
       Categorical: true,
     },
     {
@@ -112,6 +116,8 @@ export const VizArea = (props: Props) => {
       'Time period': null,
       'Indicator Description': null,
       Year: null,
+      Label: 'Income group',
+      disabled: false,
       Categorical: true,
     },
   ];
@@ -123,6 +129,8 @@ export const VizArea = (props: Props) => {
       'Time period': null,
       'Indicator Description': null,
       Year: null,
+      Label: 'Not Selected',
+      disabled: false,
       Categorical: false,
     },
   ];
@@ -134,6 +142,8 @@ export const VizArea = (props: Props) => {
       'Time period': null,
       'Indicator Description': null,
       Year: null,
+      Label: 'Not Selected',
+      disabled: false,
       Categorical: false,
     },
   ];
@@ -146,6 +156,8 @@ export const VizArea = (props: Props) => {
         'Time period': d['Time period'],
         'Indicator Description': d['Indicator Description'],
         Year: d.Year,
+        Label: d.Indicator === 'Deaths, cumulative' || d.Indicator === 'Confirmed cases, cumulative' ? `COVID-19 ${d.Indicator}` : d.Indicator,
+        disabled: !!(d.Indicator === 'Deaths, cumulative' || d.Indicator === 'Confirmed cases, cumulative'),
         Categorical: d.Categorical,
       });
     }
@@ -156,6 +168,8 @@ export const VizArea = (props: Props) => {
       'Time period': d['Time period'],
       'Indicator Description': d['Indicator Description'],
       Year: d.Year,
+      Label: d.Indicator === 'Deaths, cumulative' || d.Indicator === 'Confirmed cases, cumulative' ? `COVID-19 ${d.Indicator}` : d.Indicator,
+      disabled: !!(d.Indicator === 'Deaths, cumulative' || d.Indicator === 'Confirmed cases, cumulative'),
       Categorical: d.Categorical,
     });
   });
@@ -168,6 +182,8 @@ export const VizArea = (props: Props) => {
         'Time period': d['Time period'],
         'Indicator Description': d['Indicator Description'],
         Year: d.Year,
+        Label: d.Indicator === 'Deaths, cumulative' || d.Indicator === 'Confirmed cases, cumulative' ? `COVID-19 ${d.Indicator}` : d.Indicator,
+        disabled: !!(d.Indicator === 'Deaths, cumulative' || d.Indicator === 'Confirmed cases, cumulative'),
         Categorical: d.Categorical,
       });
     }
@@ -179,6 +195,8 @@ export const VizArea = (props: Props) => {
     'Time period': d['Time period'],
     'Indicator Description': d['Indicator Description'],
     Year: d.Year,
+    Label: d.Indicator === 'Deaths, cumulative' || d.Indicator === 'Confirmed cases, cumulative' ? `COVID-19 ${d.Indicator}` : d.Indicator,
+    disabled: !!(d.Indicator === 'Deaths, cumulative' || d.Indicator === 'Confirmed cases, cumulative'),
     Categorical: d.Categorical,
   }));
   const indicatorsSelectOptionsWOCategorical: OptionsDataType[] = indicators.filter((d) => !d.Categorical).map((d) => ({
@@ -187,6 +205,8 @@ export const VizArea = (props: Props) => {
     'Data source name': d['Data source name'],
     'Time period': d['Time period'],
     'Indicator Description': d['Indicator Description'],
+    Label: d.Indicator === 'Deaths, cumulative' || d.Indicator === 'Confirmed cases, cumulative' ? `COVID-19 ${d.Indicator}` : d.Indicator,
+    disabled: !!(d.Indicator === 'Deaths, cumulative' || d.Indicator === 'Confirmed cases, cumulative'),
     Year: d.Year,
     Categorical: d.Categorical,
   }));
@@ -260,7 +280,7 @@ export const VizArea = (props: Props) => {
               ? 'The option only includes continuous data and is ploted on the x-axis.'
               : 'This is represnted by the colors. If second parameter is selected the values are quantized in 5 quantiles and colored according you the quantile they lie in the x-axis of the color grid.'
             }
-          labelField='Indicator'
+          labelField='Label'
           valueField='Indicator'
         />
         <DropdownUnit
@@ -275,7 +295,7 @@ export const VizArea = (props: Props) => {
               ? 'The option only includes continuous data and is ploted on the y-axis. This option is not active for bar graph view.'
               : 'This is represnted by the colors. The values are quantized in 5 quantiles and colored according you the quantile they lie in the y-axis of the color grid.'
           }
-          labelField='Indicator'
+          labelField='Label'
           valueField='Indicator'
         />
         <DropdownUnit
@@ -286,7 +306,7 @@ export const VizArea = (props: Props) => {
           value={[colorMetric]}
           helpIconDisabled={selectedVizType === 'map' || secondMetric['Indicator Description'] === null}
           bodyForTooltip='The option only includes discreet data and is represented as color of the bars or circle. This option is not active for the map view.'
-          labelField='Indicator'
+          labelField='Label'
           valueField='Indicator'
         />
         <DropdownUnit
@@ -297,7 +317,7 @@ export const VizArea = (props: Props) => {
           value={[sizeMetric]}
           helpIconDisabled={selectedVizType === 'barGraph' || sizeMetric['Indicator Description'] === null}
           bodyForTooltip='The option only includes continuous data with minimum value greater than or equal to 0 and is represented by the size of the circle. This option is not active for the bar graph view.'
-          labelField='Indicator'
+          labelField='Label'
           valueField='Indicator'
         />
       </VizSettingsRow>

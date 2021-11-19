@@ -299,9 +299,9 @@ export const Graph = (props: Props) => {
           if (colorMetric.Indicator !== 'Not Selected' && colorMetric.Indicator !== 'Continents') {
             rowData.push({
               title: colorMetric.Indicator,
-              value: d.Indicators.findIndex((el) => el.Indicator === colorMetric.Indicator) >= 0 ? d.Indicators[d.Indicators.findIndex((el) => el.Indicator === colorMetric.Indicator)].Value : 'NA',
+              value: colorMetric.Indicator === 'Income group' ? d['Income group'] : d.Indicators.findIndex((el) => el.Indicator === colorMetric.Indicator) >= 0 ? d.Indicators[d.Indicators.findIndex((el) => el.Indicator === colorMetric.Indicator)].Value : 'NA',
               type: 'color',
-              metaData: `${colorMetric['Time period']}, Last Updated: ${firstMetric.Year}`,
+              metaData: colorMetric.Indicator === 'Income group' ? null : `${colorMetric['Time period']}, Last Updated: ${firstMetric.Year}`,
               color: getColor(d, colorMetric, colorDomain),
             });
           }

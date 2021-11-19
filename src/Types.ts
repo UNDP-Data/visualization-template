@@ -40,6 +40,8 @@ export interface OptionsDataType {
   Year: string | null;
   Indicator: string;
   Categorical: boolean;
+  Label: string;
+  disabled: boolean;
 }
 
 export interface HoverRowDataType {

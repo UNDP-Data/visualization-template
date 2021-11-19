@@ -85,6 +85,7 @@ export const DropdownUnit = (props: Props) => {
             searchable={false}
             dropdownGap={2}
             disabled={disabled}
+            disabledLabel='Not Updated'
           />
           <div onMouseEnter={() => { setShowPopUp(true); }} onMouseLeave={() => { setShowPopUp(false); }}>
             <HelpIcon size={24} opacity={helpIconDisabled ? 0.2 : 1} fill='#110848' />
