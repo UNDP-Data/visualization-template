@@ -59,7 +59,7 @@ __Steps to integrating the visualization in the wordpress page is as follow:__
     <script defer src="https://data.undp.org/<VIZ_FOLDER_NAME>/static/js/main.js"></script>
     <div id="root" data-bucket-embed></div>
     ```
-5. You should then see the visualization in previews
+5. You should then see the visualization in previews. _(If there is some problem do check the data file is linked correctly as WP might re-route it)_
 6. Once you are happy with the changes just publish the page and you should see it online
 
 
