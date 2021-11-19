@@ -67,7 +67,12 @@ const CheckboxValue = styled.div`
 const SubNote = styled.div`
   margin: 1rem 0;
   font-size: 1.4rem;
+  color: var(--black);
+`;
+const SubNoteSmall = styled.span`
+  font-size: 1.2rem;
   color: var(--grey);
+  font-style: italic;
 `;
 
 export const Graph = (props: Props) => {
@@ -79,7 +84,6 @@ export const Graph = (props: Props) => {
     sizeMetric,
     selectedCountries,
   } = props;
-
   const [hoverInfo, setHoverInfo] = useState<HoverDataType | null>(null);
   const [showLabel, setShowLabel] = useState(false);
   const GraphRef = useRef(null);
@@ -179,7 +183,7 @@ export const Graph = (props: Props) => {
         .attr('font-size', 14)
         .attr('font-weight', '700')
         .attr('text-anchor', 'middle')
-        .text(firstMetric.Indicator);
+        .text(`${firstMetric.Year ? `${firstMetric.Indicator}, ${firstMetric.Year?.split('/')[firstMetric.Year?.split('/').length - 1]}` : firstMetric.Indicator}`);
       graphExtra.append('text')
         .attr('transform', `translate(-40,${graphHeight / 2}) rotate(-90)`)
         .attr('x', 0)
@@ -188,7 +192,7 @@ export const Graph = (props: Props) => {
         .attr('font-size', 14)
         .attr('font-weight', '700')
         .attr('text-anchor', 'middle')
-        .text(secondMetric.Indicator);
+        .text(`${secondMetric.Year ? `${secondMetric.Indicator}, ${secondMetric.Year?.split('/')[secondMetric.Year?.split('/').length - 1]}` : secondMetric.Indicator}`);
       const xAxis = mainGraph
         .append('g')
         .style('font-size', '12px')
@@ -392,7 +396,6 @@ export const Graph = (props: Props) => {
         .style('display', (d:any) => (showLabel ? 'inline' : selectedCountries.length === 0 ? 'none' : selectedCountries.indexOf(d['Country or Area']) !== -1 ? 'inline' : 'none'));
     }
   }, [selectedCountries, GraphRef]);
-
   return (
     <>
       <TopSettings>
@@ -437,9 +440,23 @@ export const Graph = (props: Props) => {
         </FlexDiv>
       </TopSettings>
       <SubNote>
-        The graph only shows the countries for which the data is available.
-        {' '}
-        <span className='bold'>You can zoom on the graph by dragging on the graph.</span>
+        {
+          sizeMetric.Indicator === 'Not Selected' ? null
+            : (
+              <>
+                {sizeMetric.Indicator}
+                ,
+                {sizeMetric.Year ? sizeMetric.Year?.split('/')[sizeMetric.Year?.split('/').length - 1] : null}
+                {' '}
+                is represented by the size of the circles.
+              </>
+            )
+        }
+        <SubNoteSmall>
+          The graph only shows the countries for which the data is available.
+          {' '}
+          <span className='bold'>You can zoom on the graph by dragging on the graph.</span>
+        </SubNoteSmall>
       </SubNote>
       <div ref={GraphRef} id='graph-node' />
       {

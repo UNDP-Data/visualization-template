@@ -20,7 +20,7 @@ interface Props {
 }
 
 const Container = styled.div`
-  max-width: 1280px;
+  max-width: 1240px;
   padding: 0 1rem;
 `;
 

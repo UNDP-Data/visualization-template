@@ -27,6 +27,12 @@ const TopSettings = styled.div`
 const SubNote = styled.div`
   margin: 1rem 0;
   font-size: 1.4rem;
+  color: var(--black);
+`;
+
+const SubNoteSmall = styled.span`
+  font-size: 1.2rem;
+  font-style: italic;
   color: var(--grey);
 `;
 
@@ -92,7 +98,16 @@ export const Graph = (props: Props) => {
         </div>
       </TopSettings>
       <SubNote>
-        The graph only shows the countries for which the data is available.
+        Visualizing
+        {' '}
+        {firstMetric.Indicator}
+        ,
+        {' '}
+        {firstMetric.Year ? firstMetric.Year?.split('/')[firstMetric.Year?.split('/').length - 1] : null}
+        {' '}
+        .
+        {' '}
+        <SubNoteSmall>(The graph only shows the countries for which the data is available)</SubNoteSmall>
       </SubNote>
       <div id='graph-node'>
         <svg width='100%' viewBox={`0 0 ${width} ${height}`}>

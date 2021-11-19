@@ -51,6 +51,12 @@ const TopSettings = styled.div`
   margin: 1rem 0;
 `;
 
+const SubNote = styled.div`
+  font-size: 1.4rem;
+  color: var(--black);
+  text-align: center;
+`;
+
 export const Graph = (props: Props) => {
   const {
     data,
@@ -156,6 +162,40 @@ export const Graph = (props: Props) => {
           Download Image
         </button>
       </TopSettings>
+      <SubNote>
+        Visualizing
+        {' '}
+        {firstMetric.Indicator}
+        ,
+        {' '}
+        {firstMetric.Year ? firstMetric.Year?.split('/')[firstMetric.Year?.split('/').length - 1] : null}
+        {
+          secondMetric.Indicator === 'Not Selected' ? null
+            : (
+              <>
+                ;
+                {' '}
+                {secondMetric.Indicator}
+                ,
+                {' '}
+                {secondMetric.Year ? secondMetric.Year?.split('/')[secondMetric.Year?.split('/').length - 1] : null}
+              </>
+            )
+        }
+        {
+          sizeMetric.Indicator === 'Not Selected' ? null
+            : (
+              <>
+                ;
+                {' '}
+                {sizeMetric.Indicator}
+                ,
+                {' '}
+                {sizeMetric.Year ? sizeMetric.Year?.split('/')[sizeMetric.Year?.split('/').length - 1] : null}
+              </>
+            )
+        }
+      </SubNote>
       <div ref={GraphRef} id='graph-node'>
         <svg style={{ width: '100%' }} viewBox={`0 0 ${width} ${height}`} ref={mapSvg}>
           <g ref={mapG}>

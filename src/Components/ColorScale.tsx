@@ -94,7 +94,19 @@ export const ColorScale = (props: Props) => {
   const rangeLength = CategoricalData.findIndex((d) => d.indicator === colorMetric.Indicator) === -1 ? 0 : CategoricalData[CategoricalData.findIndex((d) => d.indicator === colorMetric.Indicator)].range.length;
   return (
     <KeyEl>
-      <Title>{ colorMetric.Indicator }</Title>
+      <Title>
+        { colorMetric.Indicator }
+        {
+          colorMetric.Indicator === 'Continents' || colorMetric.Indicator === 'Not Selected' ? null
+            : (
+              <>
+                ,
+                {' '}
+                {colorMetric.Year ? colorMetric.Year?.split('/')[colorMetric.Year?.split('/').length - 1] : null}
+              </>
+            )
+        }
+      </Title>
       <ColorKeyContainer>
         {
         colorMetric.Indicator === 'Continents' ? CONTINENTS.map((d: any, i: number) => (
