@@ -59,7 +59,7 @@ const ToggleOption = styled.div<ToggleOptionProps>`
   background-color: ${(props) => (props.selected ? 'var(--dropdown-bg)' : 'var(--white)')};
   font-size: 1.4rem;
   color: var(--navy);
-  padding: 0.5rem 2.4rem;
+  padding: 0.5rem 1.5rem;
   margin: 0.2rem;
   font-weight: 600;
   cursor: pointer;
