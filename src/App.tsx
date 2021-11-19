@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { csv } from 'd3-request';
 import { nest } from 'd3-collection';
 import _ from 'lodash';
+import Loader from 'react-loader-spinner';
 import { IndicatorDataType, DataType, IndicatorOptionsDataType } from './Types';
 import { VizArea } from './VizArea';
 import CategoricalData from './Data/CategoricalData.json';
@@ -222,6 +223,14 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const VizAreaEl = styled.div`
+  display: flex;
+  max-width: 1220px;
+  align-items: center;
+  justify-content: center;
+  height: 10rem;
+`;
+
 const App = () => {
   const [finalData, setFinalData] = useState<DataType[] | undefined>(undefined);
   const [indicatorsList, setIndicatorsList] = useState<IndicatorOptionsDataType[] | undefined>(undefined);
@@ -287,7 +296,17 @@ const App = () => {
               regions={regionList}
               countries={countryList}
             />
-          ) : null
+          )
+          : (
+            <VizAreaEl>
+              <Loader
+                type='Oval'
+                color='#0969FA'
+                height={50}
+                width={50}
+              />
+            </VizAreaEl>
+          )
       }
     </>
   );
