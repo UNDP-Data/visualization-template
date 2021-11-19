@@ -28,10 +28,13 @@ const TopSettings = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 1rem 0;
+  flex-wrap: wrap-reverse;
 `;
 
 const FlexDiv = styled.div`
   display: flex;
+  margin: 1rem 0;
+  flex-wrap: wrap;
 `;
 
 const CheckboxEl = styled.div`
@@ -41,6 +44,10 @@ const CheckboxEl = styled.div`
   cursor: pointer;
 `;
 
+const Button = styled.button`
+  margin-top: 0.8rem !important;
+  margin-bottom: 0.8rem !important;
+`;
 interface CheckboxDataType {
   selected: boolean;
 }
@@ -419,8 +426,8 @@ export const Graph = (props: Props) => {
             </Checkbox>
             <CheckboxValue>Show Labels</CheckboxValue>
           </CheckboxEl>
-          <button type='button' className='secondary' ref={ResetButtonRef}>Reset Zoom</button>
-          <button
+          <Button type='button' className='secondary' ref={ResetButtonRef}>Reset Zoom</Button>
+          <Button
             type='button'
             className='secondary'
             onClick={() => {
@@ -436,7 +443,7 @@ export const Graph = (props: Props) => {
             }}
           >
             Download Image
-          </button>
+          </Button>
         </FlexDiv>
       </TopSettings>
       <SubNote>

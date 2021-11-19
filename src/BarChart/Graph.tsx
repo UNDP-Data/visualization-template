@@ -22,6 +22,7 @@ const TopSettings = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 1rem 0;
+  flex-wrap: wrap-reverse;
 `;
 
 const SubNote = styled.div`
@@ -34,6 +35,11 @@ const SubNoteSmall = styled.span`
   font-size: 1.2rem;
   font-style: italic;
   color: var(--grey);
+`;
+
+const Button = styled.button`
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
 `;
 
 export const Graph = (props: Props) => {
@@ -78,7 +84,7 @@ export const Graph = (props: Props) => {
           ) : <div style={{ height: '7.2rem' }} />
       }
         <div>
-          <button
+          <Button
             type='button'
             className='secondary'
             onClick={() => {
@@ -94,7 +100,7 @@ export const Graph = (props: Props) => {
             }}
           >
             Download Image
-          </button>
+          </Button>
         </div>
       </TopSettings>
       <SubNote>

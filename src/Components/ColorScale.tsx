@@ -42,6 +42,7 @@ const KeyEl = styled.div`
 
 const ColorKeyContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const ColorKeySquare = styled.div<ColorKeySquareProps>`
