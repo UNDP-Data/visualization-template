@@ -27,9 +27,11 @@
         "max-len": 0,
         "import/extensions": 0,
         "import/no-unresolved": 0,
-				"import/prefer-default-export": 0,
-				"no-nested-ternary": 0,
-				"react/no-array-index-key": 0,
-				"jsx-quotes": [2, "prefer-single"]
+        "import/prefer-default-export": 0,
+        "no-nested-ternary": 0,
+        "react/no-array-index-key": 0,
+        "jsx-quotes": [2, "prefer-single"],
+        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
     }
 }
