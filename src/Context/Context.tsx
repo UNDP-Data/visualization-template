@@ -15,6 +15,7 @@ const Context = createContext<CtxDataType>({
   sizeIndicator: '',
   showLabel: false,
   showSource: false,
+  trendChartCountry: undefined,
   updateGraphType: (_d: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine') => {},
   updateSelectedRegions: (_d: string[]) => {},
   updateSelectedCountries: (_d: string[]) => {},
@@ -28,6 +29,7 @@ const Context = createContext<CtxDataType>({
   updateShowMostRecentData: (_d: boolean) => {},
   updateShowLabel: (_d: boolean) => {},
   updateShowSource: (_d: boolean) => {},
+  updateTrendChartCountry: (_d: string) => {},
 });
 
 export default Context;

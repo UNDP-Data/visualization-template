@@ -127,7 +127,7 @@ export const SourceList = (props: Props) => {
         }
       </RowEl>
       {
-        (graphType === 'scatterPlot' || graphType === 'map') && yIndicatorMetaData ? (
+        graphType !== 'barGraph' && yIndicatorMetaData ? (
           <>
             <hr />
             <TitleEl>{yIndicatorMetaData.IndicatorLabelTable}</TitleEl>

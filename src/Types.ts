@@ -96,6 +96,7 @@ export interface CtxDataType {
   showMostRecentData: boolean;
   showLabel: boolean;
   showSource: boolean;
+  trendChartCountry: undefined | string;
   updateGraphType: (_d: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine') => void;
   updateSelectedRegions: (_d: string[]) => void;
   updateSelectedCountries: (_d: string[]) => void;
@@ -109,4 +110,5 @@ export interface CtxDataType {
   updateShowMostRecentData: (_d: boolean) => void;
   updateShowSource: (_d: boolean) => void;
   updateShowLabel: (_d: boolean) => void;
+  updateTrendChartCountry: (_d: string) => void;
 }

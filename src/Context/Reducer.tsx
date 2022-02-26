@@ -26,6 +26,8 @@ export default (state: any, action: any) => {
       return { ...state, showLabel: action.payload };
     case 'UPDATE_SHOW_SOURCE':
       return { ...state, showSource: action.payload };
+    case 'UPDATE_TREND_CHART_COUNTRY':
+      return { ...state, trendChartCountry: action.payload };
     default:
       return { ...state };
   }

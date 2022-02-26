@@ -9,10 +9,12 @@ import { BarChart } from './BarChart';
 import { ScatterPlot } from './ScatterPlot';
 import { BivariateMap } from './BivariateMap';
 import { UnivariateMap } from './UnivariateMap';
+import { LineChart } from './LineChart';
 
 interface Props {
   data: DataType[];
   indicators: IndicatorMetaDataWithYear[];
+  countries: string[];
 }
 
 const El = styled.div`
@@ -61,6 +63,7 @@ export const Graph = (props: Props) => {
   const {
     data,
     indicators,
+    countries,
   } = props;
   const {
     year,
@@ -104,33 +107,34 @@ export const Graph = (props: Props) => {
   return (
     <El id='graph-node'>
       {
-        commonYears.length > 1 && !showMostRecentData ? (
-          <SliderEl>
-            <Slider
-              min={marks[Object.keys(marks)[0]]}
-              max={marks[Object.keys(marks)[Object.keys(marks).length - 1]]}
-              marks={marks}
-              step={null}
-              value={year}
-              style={{ width: '95%', margin: '0 auto' }}
-              onChange={(d) => { updateYear(d); }}
-            />
-          </SliderEl>
-        ) : commonYears.length === 0 || showMostRecentData ? (
-          <ErrorNote>
-            {
+        graphType === 'trendLine' ? null
+          : commonYears.length > 1 && !showMostRecentData ? (
+            <SliderEl>
+              <Slider
+                min={marks[Object.keys(marks)[0]]}
+                max={marks[Object.keys(marks)[Object.keys(marks).length - 1]]}
+                marks={marks}
+                step={null}
+                value={year}
+                style={{ width: '95%', margin: '0 auto' }}
+                onChange={(d) => { updateYear(d); }}
+              />
+            </SliderEl>
+          ) : commonYears.length === 0 || showMostRecentData ? (
+            <ErrorNote>
+              {
               commonYears.length === 0
                 ? 'The data selected are not available for the same years therefore showing the last available data for all the countries.'
                 : 'Showing the last available data for all the countries.'
             }
-          </ErrorNote>
-        ) : (
-          <InfoNote>
-            The common year for the data selected is
-            {' '}
-            {commonYears[0]}
-          </InfoNote>
-        )
+            </ErrorNote>
+          ) : (
+            <InfoNote>
+              The common year for the data selected is
+              {' '}
+              {commonYears[0]}
+            </InfoNote>
+          )
       }
       {
         graphType === 'scatterPlot'
@@ -161,7 +165,15 @@ export const Graph = (props: Props) => {
                   data={data}
                   indicators={indicators}
                 />
-              ) : null
+              )
+              : yAxisIndicator
+                ? (
+                  <LineChart
+                    data={data}
+                    indicators={indicators}
+                    countries={countries}
+                  />
+                ) : null
 
       }
     </El>

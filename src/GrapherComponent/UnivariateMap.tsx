@@ -171,7 +171,7 @@ export const UnivariateMap = (props: Props) => {
               const rowData: HoverRowDataType[] = [
                 {
                   title: xAxisIndicator,
-                  value: val === undefined ? 'NA' : val,
+                  value: val === undefined ? 'NA' : `${xIndicatorMetaData?.LabelPrefix} ${val} ${xIndicatorMetaData?.LabelSuffix}`,
                   type: 'color',
                   year: year === -1 || showMostRecentData ? d.indicators[indicatorIndex].yearlyData[d.indicators[indicatorIndex].yearlyData.length - 1]?.year : year,
                   color,
@@ -184,7 +184,7 @@ export const UnivariateMap = (props: Props) => {
                     : d.indicators[sizeIndicatorIndex].yearlyData[d.indicators[sizeIndicatorIndex].yearlyData.length - 1]?.value;
                 rowData.push({
                   title: sizeIndicator,
-                  value: sizeVal,
+                  value: sizeVal ? `${sizeIndicatorMetaData?.LabelPrefix} ${sizeVal} ${sizeIndicatorMetaData?.LabelSuffix}` : sizeVal,
                   type: 'size',
                   year: year === -1 || showMostRecentData ? d.indicators[sizeIndicatorIndex].yearlyData[d.indicators[sizeIndicatorIndex].yearlyData.length - 1]?.year : year,
                 });

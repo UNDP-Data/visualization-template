@@ -393,13 +393,13 @@ export const ScatterPlot = (props: Props) => {
               const rowData: HoverRowDataType[] = [
                 {
                   title: xAxisIndicator,
-                  value: d.xVal,
+                  value: d.xVal ? `${xIndicatorMetaData?.LabelPrefix} ${d.xVal} ${xIndicatorMetaData?.LabelSuffix}` : d.xVal,
                   type: 'x-axis',
                   year: d.xYear,
                 },
                 {
                   title: yAxisIndicator,
-                  value: d.yVal,
+                  value: d.yVal ? `${yIndicatorMetaData?.LabelPrefix} ${d.yVal} ${yIndicatorMetaData?.LabelSuffix}` : d.yVal,
                   type: 'y-axis',
                   year: d.yYear,
                 },
@@ -407,7 +407,7 @@ export const ScatterPlot = (props: Props) => {
               if (sizeIndicator) {
                 rowData.push({
                   title: sizeIndicator,
-                  value: d.radiusValue,
+                  value: d.radiusValue ? `${sizeIndicatorMetaData?.LabelPrefix} ${d.radiusValue} ${sizeIndicatorMetaData?.LabelSuffix}` : d.radiusValue,
                   type: 'size',
                   year: d.radiusYear,
                 });

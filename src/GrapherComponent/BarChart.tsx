@@ -309,7 +309,7 @@ export const BarChart = (props: Props) => {
               const rowData: HoverRowDataType[] = [
                 {
                   title: xAxisIndicator,
-                  value: d.xVal,
+                  value: d.xVal ? `${xIndicatorMetaData?.LabelPrefix} ${d.xVal} ${xIndicatorMetaData?.LabelSuffix}` : d.xVal,
                   type: 'x-axis',
                   year: d.xYear,
                 },

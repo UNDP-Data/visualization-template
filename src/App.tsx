@@ -177,6 +177,7 @@ const App = () => {
     showMostRecentData: false,
     showLabel: false,
     showSource: false,
+    trendChartCountry: undefined,
   };
 
   const [state, dispatch] = useReducer(Reducer, initialState);
@@ -185,6 +186,12 @@ const App = () => {
     dispatch({
       type: 'UPDATE_GRAPH_TYPE',
       payload: graphType,
+    });
+  };
+  const updateTrendChartCountry = (trendChartCountry: string) => {
+    dispatch({
+      type: 'UPDATE_TREND_CHART_COUNTRY',
+      payload: trendChartCountry,
     });
   };
 
@@ -368,6 +375,7 @@ const App = () => {
                   updateShowMostRecentData,
                   updateShowLabel,
                   updateShowSource,
+                  updateTrendChartCountry,
                 }}
               >
                 <GrapherComponent

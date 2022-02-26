@@ -97,7 +97,7 @@ export const Settings = (props: Props) => {
       ? indicators.filter((d) => d.Map).map((d) => d.IndicatorLabelTable)
       : graphType === 'barGraph'
         ? indicators.filter((d) => d.BarGraph).map((d) => d.IndicatorLabelTable)
-        : indicators.map((d) => d.IndicatorLabelTable);
+        : indicators.filter((d) => d.years.length > 0).map((d) => d.IndicatorLabelTable);
   const sizeOptions = indicators.filter((d) => d.Sizing).map((d) => d.IndicatorLabelTable);
   const colorOptions = indicators.filter((d) => d.IsCategorical).map((d) => d.IndicatorLabelTable);
   colorOptions.unshift('Human Development Index');
@@ -107,7 +107,7 @@ export const Settings = (props: Props) => {
     if (options.findIndex((d) => d === xAxisIndicator) === -1) {
       updateXAxisIndicator(options[0]);
     }
-    if (options.findIndex((d) => d === yAxisIndicator) === -1 && graphType === 'scatterPlot') {
+    if (options.findIndex((d) => d === yAxisIndicator) === -1 && (graphType === 'scatterPlot' || graphType === 'trendLine')) {
       updateYAxisIndicator(options[0]);
     }
   }, [graphType, options]);
@@ -175,6 +175,26 @@ export const Settings = (props: Props) => {
               <Select
                 showSearch
                 allowClear
+                style={{ width: '100%' }}
+                value={yAxisIndicator}
+                placeholder='Please select'
+                onChange={(d) => { updateYAxisIndicator(d); }}
+                defaultValue={DEFAULT_VALUES.secondMetric}
+              >
+                {
+                  options.map((d) => (
+                    <Select.Option key={d}>{d}</Select.Option>
+                  ))
+                }
+              </Select>
+            </DropdownEl>
+          ) : graphType === 'trendLine' ? (
+            <DropdownEl>
+              <DropdownTitle>
+                Secondary Indicator
+              </DropdownTitle>
+              <Select
+                showSearch
                 style={{ width: '100%' }}
                 value={yAxisIndicator}
                 placeholder='Please select'
@@ -257,95 +277,105 @@ export const Settings = (props: Props) => {
           Download Graph
         </Button>
       </ButtonEl>
-      <FiltersEl>
-        <FilterTitle>
-          Settings
-          {' '}
-          &
-          {' '}
-          Options
-        </FilterTitle>
-        {
-          graphType === 'scatterPlot'
-            ? (
+      {
+        graphType !== 'trendLine'
+          ? (
+            <FiltersEl>
+              <FilterTitle>
+                Settings
+                {' '}
+                &
+                {' '}
+                Options
+              </FilterTitle>
+              {
+              graphType === 'scatterPlot'
+                ? (
+                  <CheckboxEl>
+                    <Checkbox onChange={(e) => { updateShowLabel(e.target.checked); }}>Show Label</Checkbox>
+                  </CheckboxEl>
+                )
+                : null
+            }
               <CheckboxEl>
-                <Checkbox onChange={(e) => { updateShowLabel(e.target.checked); }}>Show Label</Checkbox>
+                <Checkbox onChange={(e) => { updateShowMostRecentData(e.target.checked); }}>Show Most Recent Avalable Data</Checkbox>
               </CheckboxEl>
-            )
-            : null
-        }
-        <CheckboxEl>
-          <Checkbox onChange={(e) => { updateShowMostRecentData(e.target.checked); }}>Show Most Recent Avalable Data</Checkbox>
-        </CheckboxEl>
-      </FiltersEl>
-      <FiltersEl>
-        <FilterTitle>Filter or Highlight By</FilterTitle>
-        <DropdownEl>
-          <DropdownTitle>
-            Region
-          </DropdownTitle>
-          <Select
-            mode='multiple'
-            allowClear
-            style={{ width: '100%' }}
-            placeholder='Filter By Regions'
-            onChange={(d: string[]) => { updateSelectedRegions(d); }}
-          >
-            {
-              regions.map((d) => (
-                <Select.Option key={d}>{d}</Select.Option>
-              ))
-            }
-          </Select>
-        </DropdownEl>
-        <DropdownEl>
-          <DropdownTitle>
-            Income Group
-          </DropdownTitle>
-          <Select
-            mode='multiple'
-            allowClear
-            style={{ width: '100%' }}
-            placeholder='Filter By Income Group'
-            onChange={(d: string[]) => { updateSelectedIncomeGroups(d); }}
-          >
-            {
-              INCOME_GROUPS.map((d) => (
-                <Select.Option key={d}>{d}</Select.Option>
-              ))
-            }
-          </Select>
-        </DropdownEl>
-        <DropdownEl>
-          <DropdownTitle>
-            Country Groups
-          </DropdownTitle>
-          <Radio.Group onChange={(d) => { updateSelectedCountryGroup(d.target.value); }} defaultValue='All' buttonStyle='solid' size='small'>
-            <Radio.Button value='All'>All</Radio.Button>
-            <Radio.Button value='LDC'>LDC</Radio.Button>
-            <Radio.Button value='LLDC'>LLDC</Radio.Button>
-            <Radio.Button value='SIDS'>SIDS</Radio.Button>
-          </Radio.Group>
-        </DropdownEl>
-        <DropdownEl>
-          <DropdownTitle>
-            Countries
-          </DropdownTitle>
-          <Select
-            mode='multiple'
-            allowClear
-            style={{ width: '100%' }}
-            placeholder='Filter By Countries'
-            onChange={(d: string[]) => { updateSelectedCountries(d); }}
-          >
-            {
-              countries.map((d) => (
-                <Select.Option key={d}>{d}</Select.Option>
-              ))
-            }
-          </Select>
-        </DropdownEl>
-      </FiltersEl>
+            </FiltersEl>
+          ) : null
+      }
+      {
+        graphType !== 'trendLine'
+          ? (
+            <FiltersEl>
+              <FilterTitle>Filter or Highlight By</FilterTitle>
+              <DropdownEl>
+                <DropdownTitle>
+                  Region
+                </DropdownTitle>
+                <Select
+                  mode='multiple'
+                  allowClear
+                  style={{ width: '100%' }}
+                  placeholder='Filter By Regions'
+                  onChange={(d: string[]) => { updateSelectedRegions(d); }}
+                >
+                  {
+                    regions.map((d) => (
+                      <Select.Option key={d}>{d}</Select.Option>
+                    ))
+                  }
+                </Select>
+              </DropdownEl>
+              <DropdownEl>
+                <DropdownTitle>
+                  Income Group
+                </DropdownTitle>
+                <Select
+                  mode='multiple'
+                  allowClear
+                  style={{ width: '100%' }}
+                  placeholder='Filter By Income Group'
+                  onChange={(d: string[]) => { updateSelectedIncomeGroups(d); }}
+                >
+                  {
+                    INCOME_GROUPS.map((d) => (
+                      <Select.Option key={d}>{d}</Select.Option>
+                    ))
+                  }
+                </Select>
+              </DropdownEl>
+              <DropdownEl>
+                <DropdownTitle>
+                  Country Groups
+                </DropdownTitle>
+                <Radio.Group onChange={(d) => { updateSelectedCountryGroup(d.target.value); }} defaultValue='All' buttonStyle='solid' size='small'>
+                  <Radio.Button value='All'>All</Radio.Button>
+                  <Radio.Button value='LDC'>LDC</Radio.Button>
+                  <Radio.Button value='LLDC'>LLDC</Radio.Button>
+                  <Radio.Button value='SIDS'>SIDS</Radio.Button>
+                </Radio.Group>
+              </DropdownEl>
+              <DropdownEl>
+                <DropdownTitle>
+                  Countries
+                </DropdownTitle>
+                <Select
+                  mode='multiple'
+                  allowClear
+                  style={{ width: '100%' }}
+                  placeholder='Filter By Countries'
+                  onChange={(d: string[]) => { updateSelectedCountries(d); }}
+                >
+                  {
+                    countries.map((d) => (
+                      <Select.Option key={d}>{d}</Select.Option>
+                    ))
+                  }
+                </Select>
+              </DropdownEl>
+            </FiltersEl>
+          ) : null
+      }
     </El>
   );
 };

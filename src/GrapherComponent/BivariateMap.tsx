@@ -242,14 +242,14 @@ export const BivariateMap = (props: Props) => {
               const rowData: HoverRowDataType[] = [
                 {
                   title: xAxisIndicator,
-                  value: xVal === undefined ? 'NA' : xVal,
+                  value: xVal === undefined ? 'NA' : `${xIndicatorMetaData?.LabelPrefix} ${xVal} ${xIndicatorMetaData?.LabelSuffix}`,
                   type: 'color',
                   year: year === -1 || showMostRecentData ? d.indicators[xIndicatorIndex].yearlyData[d.indicators[xIndicatorIndex].yearlyData.length - 1]?.year : year,
                   color,
                 },
                 {
                   title: yAxisIndicator,
-                  value: yVal === undefined ? 'NA' : yVal,
+                  value: yVal === undefined ? 'NA' : `${yIndicatorMetaData?.LabelPrefix} ${yVal} ${yIndicatorMetaData?.LabelSuffix}`,
                   type: 'color',
                   year: year === -1 || showMostRecentData ? d.indicators[yIndicatorIndex].yearlyData[d.indicators[yIndicatorIndex].yearlyData.length - 1]?.year : year,
                   color,
@@ -262,7 +262,7 @@ export const BivariateMap = (props: Props) => {
                     : d.indicators[sizeIndicatorIndex].yearlyData[d.indicators[sizeIndicatorIndex].yearlyData.length - 1]?.value;
                 rowData.push({
                   title: sizeIndicator,
-                  value: sizeVal,
+                  value: sizeVal ? `${sizeIndicatorMetaData?.LabelPrefix} ${sizeVal} ${sizeIndicatorMetaData?.LabelSuffix}` : sizeVal,
                   type: 'size',
                   year: year === -1 || showMostRecentData ? d.indicators[sizeIndicatorIndex].yearlyData[d.indicators[sizeIndicatorIndex].yearlyData.length - 1]?.year : year,
                 });

@@ -113,6 +113,7 @@ export const GrapherComponent = (props: Props) => {
                 <Graph
                   data={data}
                   indicators={indicators}
+                  countries={countries}
                 />
               )
           }
