@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
-import { line, curveCardinal } from 'd3-shape';
+import { line, curveMonotoneX } from 'd3-shape';
 import { scaleLinear } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
@@ -11,6 +11,7 @@ import {
 } from '../Types';
 import Context from '../Context/Context';
 import { Tooltip } from '../Components/Tooltip';
+import { MAX_TEXT_LENGTH } from '../Constants';
 
 interface Props {
   data: DataType[];
@@ -78,6 +79,8 @@ export const LineChart = (props: Props) => {
     yAxisIndicator,
     trendChartCountry,
     updateTrendChartCountry,
+    useSameRange,
+    showLabel,
   } = useContext(Context) as CtxDataType;
   const [hoverData, setHoverData] = useState<HoverDataType | undefined>(undefined);
   const svgWidth = 960;
@@ -111,31 +114,35 @@ export const LineChart = (props: Props) => {
       param2: countryData?.indicators[yIndicatorIndex].yearlyData[countryData?.indicators[yIndicatorIndex].yearlyData.findIndex((d) => d.year === i)]?.value,
     });
   }
-  const minParam1 = minBy(dataFormatted, (d) => d.param1)?.param1 ? minBy(dataFormatted, (d) => d.param1)?.param1 as number > 0 ? 0 : minBy(dataFormatted, (d) => d.param1)?.param1 : 0;
+  const minParam1: number = minBy(dataFormatted, (d) => d.param1)?.param1 ? minBy(dataFormatted, (d) => d.param1)?.param1 as number > 0 ? 0 : minBy(dataFormatted, (d) => d.param1)?.param1 as number : 0;
+  const minParam2: number = minBy(dataFormatted, (d) => d.param2)?.param2 ? minBy(dataFormatted, (d) => d.param2)?.param2 as number > 0 ? 0 : minBy(dataFormatted, (d) => d.param2)?.param2 as number : 0;
+  const maxParam1: number = maxBy(dataFormatted, (d) => d.param1)?.param1 ? maxBy(dataFormatted, (d) => d.param1)?.param1 as number : 0;
+  const maxParam2: number = maxBy(dataFormatted, (d) => d.param2)?.param2 ? maxBy(dataFormatted, (d) => d.param2)?.param2 as number : 0;
 
-  const minParam2 = minBy(dataFormatted, (d) => d.param2)?.param2 ? minBy(dataFormatted, (d) => d.param2)?.param2 as number > 0 ? 0 : minBy(dataFormatted, (d) => d.param2)?.param2 : 0;
+  const minParam = minParam1 < minParam2 ? minParam1 : minParam2;
+  const maxParam = maxParam1 > maxParam2 ? maxParam1 : maxParam2;
 
-  const maxParam1 = maxBy(dataFormatted, (d) => d.param1)?.param1 ? maxBy(dataFormatted, (d) => d.param1)?.param1 as number : 0;
-
-  const maxParam2 = maxBy(dataFormatted, (d) => d.param2)?.param2 ? maxBy(dataFormatted, (d) => d.param2)?.param2 as number : 0;
   const dataFilterd = dataFormatted.filter((d) => d.param1 || d.param2);
   const minYearFiltered = minBy(dataFilterd, (d) => d.year)?.year ? minBy(dataFilterd, (d) => d.year)?.year : minYear;
   const maxYearFiltered = maxBy(dataFilterd, (d) => d.year)?.year ? maxBy(dataFilterd, (d) => d.year)?.year : maxYear;
+
   const x = scaleLinear().domain([minYearFiltered as number, maxYearFiltered as number]).range([0, graphWidth]);
-  const y1 = scaleLinear().domain([minParam1 as number, maxParam1 as number]).range([graphHeight, 0]).nice();
-  const y2 = scaleLinear().domain([minParam2 as number, maxParam2 as number]).range([graphHeight, 0]).nice();
+  const y1 = scaleLinear().domain([useSameRange ? minParam : minParam1, useSameRange ? maxParam : maxParam1]).range([graphHeight, 0]).nice();
+  const y2 = scaleLinear().domain([useSameRange ? minParam : minParam2, useSameRange ? maxParam : maxParam2]).range([graphHeight, 0]).nice();
+
   const dataParam1 = dataFormatted.filter((d) => d.param1);
   const dataParam2 = dataFormatted.filter((d) => d.param2);
+
   const lineShape1 = line()
     .defined((d: any) => d.param1)
     .x((d: any) => x(d.year))
     .y((d: any) => y1(d.param1))
-    .curve(curveCardinal.tension(1));
+    .curve(curveMonotoneX);
   const lineShape2 = line()
     .defined((d: any) => d.param2)
     .x((d: any) => x(d.year))
     .y((d: any) => y2(d.param2))
-    .curve(curveCardinal.tension(1));
+    .curve(curveMonotoneX);
   const y1Ticks = y1.ticks(5);
   const y2Ticks = y2.ticks(5);
   const xTicks = x.ticks(10);
@@ -195,7 +202,7 @@ export const LineChart = (props: Props) => {
                             fontSize={12}
                             dy={3}
                           >
-                            {format('~s')(d)}
+                            {d < 1 ? d : format('~s')(d)}
                           </text>
                         </g>
                       ))
@@ -214,7 +221,7 @@ export const LineChart = (props: Props) => {
                       textAnchor='middle'
                       fontSize={12}
                     >
-                      {xIndicatorMetaData.IndicatorLabelTable}
+                      {xIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? `${xIndicatorMetaData.IndicatorLabelTable.substring(0, MAX_TEXT_LENGTH)}...` : xIndicatorMetaData.IndicatorLabelTable}
                     </text>
                   </g>
                   <g>
@@ -238,7 +245,7 @@ export const LineChart = (props: Props) => {
                             dy={3}
                             dx={-2}
                           >
-                            {format('~s')(d)}
+                            {d < 1 ? d : format('~s')(d)}
                           </text>
                         </g>
                       ))
@@ -257,7 +264,7 @@ export const LineChart = (props: Props) => {
                       textAnchor='middle'
                       fontSize={12}
                     >
-                      {yIndicatorMetaData.IndicatorLabelTable}
+                      {yIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? `${yIndicatorMetaData.IndicatorLabelTable.substring(0, MAX_TEXT_LENGTH)}...` : yIndicatorMetaData.IndicatorLabelTable}
                     </text>
                   </g>
                   <g>
@@ -285,14 +292,6 @@ export const LineChart = (props: Props) => {
                       stroke='#266291'
                       strokeWidth={1}
                     />
-                    <text
-                      transform={`translate(${graphWidth + 50}, ${graphHeight / 2}) rotate(-90)`}
-                      fill='#266291'
-                      textAnchor='middle'
-                      fontSize={12}
-                    >
-                      {yIndicatorMetaData.IndicatorLabelTable}
-                    </text>
                   </g>
                   <g>
                     <path d={lineShape1(dataFormatted as any) as string} fill='none' stroke='#E26B8D' strokeWidth={2} />
@@ -327,6 +326,24 @@ export const LineChart = (props: Props) => {
                                 r={4}
                                 fill='#E26B8D'
                               />
+                              {
+                                showLabel
+                                  ? (
+                                    <text
+                                      x={x(d.year)}
+                                      y={y1(d.param1)}
+                                      dy={d.param2 && (y1(d.param1) > y2(d.param2)) ? 16 : -8}
+                                      fontSize={12}
+                                      textAnchor='middle'
+                                      fill='#E26B8D'
+                                      strokeWidth={0.25}
+                                      stroke='#fff'
+                                      fontWeight='bold'
+                                    >
+                                      {d.param1 < 1 ? d.param1 : format('~s')(d.param1)}
+                                    </text>
+                                  ) : null
+                              }
                             </g>
                           ) : null
                         }
@@ -339,6 +356,24 @@ export const LineChart = (props: Props) => {
                                 r={4}
                                 fill='#266291'
                               />
+                              {
+                                showLabel
+                                  ? (
+                                    <text
+                                      x={x(d.year)}
+                                      y={y2(d.param2)}
+                                      dy={d.param1 && (y1(d.param1) > y2(d.param2)) ? -8 : 16}
+                                      fontSize={12}
+                                      textAnchor='middle'
+                                      fill='#266291'
+                                      strokeWidth={0.25}
+                                      stroke='#fff'
+                                      fontWeight='bold'
+                                    >
+                                      {d.param2 < 1 ? d.param2 : format('~s')(d.param2)}
+                                    </text>
+                                  ) : null
+                              }
                             </g>
                           ) : null
                         }

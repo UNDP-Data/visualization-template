@@ -432,7 +432,7 @@ export const BivariateMap = (props: Props) => {
                         fontSize={10}
                         textAnchor='middle'
                       >
-                        {typeof el === 'string' ? el : format('~s')(el)}
+                        {typeof el === 'string' || el < 1 ? el : format('~s')(el)}
                       </text>
                     ))
                   }
@@ -451,7 +451,7 @@ export const BivariateMap = (props: Props) => {
                           fontSize={10}
                           textAnchor='middle'
                         >
-                          {typeof el === 'string' ? el : format('~s')(el)}
+                          {typeof el === 'string' || el < 1 ? el : format('~s')(el)}
                         </text>
                       </g>
                     ))
@@ -470,7 +470,7 @@ export const BivariateMap = (props: Props) => {
                   <TitleEl>{sizeIndicatorMetaData.IndicatorLabelTable}</TitleEl>
                   <svg width='135' height='90' viewBox='0 0 175 100' fill='none' xmlns='http://www.w3.org/2000/svg'>
                     <text fontSize={12} fontWeight={700} textAnchor='middle' fill='#212121' x={4} y={95}>0</text>
-                    <text fontSize={12} fontWeight={700} textAnchor='middle' fill='#212121' x={130} y={95}>{format('~s')(radiusScale.invert(40))}</text>
+                    <text fontSize={12} fontWeight={700} textAnchor='middle' fill='#212121' x={130} y={95}>{radiusScale.invert(40) > 1 ? format('~s')(radiusScale.invert(40)) : radiusScale.invert(40)}</text>
                     <path d='M4 41L130 0V80L4 41Z' fill='#E9ECF6' />
                     <circle cx='4' cy='41' r='0.25' fill='white' stroke='#212121' strokeWidth='2' />
                     <circle cx='130' cy='41' r='40' fill='white' stroke='#212121' strokeWidth='2' />

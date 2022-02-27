@@ -10,6 +10,7 @@ import { ScatterPlot } from './ScatterPlot';
 import { BivariateMap } from './BivariateMap';
 import { UnivariateMap } from './UnivariateMap';
 import { LineChart } from './LineChart';
+import { MultiLineChart } from './MultiLineChart';
 
 interface Props {
   data: DataType[];
@@ -22,6 +23,9 @@ const El = styled.div`
   box-shadow: var(--shadow-right);
   height: 74rem;
   overflow: auto;
+  @media (max-width: 960px) {
+    width: 100%;
+  }
 `;
 
 const SliderEl = styled.div`
@@ -107,7 +111,7 @@ export const Graph = (props: Props) => {
   return (
     <El id='graph-node'>
       {
-        graphType === 'trendLine' ? null
+        graphType === 'trendLine' || graphType === 'multiCountryTrendLine' ? null
           : commonYears.length > 1 && !showMostRecentData ? (
             <SliderEl>
               <Slider
@@ -166,14 +170,22 @@ export const Graph = (props: Props) => {
                   indicators={indicators}
                 />
               )
-              : yAxisIndicator
-                ? (
-                  <LineChart
+              : graphType === 'trendLine'
+                ? yAxisIndicator
+                  ? (
+                    <LineChart
+                      data={data}
+                      indicators={indicators}
+                      countries={countries}
+                    />
+                  ) : null
+                : (
+                  <MultiLineChart
                     data={data}
                     indicators={indicators}
                     countries={countries}
                   />
-                ) : null
+                )
 
       }
     </El>

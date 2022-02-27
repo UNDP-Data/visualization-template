@@ -15,7 +15,7 @@ import {
 } from '../Types';
 import Context from '../Context/Context';
 import {
-  COLOR_SCALES, CONTINENTS, HDI_LEVELS, INCOME_GROUPS,
+  COLOR_SCALES, CONTINENTS, HDI_LEVELS, INCOME_GROUPS, MAX_TEXT_LENGTH,
 } from '../Constants';
 
 interface Props {
@@ -296,7 +296,7 @@ export const ScatterPlot = (props: Props) => {
                     dy={4}
                     dx={-3}
                   >
-                    {format('~s')(d)}
+                    {d < 1 ? d : format('~s')(d)}
                   </text>
                 </g>
               ))
@@ -326,7 +326,7 @@ export const ScatterPlot = (props: Props) => {
               textAnchor='middle'
               fontSize={12}
             >
-              {yIndicatorMetaData.IndicatorLabelTable}
+              {yIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? `${yIndicatorMetaData.IndicatorLabelTable.substring(0, MAX_TEXT_LENGTH)}...` : yIndicatorMetaData.IndicatorLabelTable}
             </text>
           </g>
           <g>
@@ -350,7 +350,7 @@ export const ScatterPlot = (props: Props) => {
                     fontSize={12}
                     dy={12}
                   >
-                    {format('~s')(d)}
+                    {d < 1 ? d : format('~s')(d)}
                   </text>
                 </g>
               ))
@@ -380,7 +380,7 @@ export const ScatterPlot = (props: Props) => {
               fontSize={12}
               dy={30}
             >
-              {xIndicatorMetaData.IndicatorLabelTable}
+              {xIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? `${xIndicatorMetaData.IndicatorLabelTable.substring(0, MAX_TEXT_LENGTH)}...` : xIndicatorMetaData.IndicatorLabelTable}
             </text>
           </g>
 

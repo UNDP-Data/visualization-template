@@ -343,7 +343,7 @@ export const UnivariateMap = (props: Props) => {
                     fontSize={12}
                     fill='#212121'
                   >
-                    {format('~s')(d)}
+                    {d < 1 ? d : format('~s')(d)}
                   </text>
                 </g>
               ))

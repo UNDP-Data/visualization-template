@@ -178,6 +178,8 @@ const App = () => {
     showLabel: false,
     showSource: false,
     trendChartCountry: undefined,
+    multiCountrytrendChartCountries: ['China', 'India', 'United States of America', 'Indonesia', 'Pakistan'],
+    useSameRange: false,
   };
 
   const [state, dispatch] = useReducer(Reducer, initialState);
@@ -188,6 +190,14 @@ const App = () => {
       payload: graphType,
     });
   };
+
+  const updateMultiCountrytrendChartCountries = (multiCountrytrendChartCountries: string[]) => {
+    dispatch({
+      type: 'UPDATE_MULTI_COUNTRY_TREND_CHART_COUNTRIES',
+      payload: multiCountrytrendChartCountries,
+    });
+  };
+
   const updateTrendChartCountry = (trendChartCountry: string) => {
     dispatch({
       type: 'UPDATE_TREND_CHART_COUNTRY',
@@ -275,6 +285,13 @@ const App = () => {
     dispatch({
       type: 'UPDATE_SHOW_SOURCE',
       payload: showSource,
+    });
+  };
+
+  const updateUseSameRange = (useSameRange: boolean) => {
+    dispatch({
+      type: 'UPDATE_USE_SAME_RANGE',
+      payload: useSameRange,
     });
   };
 
@@ -376,6 +393,8 @@ const App = () => {
                   updateShowLabel,
                   updateShowSource,
                   updateTrendChartCountry,
+                  updateMultiCountrytrendChartCountries,
+                  updateUseSameRange,
                 }}
               >
                 <GrapherComponent

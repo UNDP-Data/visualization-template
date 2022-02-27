@@ -14,7 +14,7 @@ import {
 } from '../Types';
 import Context from '../Context/Context';
 import {
-  COLOR_SCALES, CONTINENTS, HDI_LEVELS, INCOME_GROUPS,
+  COLOR_SCALES, CONTINENTS, HDI_LEVELS, INCOME_GROUPS, MAX_TEXT_LENGTH,
 } from '../Constants';
 import { Tooltip } from '../Components/Tooltip';
 
@@ -268,7 +268,7 @@ export const BarChart = (props: Props) => {
                     dy={3}
                     dx={-2}
                   >
-                    {format('~s')(d)}
+                    {d < 1 ? d : format('~s')(d)}
                   </text>
                 </g>
               ))
@@ -298,7 +298,7 @@ export const BarChart = (props: Props) => {
               textAnchor='middle'
               fontSize={12}
             >
-              {xIndicatorMetaData.IndicatorLabelTable}
+              {xIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? `${xIndicatorMetaData.IndicatorLabelTable.substring(0, MAX_TEXT_LENGTH)}...` : xIndicatorMetaData.IndicatorLabelTable}
             </text>
           </g>
 

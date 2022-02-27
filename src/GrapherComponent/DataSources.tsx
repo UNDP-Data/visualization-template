@@ -66,7 +66,7 @@ const ButtonEl = styled.div`
 
 `;
 
-export const SourceList = (props: Props) => {
+export const DataSources = (props: Props) => {
   const {
     indicators,
   } = props;

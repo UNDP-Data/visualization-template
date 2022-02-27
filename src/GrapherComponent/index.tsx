@@ -2,12 +2,12 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import { CtxDataType, DataType, IndicatorMetaDataWithYear } from '../Types';
 import {
-  ScatterPlotIcon, BarGraphIcon, MapIcon,
+  ScatterPlotIcon, BarGraphIcon, MapIcon, DualAxesChartIcon, MultiLineChartIcon,
 } from '../Icons';
 import Context from '../Context/Context';
 import { Settings } from './Settings';
 import { Graph } from './Graph';
-import { SourceList } from './SourceList';
+import { DataSources } from './DataSources';
 
 interface Props {
   data: DataType[];
@@ -39,6 +39,7 @@ interface SelectedData {
 const TabsEl = styled.div<SelectedData>`
   font-size: 1.2rem;
   padding: 1rem 0;
+  line-height: 1.4rem;
   min-width: 10rem;
   width: 15%;
   text-transform: uppercase;
@@ -55,11 +56,42 @@ const TabsEl = styled.div<SelectedData>`
   &:hover {
     opacity: 1;
   }
+  @media (max-width: 1172px) {
+    width: 20%;
+    &:last-of-type {
+      border-right: 0 solid var(--black-450);
+    }
+  }
+  @media (max-width: 900px) {
+    width: fit-content;
+    min-width: 0;
+    padding: 1rem 2rem;
+    &:last-of-type {
+      border-right: 1px solid var(--black-450);
+    }
+  }
+  @media (max-width: 700px) {
+    font-size: 1rem;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
 
 const GraphEl = styled.div`
   display: flex;
   align-items: stretch;
+  @media (max-width: 960px) {
+    display: inline;
+  }  
+`;
+
+const IconEl = styled.div`
+  display: inline;
+  @media (max-width: 980px) {
+    display: none;
+  }
 `;
 
 export const GrapherComponent = (props: Props) => {
@@ -80,20 +112,34 @@ export const GrapherComponent = (props: Props) => {
       <RootEl>
         <TabsContainerEl>
           <TabsEl selected={graphType === 'scatterPlot'} onClick={() => { updateGraphType('scatterPlot'); }}>
-            <ScatterPlotIcon size={48} fill={graphType === 'scatterPlot' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+            <IconEl>
+              <ScatterPlotIcon size={48} fill={graphType === 'scatterPlot' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+            </IconEl>
             <>Correlation</>
           </TabsEl>
           <TabsEl selected={graphType === 'map'} onClick={() => { updateGraphType('map'); }}>
-            <MapIcon size={48} fill={graphType === 'map' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+            <IconEl>
+              <MapIcon size={48} fill={graphType === 'map' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+            </IconEl>
             <>Maps</>
           </TabsEl>
           <TabsEl selected={graphType === 'barGraph'} onClick={() => { updateGraphType('barGraph'); }}>
-            <BarGraphIcon size={48} fill={graphType === 'barGraph' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+            <IconEl>
+              <BarGraphIcon size={48} fill={graphType === 'barGraph' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+            </IconEl>
             <>Ranks</>
           </TabsEl>
           <TabsEl selected={graphType === 'trendLine'} onClick={() => { updateGraphType('trendLine'); }}>
-            <BarGraphIcon size={48} fill={graphType === 'trendLine' ? 'var(--primary-blue)' : 'var(--black-500)'} />
-            <>Trends</>
+            <IconEl>
+              <DualAxesChartIcon size={48} fill={graphType === 'trendLine' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+            </IconEl>
+            <>Dual Axes Line Chart</>
+          </TabsEl>
+          <TabsEl selected={graphType === 'multiCountryTrendLine'} onClick={() => { updateGraphType('multiCountryTrendLine'); }}>
+            <IconEl>
+              <MultiLineChartIcon size={48} fill={graphType === 'multiCountryTrendLine' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+            </IconEl>
+            <>Multi Country Trends</>
           </TabsEl>
         </TabsContainerEl>
         <GraphEl>
@@ -105,7 +151,7 @@ export const GrapherComponent = (props: Props) => {
           {
             showSource
               ? (
-                <SourceList
+                <DataSources
                   indicators={indicators}
                 />
               )

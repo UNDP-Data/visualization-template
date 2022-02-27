@@ -16,7 +16,9 @@ const Context = createContext<CtxDataType>({
   showLabel: false,
   showSource: false,
   trendChartCountry: undefined,
-  updateGraphType: (_d: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine') => {},
+  useSameRange: false,
+  multiCountrytrendChartCountries: ['China', 'India', 'United States of America', 'Indonesia', 'Pakistan'],
+  updateGraphType: (_d: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine' | 'multiCountryTrendLine') => {},
   updateSelectedRegions: (_d: string[]) => {},
   updateSelectedCountries: (_d: string[]) => {},
   updateSelectedIncomeGroups: (_d: string[]) => {},
@@ -29,7 +31,9 @@ const Context = createContext<CtxDataType>({
   updateShowMostRecentData: (_d: boolean) => {},
   updateShowLabel: (_d: boolean) => {},
   updateShowSource: (_d: boolean) => {},
+  updateUseSameRange: (_d: boolean) => {},
   updateTrendChartCountry: (_d: string) => {},
+  updateMultiCountrytrendChartCountries: (_d: string[]) => {},
 });
 
 export default Context;
