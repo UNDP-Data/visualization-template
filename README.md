@@ -76,6 +76,6 @@ Craco is used to add a cofiguration layer for CRA. The primary function is to st
 * __CRACO__: Craco is used to configure different scripts (See Available Scripts for more details)
 * __styled-components__: Utilises tagged template literals  and the power of CSS, allows to write actual CSS code to style the components in JS/TS.
 * __Various D3 Libraries__: Various D3 libraries are used for visualizations, adding interaction and reading the csv data file.
-* __react-dropdown-select__: Is a dropdown library used for creating different dropdowns.
+* __ant design__: For UI elements like dropdown, buttons, checkbox, and slider.
 * __dom-to-image__: This is used to allow users to download images of various visualization views they create.
 * __lodash__: This is used for manipulating and iterating arrays and objects.
