@@ -1,29 +1,45 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { csv } from 'd3-request';
+import { json } from 'd3-request';
 import { nest } from 'd3-collection';
-import _ from 'lodash';
+import sortBy from 'lodash.sortby';
+import uniqBy from 'lodash.uniqby';
 import Loader from 'react-loader-spinner';
-import { IndicatorDataType, DataType, IndicatorOptionsDataType } from './Types';
-import { VizArea } from './VizArea';
-import CategoricalData from './Data/CategoricalData.json';
-import CountryTerritoryGroups from './Data/country-territory-groups.json';
+import { queue } from 'd3-queue';
+import {
+  DataType, CountryGroupDataType, IndicatorMetaDataType, IndicatorMetaDataWithYear,
+} from './Types';
+import { GrapherComponent } from './GrapherComponent';
+import Reducer from './Context/Reducer';
+import Context from './Context/Context';
+import { DEFAULT_VALUES } from './Constants';
 
 const GlobalStyle = createGlobalStyle`
   :root {
-    --primary-blue: #0969FA;
-    --white: #ffffff;
-    --light-gray:#FAFAFA;
-    --bg-blue:  #E7F1FF;
-    --text-color:#110848;
-    --black: #110848;
-    --navy: #110848;
-    --medium-grey: #CCCCCC;
-    --grey: #919399;
-    --grey-c3: #B5BFCC;
-    --dark-grey: #383838;
-    --dropdown-bg: #E9ECF6;
-    --yellow: #E9CE2C;
+    --white: #FFFFFF;
+    --primary-blue: #006EB5;
+    --blue-medium: #4F95DD;
+    --blue-bg: #94C4F5;
+    --navy: #082753;
+    --black-100: #FAFAFA;
+    --black-200: #f5f9fe;
+    --black-300: #EDEFF0;
+    --black-400: #E9ECF6;
+    --black-450: #DDD;
+    --black-500: #A9B1B7;
+    --black-550: #666666;
+    --black-600: #212121;
+    --black-700: #000000;
+    --blue-very-light: #F2F7FF;
+    --yellow: #FBC412;
+    --yellow-bg: #FFE17E;
+    --red: #D12800;
+    --red-bg: #FFBCB7;
+    --shadow:0px 10px 30px -10px rgb(9 105 250 / 15%);
+    --shadow-bottom: 0 10px 13px -3px rgb(9 105 250 / 5%);
+    --shadow-top: 0 -10px 13px -3px rgb(9 105 250 / 15%);
+    --shadow-right: 10px 0px 13px -3px rgb(9 105 250 / 5%);
+    --shadow-left: -10px 0px 13px -3px rgb(9 105 250 / 15%);
   }
   
   html { 
@@ -42,7 +58,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: "proxima-nova", "Helvetica Neue", "sans-serif";
-    color: var(--text-color);
+    color: var(--black-600);
     background-color: var(--white);
     margin: 0;
     padding: 0 2rem;
@@ -53,7 +69,7 @@ const GlobalStyle = createGlobalStyle`
 
   a {
     text-decoration: none;
-    color: var(--color-blue);
+    color: var(--primary-blue);
   }
 
   h3 {
@@ -67,7 +83,7 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 0.2rem;
     font-size: 1.4rem;
     font-weight: 700;
-    background-color: var(--bg-blue);
+    background-color: var(--blue-very-light);
     color: var(--navy);
     border: 0;
     text-transform: uppercase;
@@ -107,119 +123,29 @@ const GlobalStyle = createGlobalStyle`
   .bold{
     font-weight: 700;
   }
-
-  .dropdownMain {
-    border: 2px solid #f2f7ff !important;
-    width: 25rem !important;
-    border-radius: 3rem !important;
-    background-color: var(--dropdown-bg);
-    padding: 0;
-
-    .react-dropdown-select-content {
-      padding: 0.5rem 1rem;
-      font-weight: 600;
-      font-size: 1.4rem;
-      text-overflow: ellipsis !important;
-      white-space: nowrap !important;
-      overflow: hidden;
-      height: 3.6rem !important;
-    }
-    
-    .react-dropdown-select-input{
-      display: none;
-    }
-  }
-  .dropdownMulti {
-    border: 2px solid #f2f7ff !important;
-    width: auto !important;
-    border-radius: 3rem !important;
-    background-color: var(--dropdown-bg);
-    padding: 0;
-
-    .react-dropdown-select-type-multi{
-      padding: 0 !important;
-    }
-
-    .react-dropdown-select-content {
-      padding: 0.5rem 1rem;
-      font-weight: 600;
-      font-size: 1.4rem;
-      min-height: 3.6rem !important;
-      height: auto !important;
-    }
-    .react-dropdown-select-option{
-      border-radius: 3rem !important;
-      background-color: var(--navy) !important;
-      color: var(--white) !important;
-      &:first-of-type{
-        margin-left: 0 !important;
-      }
-    }
-  }
-
   
-  .countrySelect {
-    border: 2px solid #f2f7ff !important;
-    width: auto !important;
-    border-radius: 3rem !important;
-    background-color: var(--dropdown-bg);
-    padding: 0;
-
-    .react-dropdown-select-type-multi{
-      padding: 0 !important;
-    }
-
-    .react-dropdown-select-content {
-      height: auto !important;
-    }
-
-    .react-dropdown-select-option{
-      border-radius: 3rem !important;
-      background-color: var(--navy) !important;
-      color: var(--white) !important;
-      &:nth-of-type(n + 3) {
-        display: inline !important;
-      }
-      &:first-of-type{
-        margin-left: 0 !important;
-      }
-    }
-  }
-
-  .dropdownMain:hover, .dropdownMain:focus {
-    border: 2px solid #919399 !important;
-  }
-
-  .react-dropdown-select-dropdown-handle svg  {
-    width: 1.8rem !important;
-    height: 1.8rem !important;
-    margin: -4px 1.5rem !important; 
-    padding-top: -2px !important;
-    fill: var(--gray) !important;
-  }
-
-
-  .react-dropdown-select-dropdown{
-    font-size: 1.2rem !important;
-    box-shadow: 0px 10px 20px 0px rgb(9 105 250 / 15%) !important;
-    border: 0 !important;
-  }
-
-  .react-dropdown-select-item:hover, .react-dropdown-select-item:hover:focus{
-    background-color: var(--bg-blue) !important;
-  }
-
-  .react-dropdown-select-item-selected {
-    background-color: var(--navy) !important;
-  }
-
-
-  .react-dropdowm-multi:hover, .react-dropdowm-multi:focus {
-    border: 2px solid #919399 !important;
-  }
-
   .italics{
     font-style: italic;
+  }
+
+  .ant-select-item-option-content {
+    white-space: normal;
+  }
+
+  .ant-select-selector {
+    border-radius: 0.5rem !important;
+    background-color: var(--black-200) !important;
+  }
+  .ant-slider-mark-text {
+    font-size: 1rem !important;
+    display: none;
+    &:first-of-type {
+      display: inline;
+    }
+    &:last-of-type {
+      display: inline;
+    }
+
   }
 `;
 
@@ -233,56 +159,215 @@ const VizAreaEl = styled.div`
 
 const App = () => {
   const [finalData, setFinalData] = useState<DataType[] | undefined>(undefined);
-  const [indicatorsList, setIndicatorsList] = useState<IndicatorOptionsDataType[] | undefined>(undefined);
+  const [indicatorsList, setIndicatorsList] = useState<IndicatorMetaDataWithYear[] | undefined>(undefined);
   const [regionList, setRegionList] = useState<string[] | undefined>(undefined);
   const [countryList, setCountryList] = useState<string[] | undefined>(undefined);
-  useEffect(() => {
-    csv('./data/Data-explorer-data.csv', (error, data) => {
-      if (error) throw error;
-      const indicatorsDetails: IndicatorOptionsDataType[] = _.sortBy(_.uniqBy(data, 'Indicator').map((d) => ({
-        'Data source link': d['Data source link'] as string,
-        'Data source name': d['Data source name'] as string,
-        Indicator: d.Indicator as string,
-        'Time period': d['Time period'] as string,
-        'Indicator Description': d['Indicator Description'] as string,
-        Year: d.Year as string,
-        Categorical: CategoricalData.findIndex((el) => el.indicator === d.Indicator) !== -1,
-      })), (d) => d.Indicator);
 
-      const regions = _.uniqBy(data, 'Group 2').map((d) => d['Group 2']).filter((d) => d !== '').sort();
-      const dataNestedByCountries = nest()
-        .key((d:any) => d['Alpha-3 code-1'])
-        .entries(data);
-      const formattedData: DataType[] = dataNestedByCountries.map((d:any) => {
-        const indicator: IndicatorDataType[] = _.uniqBy(d.values, 'Indicator').map((el:any) => ({
-          Indicator: el.Indicator as string,
-          Value: +el.Value,
-        }));
-        const indicatorList: string[] = _.uniqBy(d.values, 'Indicator').map((el:any) => el.Indicator as string);
-        return {
-          'Alpha-2 code': d.values[0]['Alpha-2 code'] as string,
-          'Alpha-3 code-1': d.values[0]['Alpha-3 code-1'] as string,
-          'Country or Area': d.values[0]['Country or Area'] as string,
-          'Development classification': d.values[0]['Development classification'] as string,
-          'Group 1': d.values[0]['Group 1'] as string,
-          'Group 2': d.values[0]['Group 2'] as string,
-          'Group 3': d.values[0]['Group 3'] as string,
-          LDC: d.values[0].LDC === 'TRUE',
-          LLDC: d.values[0].LLDC === 'TRUE',
-          'Latitude (average)': +d.values[0]['Latitude (average)'],
-          'Longitude (average)': +d.values[0]['Longitude (average)'],
-          'Numeric code': +d.values[0]['Numeric code'],
-          SIDS: d.values[0].SIDS === 'TRUE',
-          Indicators: indicator,
-          IndicatorList: indicatorList,
-          'Income group': CountryTerritoryGroups[CountryTerritoryGroups.findIndex((el) => el['Alpha-3 code-1'] === d.values[0]['Alpha-3 code-1'])]['Income group'],
-        };
-      });
-      setCountryList(formattedData.map((d) => d['Country or Area']));
-      setIndicatorsList(indicatorsDetails);
-      setFinalData(formattedData);
-      setRegionList(regions as string[]);
+  const initialState = {
+    graphType: 'scatterPlot',
+    selectedRegions: [],
+    selectedCountries: [],
+    selectedIncomeGroups: [],
+    year: 2021,
+    selectedCountryGroup: 'All',
+    xAxisIndicator: DEFAULT_VALUES.firstMetric,
+    yAxisIndicator: DEFAULT_VALUES.secondMetric,
+    colorIndicator: DEFAULT_VALUES.colorMetric,
+    sizeIndicator: undefined,
+    showMostRecentData: false,
+    showLabel: false,
+    showSource: false,
+    trendChartCountry: undefined,
+    multiCountrytrendChartCountries: ['China', 'India', 'United States of America', 'Indonesia', 'Pakistan'],
+    useSameRange: false,
+  };
+
+  const [state, dispatch] = useReducer(Reducer, initialState);
+
+  const updateGraphType = (graphType: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine') => {
+    dispatch({
+      type: 'UPDATE_GRAPH_TYPE',
+      payload: graphType,
     });
+  };
+
+  const updateMultiCountrytrendChartCountries = (multiCountrytrendChartCountries: string[]) => {
+    dispatch({
+      type: 'UPDATE_MULTI_COUNTRY_TREND_CHART_COUNTRIES',
+      payload: multiCountrytrendChartCountries,
+    });
+  };
+
+  const updateTrendChartCountry = (trendChartCountry: string) => {
+    dispatch({
+      type: 'UPDATE_TREND_CHART_COUNTRY',
+      payload: trendChartCountry,
+    });
+  };
+
+  const updateSelectedRegions = (selectedRegions: string[]) => {
+    dispatch({
+      type: 'UPDATE_SELECTED_REGIONS',
+      payload: selectedRegions,
+    });
+  };
+
+  const updateSelectedCountries = (selectedCountries: string[]) => {
+    dispatch({
+      type: 'UPDATE_SELECTED_COUNTRIES',
+      payload: selectedCountries,
+    });
+  };
+  const updateYear = (year: number) => {
+    dispatch({
+      type: 'UPDATE_YEAR',
+      payload: year,
+    });
+  };
+
+  const updateSelectedCountryGroup = (selectedCountryGroup: 'All' | 'SIDS' | 'LLDC' | 'LDC') => {
+    dispatch({
+      type: 'UPDATE_SELECTED_COUNTRY_GROUP',
+      payload: selectedCountryGroup,
+    });
+  };
+
+  const updateXAxisIndicator = (xAxisIndicator: string) => {
+    dispatch({
+      type: 'UPDATE_X_AXIS_INDICATOR',
+      payload: xAxisIndicator,
+    });
+  };
+
+  const updateYAxisIndicator = (yAxisIndicator?: string) => {
+    dispatch({
+      type: 'UPDATE_Y_AXIS_INDICATOR',
+      payload: yAxisIndicator,
+    });
+  };
+
+  const updateColorIndicator = (colorIndicator?: string) => {
+    dispatch({
+      type: 'UPDATE_COLOR_INDICATOR',
+      payload: colorIndicator,
+    });
+  };
+
+  const updateSizeIndicator = (sizeIndicator?: string) => {
+    dispatch({
+      type: 'UPDATE_SIZE_INDICATOR',
+      payload: sizeIndicator,
+    });
+  };
+
+  const updateSelectedIncomeGroups = (selectedIncomeGroups?: string) => {
+    dispatch({
+      type: 'UPDATE_SELECTED_INCOME_GROUPS',
+      payload: selectedIncomeGroups,
+    });
+  };
+
+  const updateShowMostRecentData = (selectedIncomeGroups: boolean) => {
+    dispatch({
+      type: 'UPDATE_SHOW_MOST_RECENT_DATA',
+      payload: selectedIncomeGroups,
+    });
+  };
+
+  const updateShowLabel = (showLabel: boolean) => {
+    dispatch({
+      type: 'UPDATE_SHOW_LABEL',
+      payload: showLabel,
+    });
+  };
+
+  const updateShowSource = (showSource: boolean) => {
+    dispatch({
+      type: 'UPDATE_SHOW_SOURCE',
+      payload: showSource,
+    });
+  };
+
+  const updateUseSameRange = (useSameRange: boolean) => {
+    dispatch({
+      type: 'UPDATE_USE_SAME_RANGE',
+      payload: useSameRange,
+    });
+  };
+
+  useEffect(() => {
+    queue()
+      .defer(json, './data/ALL-DATA.json')
+      .defer(json, './data/indicatorMetaData.json')
+      .defer(json, './data/country-territory-groups.json')
+      .await((err: any, data: any[], indicatorMetaData: IndicatorMetaDataType[], countryGroupData: CountryGroupDataType[]) => {
+        if (err) throw err;
+        const dataWithYear = data.map((d: any) => {
+          const Year = new Date(d.Year).getFullYear();
+          return { ...d, Year };
+        });
+
+        const groupedData = nest()
+          .key((d: any) => d['Alpha-3 code'])
+          .entries(dataWithYear);
+        const indicators: string[] = [];
+        dataWithYear.forEach((d: any) => {
+          const keys = Object.keys(d);
+          keys.forEach((key) => {
+            if (indicators.indexOf(key) === -1 && key !== 'Alpha-3 code' && key !== 'Country or Area' && key !== 'Year') { indicators.push(key); }
+          });
+        });
+        const countryIndicatorObj = indicators.map((d: string) => {
+          const yearList: number[] = [];
+          dataWithYear.forEach((el: any) => {
+            if (el[d] && yearList.indexOf(el.Year) === -1) {
+              yearList.push(el.Year);
+            }
+          });
+          return ({
+            indicator: d,
+            yearAvailable: sortBy(yearList),
+            yearlyData: sortBy(yearList).map((year) => ({
+              year,
+              value: undefined,
+            })),
+          });
+        });
+        const countryData = groupedData.map((d) => {
+          const countryGroup = countryGroupData[countryGroupData.findIndex((el) => el['Alpha-3 code-1'] === d.key)];
+          const indTemp = countryIndicatorObj.map((indicatorObj) => {
+            const yearlyData = indicatorObj.yearlyData.map((year) => {
+              const indx = d.values.findIndex((val: { Year: string; }) => parseInt(val.Year, 10) === year.year);
+              const value: undefined | number = indx !== -1 ? d.values[indx][indicatorObj.indicator] : undefined;
+              return (
+                {
+                  ...year,
+                  value,
+                }
+              );
+            }).filter((val) => val.value !== undefined);
+            return (
+              {
+                ...indicatorObj,
+                yearlyData,
+              }
+            );
+          });
+          return ({
+            ...countryGroup,
+            indicatorAvailable: indTemp.map((ind) => ind.indicator),
+            indicators: indTemp,
+          });
+        });
+        setFinalData(countryData);
+        setCountryList(countryData.map((d) => d['Country or Area']));
+        setRegionList(uniqBy(countryData, (d) => d['Group 2']).map((d) => d['Group 2']));
+        const indicatorWithYears: IndicatorMetaDataWithYear[] = indicatorMetaData.map((d) => ({
+          ...d,
+          years: countryIndicatorObj[countryIndicatorObj.findIndex((el) => el.indicator === d.DataKey)].yearAvailable,
+        }));
+        setIndicatorsList(indicatorWithYears);
+      });
   }, []);
   return (
     <>
@@ -290,12 +375,36 @@ const App = () => {
       {
         indicatorsList && finalData && regionList && countryList
           ? (
-            <VizArea
-              data={finalData}
-              indicators={indicatorsList}
-              regions={regionList}
-              countries={countryList}
-            />
+            <>
+              <Context.Provider
+                value={{
+                  ...state,
+                  updateGraphType,
+                  updateSelectedRegions,
+                  updateYear,
+                  updateSelectedCountries,
+                  updateSelectedCountryGroup,
+                  updateXAxisIndicator,
+                  updateYAxisIndicator,
+                  updateColorIndicator,
+                  updateSizeIndicator,
+                  updateSelectedIncomeGroups,
+                  updateShowMostRecentData,
+                  updateShowLabel,
+                  updateShowSource,
+                  updateTrendChartCountry,
+                  updateMultiCountrytrendChartCountries,
+                  updateUseSameRange,
+                }}
+              >
+                <GrapherComponent
+                  data={finalData}
+                  indicators={indicatorsList}
+                  regions={regionList}
+                  countries={countryList}
+                />
+              </Context.Provider>
+            </>
           )
           : (
             <VizAreaEl>

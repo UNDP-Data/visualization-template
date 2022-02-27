@@ -1,9 +1,4 @@
-export interface IndicatorDataType {
-  'Indicator': string;
-  'Value': number;
-}
-
-export interface DataType {
+export interface CountryGroupDataType {
   'Alpha-2 code': string;
   'Alpha-3 code-1': string;
   'Country or Area': string;
@@ -17,9 +12,20 @@ export interface DataType {
   'Longitude (average)': number;
   'Numeric code': number;
   'SIDS': boolean;
-  'Indicators': IndicatorDataType[];
-  'IndicatorList': string[];
   'Income group': string;
+}
+
+export interface IndicatorDataType {
+  indicator: string;
+  yearAvailable: number[];
+  yearlyData: {
+      year: number;
+      value?: number;
+    }[];
+}
+export interface DataType extends CountryGroupDataType {
+  indicators: IndicatorDataType[];
+  indicatorAvailable: string[];
 }
 
 export interface IndicatorOptionsDataType {
@@ -32,24 +38,40 @@ export interface IndicatorOptionsDataType {
   'Categorical': boolean;
 }
 
-export interface OptionsDataType {
-  'Data source link': string | null;
-  'Data source name': string | null;
-  'Indicator Description': string | null;
-  'Time period': string | null;
-  Year: string | null;
+export interface IndicatorMetaDataType {
+  Pillar: string[];
+  Goal: string[];
   Indicator: string;
-  Categorical: boolean;
-  Label: string;
-  disabled: boolean;
+  IndicatorLabelTable: string;
+  IndicatorDescription: string;
+  DataKey: string;
+  DataSourceName: string;
+  DataSourceLink: string;
+  LabelSuffix?: string;
+  LabelPrefix?: string;
+  LabelFormat?: string;
+  BinningRange5: number[];
+  BinningRangeLarge: number[];
+  Categories: number[];
+  CategorizeByRanking?: boolean;
+  IsCategorical?: boolean;
+  IsDivergent?: boolean;
+  ScatterPlot?: boolean;
+  Map?: boolean;
+  BarGraph?: boolean;
+  Sizing?: boolean;
+  Color?: boolean;
 }
 
+export interface IndicatorMetaDataWithYear extends IndicatorMetaDataType {
+  years: number[];
+}
 export interface HoverRowDataType {
-  title: string;
-  value: number | string;
+  title?: string;
+  value?: number | string;
   type: 'x-axis' | 'y-axis' | 'color' | 'size';
-  metaData: string | null;
-  color?:string;
+  year?: number;
+  color?: string;
 }
 
 export interface HoverDataType {
@@ -58,4 +80,39 @@ export interface HoverDataType {
   rows: HoverRowDataType[];
   xPosition: number;
   yPosition: number;
+}
+
+export interface CtxDataType {
+  graphType: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine' | 'multiCountryTrendLine';
+  selectedRegions: string[];
+  selectedCountries: string[];
+  selectedIncomeGroups: string[];
+  year: number;
+  selectedCountryGroup: 'All' | 'SIDS' | 'LLDC' | 'LDC';
+  xAxisIndicator: string;
+  yAxisIndicator?: string;
+  colorIndicator: string;
+  sizeIndicator?: string;
+  showMostRecentData: boolean;
+  showLabel: boolean;
+  showSource: boolean;
+  trendChartCountry: undefined | string;
+  multiCountrytrendChartCountries: string[];
+  useSameRange: boolean
+  updateGraphType: (_d: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine' | 'multiCountryTrendLine') => void;
+  updateSelectedRegions: (_d: string[]) => void;
+  updateSelectedCountries: (_d: string[]) => void;
+  updateSelectedIncomeGroups: (_d: string[]) => void;
+  updateYear: (_d: number) => void;
+  updateSelectedCountryGroup: (_d: 'All' | 'SIDS' | 'LLDC' | 'LDC') => void;
+  updateXAxisIndicator: (_d: string) => void;
+  updateYAxisIndicator: (_d?: string) => void;
+  updateColorIndicator: (_d?: string) => void;
+  updateSizeIndicator: (_d?: string) => void;
+  updateShowMostRecentData: (_d: boolean) => void;
+  updateShowSource: (_d: boolean) => void;
+  updateShowLabel: (_d: boolean) => void;
+  updateUseSameRange: (_d: boolean) => void;
+  updateTrendChartCountry: (_d: string) => void;
+  updateMultiCountrytrendChartCountries: (_d: string[]) => void;
 }

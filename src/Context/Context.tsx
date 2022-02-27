@@ -1,0 +1,39 @@
+import { createContext } from 'react';
+import { CtxDataType } from '../Types';
+
+const Context = createContext<CtxDataType>({
+  graphType: 'scatterPlot',
+  selectedRegions: [],
+  selectedCountries: [],
+  selectedIncomeGroups: [],
+  selectedCountryGroup: 'All',
+  showMostRecentData: false,
+  year: 2021,
+  xAxisIndicator: '',
+  yAxisIndicator: '',
+  colorIndicator: '',
+  sizeIndicator: '',
+  showLabel: false,
+  showSource: false,
+  trendChartCountry: undefined,
+  useSameRange: false,
+  multiCountrytrendChartCountries: ['China', 'India', 'United States of America', 'Indonesia', 'Pakistan'],
+  updateGraphType: (_d: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine' | 'multiCountryTrendLine') => {},
+  updateSelectedRegions: (_d: string[]) => {},
+  updateSelectedCountries: (_d: string[]) => {},
+  updateSelectedIncomeGroups: (_d: string[]) => {},
+  updateYear: (_d: number) => {},
+  updateSelectedCountryGroup: (_d: 'All' | 'SIDS' | 'LLDC' | 'LDC') => {},
+  updateXAxisIndicator: (_d: string) => {},
+  updateYAxisIndicator: (_d?: string) => {},
+  updateColorIndicator: (_d?: string) => {},
+  updateSizeIndicator: (_d?: string) => {},
+  updateShowMostRecentData: (_d: boolean) => {},
+  updateShowLabel: (_d: boolean) => {},
+  updateShowSource: (_d: boolean) => {},
+  updateUseSameRange: (_d: boolean) => {},
+  updateTrendChartCountry: (_d: string) => {},
+  updateMultiCountrytrendChartCountries: (_d: string[]) => {},
+});
+
+export default Context;
