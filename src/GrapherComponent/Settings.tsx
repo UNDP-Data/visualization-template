@@ -72,7 +72,7 @@ const FilterTitle = styled.div`
 `;
 
 const CheckboxEl = styled.div`
-  margin: 0;
+  margin: 1rem 0;
   @media (max-width: 960px) {
     margin: 0 0.5rem;
   }  

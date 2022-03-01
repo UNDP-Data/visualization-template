@@ -298,8 +298,8 @@ const App = () => {
   useEffect(() => {
     queue()
       .defer(json, './data/ALL-DATA.json')
-      .defer(json, './data/indicatorMetaData.json')
-      .defer(json, './data/country-territory-groups.json')
+      .defer(json, 'https://raw.githubusercontent.com/UNDP-Data/Indicators-MetaData/main/indicatorMetaData.json')
+      .defer(json, 'https://raw.githubusercontent.com/UNDP-Data/Country-Taxonomy/main/country-territory-groups.json')
       .await((err: any, data: any[], indicatorMetaData: IndicatorMetaDataType[], countryGroupData: CountryGroupDataType[]) => {
         if (err) throw err;
         const dataWithYear = data.map((d: any) => {

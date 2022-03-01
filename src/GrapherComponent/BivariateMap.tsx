@@ -273,6 +273,8 @@ export const BivariateMap = (props: Props) => {
                   key={i}
                   opacity={regionOpacity && incomeGroupOpacity && countryOpacity && countryGroupOpacity && selectedColorOpacity ? 1 : 0.3}
                   onMouseEnter={(event) => {
+                    select(event.currentTarget)
+                      .raise();
                     setHoverData({
                       country: d['Country or Area'],
                       continent: d['Group 1'],
@@ -312,7 +314,7 @@ export const BivariateMap = (props: Props) => {
                             key={j}
                             d={masterPath}
                             stroke={hoverData?.country === d['Country or Area'] ? '#212121' : '#fff'}
-                            strokeWidth={hoverData?.country === d['Country or Area'] ? 2 : 0.25}
+                            strokeWidth={hoverData?.country === d['Country or Area'] ? 0.5 : 0.25}
                             fill={color}
                           />
                         );
@@ -328,7 +330,7 @@ export const BivariateMap = (props: Props) => {
                             key={j}
                             d={path}
                             stroke={hoverData?.country === d['Country or Area'] ? '#212121' : '#fff'}
-                            strokeWidth={hoverData?.country === d['Country or Area'] ? 2 : 0.25}
+                            strokeWidth={hoverData?.country === d['Country or Area'] ? 0.5 : 0.25}
                             fill={color}
                           />
                         );

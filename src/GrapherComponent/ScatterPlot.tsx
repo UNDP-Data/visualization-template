@@ -15,7 +15,7 @@ import {
 } from '../Types';
 import Context from '../Context/Context';
 import {
-  COLOR_SCALES, CONTINENTS, HDI_LEVELS, INCOME_GROUPS, MAX_TEXT_LENGTH,
+  COLOR_SCALES, CONTINENTS, HDI_LEVELS, INCOME_GROUPS, MAX_TEXT_LENGTH, TRUNCATE_MAX_TEXT_LENGTH,
 } from '../Constants';
 
 interface Props {
@@ -324,9 +324,9 @@ export const ScatterPlot = (props: Props) => {
               transform={`translate(-50, ${graphHeight / 2}) rotate(-90)`}
               fill='#212121'
               textAnchor='middle'
-              fontSize={12}
+              fontSize={yIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? 10 : 12}
             >
-              {yIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? `${yIndicatorMetaData.IndicatorLabelTable.substring(0, MAX_TEXT_LENGTH)}...` : yIndicatorMetaData.IndicatorLabelTable}
+              {yIndicatorMetaData.IndicatorLabelTable.length > TRUNCATE_MAX_TEXT_LENGTH ? `${yIndicatorMetaData.IndicatorLabelTable.substring(0, TRUNCATE_MAX_TEXT_LENGTH)}...` : yIndicatorMetaData.IndicatorLabelTable}
             </text>
           </g>
           <g>
@@ -377,10 +377,10 @@ export const ScatterPlot = (props: Props) => {
               transform={`translate(${graphWidth / 2}, ${graphHeight})`}
               fill='#212121'
               textAnchor='middle'
-              fontSize={12}
+              fontSize={yIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? 10 : 12}
               dy={30}
             >
-              {xIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? `${xIndicatorMetaData.IndicatorLabelTable.substring(0, MAX_TEXT_LENGTH)}...` : xIndicatorMetaData.IndicatorLabelTable}
+              {xIndicatorMetaData.IndicatorLabelTable.length > TRUNCATE_MAX_TEXT_LENGTH ? `${xIndicatorMetaData.IndicatorLabelTable.substring(0, TRUNCATE_MAX_TEXT_LENGTH)}...` : xIndicatorMetaData.IndicatorLabelTable}
             </text>
           </g>
 
