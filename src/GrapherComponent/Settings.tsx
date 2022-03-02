@@ -111,6 +111,13 @@ export const Settings = (props: Props) => {
     graphType,
     xAxisIndicator,
     yAxisIndicator,
+    showLabel,
+    useSameRange,
+    showMostRecentData,
+    selectedCountryGroup,
+    selectedCountries,
+    selectedIncomeGroups,
+    selectedRegions,
     updateSelectedCountryGroup,
     updateColorIndicator,
     updateXAxisIndicator,
@@ -123,6 +130,7 @@ export const Settings = (props: Props) => {
     updateShowMostRecentData,
     updateShowSource,
     updateUseSameRange,
+    updateMultiCountrytrendChartCountries,
   } = useContext(Context) as CtxDataType;
   const options = graphType === 'scatterPlot'
     ? indicators.filter((d) => d.ScatterPlot).map((d) => d.IndicatorLabelTable)
@@ -334,16 +342,16 @@ export const Settings = (props: Props) => {
               ? (
                 <CheckboxContainer>
                   {
-                  graphType === 'scatterPlot'
-                    ? (
-                      <CheckboxEl>
-                        <Checkbox onChange={(e) => { updateShowLabel(e.target.checked); }}>Show Label</Checkbox>
-                      </CheckboxEl>
-                    )
-                    : null
-                }
+                    graphType === 'scatterPlot'
+                      ? (
+                        <CheckboxEl>
+                          <Checkbox checked={showLabel} onChange={(e) => { updateShowLabel(e.target.checked); }}>Show Label</Checkbox>
+                        </CheckboxEl>
+                      )
+                      : null
+                  }
                   <CheckboxEl>
-                    <Checkbox onChange={(e) => { updateShowMostRecentData(e.target.checked); }}>Show Most Recent Avalable Data</Checkbox>
+                    <Checkbox checked={showMostRecentData} onChange={(e) => { updateShowMostRecentData(e.target.checked); }}>Show Most Recent Avalable Data</Checkbox>
                   </CheckboxEl>
                 </CheckboxContainer>
               ) : null
@@ -353,10 +361,10 @@ export const Settings = (props: Props) => {
               ? (
                 <CheckboxContainer>
                   <CheckboxEl>
-                    <Checkbox onChange={(e) => { updateShowLabel(e.target.checked); }}>Show Label</Checkbox>
+                    <Checkbox checked={showLabel} onChange={(e) => { updateShowLabel(e.target.checked); }}>Show Label</Checkbox>
                   </CheckboxEl>
                   <CheckboxEl>
-                    <Checkbox onChange={(e) => { updateUseSameRange(e.target.checked); }}>Use Same Range for Both Y-Axes</Checkbox>
+                    <Checkbox checked={useSameRange} onChange={(e) => { updateUseSameRange(e.target.checked); }}>Use Same Range for Both Y-Axes</Checkbox>
                   </CheckboxEl>
                 </CheckboxContainer>
               ) : null
@@ -365,7 +373,7 @@ export const Settings = (props: Props) => {
             graphType === 'multiCountryTrendLine'
               ? (
                 <CheckboxEl>
-                  <Checkbox onChange={(e) => { updateShowLabel(e.target.checked); }}>Show Label</Checkbox>
+                  <Checkbox checked={showLabel} onChange={(e) => { updateShowLabel(e.target.checked); }}>Show Label</Checkbox>
                 </CheckboxEl>
               ) : null
           }
@@ -396,6 +404,7 @@ export const Settings = (props: Props) => {
                     allowClear
                     style={{ width: '100%' }}
                     placeholder='Filter By Regions'
+                    value={selectedRegions}
                     onChange={(d: string[]) => { updateSelectedRegions(d); }}
                   >
                     {
@@ -414,6 +423,7 @@ export const Settings = (props: Props) => {
                     allowClear
                     style={{ width: '100%' }}
                     placeholder='Filter By Income Group'
+                    value={selectedIncomeGroups}
                     onChange={(d: string[]) => { updateSelectedIncomeGroups(d); }}
                   >
                     {
@@ -427,7 +437,7 @@ export const Settings = (props: Props) => {
                   <DropdownTitle>
                     Country Groups
                   </DropdownTitle>
-                  <Radio.Group onChange={(d) => { updateSelectedCountryGroup(d.target.value); }} defaultValue='All' buttonStyle='solid' size='small'>
+                  <Radio.Group onChange={(d) => { updateSelectedCountryGroup(d.target.value); }} value={selectedCountryGroup} buttonStyle='solid' size='small'>
                     <Radio.Button value='All'>All</Radio.Button>
                     <Radio.Button value='LDC'>LDC</Radio.Button>
                     <Radio.Button value='LLDC'>LLDC</Radio.Button>
@@ -442,14 +452,15 @@ export const Settings = (props: Props) => {
                     mode='multiple'
                     allowClear
                     style={{ width: '100%' }}
+                    value={selectedCountries}
                     placeholder='Filter By Countries'
-                    onChange={(d: string[]) => { updateSelectedCountries(d); }}
+                    onChange={(d: string[]) => { updateSelectedCountries(d); updateMultiCountrytrendChartCountries(d); }}
                   >
                     {
-                    countries.map((d) => (
-                      <Select.Option key={d}>{d}</Select.Option>
-                    ))
-                  }
+                      countries.map((d) => (
+                        <Select.Option key={d}>{d}</Select.Option>
+                      ))
+                    }
                   </Select>
                 </DropdownEl>
               </div>

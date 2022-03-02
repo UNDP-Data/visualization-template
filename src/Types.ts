@@ -98,7 +98,7 @@ export interface CtxDataType {
   showSource: boolean;
   trendChartCountry: undefined | string;
   multiCountrytrendChartCountries: string[];
-  useSameRange: boolean
+  useSameRange: boolean;
   updateGraphType: (_d: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine' | 'multiCountryTrendLine') => void;
   updateSelectedRegions: (_d: string[]) => void;
   updateSelectedCountries: (_d: string[]) => void;

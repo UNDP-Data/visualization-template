@@ -294,7 +294,6 @@ const App = () => {
       payload: useSameRange,
     });
   };
-
   useEffect(() => {
     queue()
       .defer(json, './data/ALL-DATA.json')

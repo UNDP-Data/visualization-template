@@ -7,7 +7,9 @@ import maxBy from 'lodash.maxby';
 import max from 'lodash.max';
 import orderBy from 'lodash.orderby';
 import { Delaunay } from 'd3-delaunay';
-import { scaleOrdinal, scaleLinear, scaleThreshold } from 'd3-scale';
+import {
+  scaleOrdinal, scaleLinear, scaleThreshold, scaleSqrt,
+} from 'd3-scale';
 import minBy from 'lodash.minby';
 import { Tooltip } from '../Components/Tooltip';
 import {
@@ -70,7 +72,7 @@ export const ScatterPlot = (props: Props) => {
       }
     });
   }
-  const radiusScale = sizeIndicatorMetaData ? scaleLinear().domain([0, max(maxRadiusValue) as number]).range([0.25, 30]).nice() : undefined;
+  const radiusScale = sizeIndicatorMetaData ? scaleSqrt().domain([0, max(maxRadiusValue) as number]).range([0.25, 30]).nice() : undefined;
 
   const dataFormatted = orderBy(
     data.map((d) => {

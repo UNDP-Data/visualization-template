@@ -8,7 +8,7 @@ import { format } from 'd3-format';
 import { select } from 'd3-selection';
 import maxBy from 'lodash.maxby';
 import max from 'lodash.max';
-import { scaleThreshold, scaleOrdinal, scaleLinear } from 'd3-scale';
+import { scaleThreshold, scaleOrdinal, scaleSqrt } from 'd3-scale';
 import {
   CtxDataType, DataType, HoverDataType, HoverRowDataType, IndicatorMetaDataWithYear,
 } from '../Types';
@@ -84,7 +84,7 @@ export const UnivariateMap = (props: Props) => {
       }
     });
   }
-  const radiusScale = scaleLinear().domain([0, max(maxRadiusValue) as number]).range([0.25, 40]).nice();
+  const radiusScale = scaleSqrt().domain([0, max(maxRadiusValue) as number]).range([0.25, 40]).nice();
   useEffect(() => {
     const mapGSelect = select(mapG.current);
     const mapSvgSelect = select(mapSvg.current);
@@ -166,7 +166,6 @@ export const UnivariateMap = (props: Props) => {
               const incomeGroupOpacity = selectedIncomeGroups.length === 0 || selectedIncomeGroups.indexOf(d['Income group']) !== -1;
               const countryOpacity = selectedCountries.length === 0 || selectedCountries.indexOf(d['Country or Area']) !== -1;
               const countryGroupOpacity = selectedCountryGroup === 'All' ? true : d[selectedCountryGroup];
-              const selectedColorOpacity = !selectedColor || selectedColor === color;
 
               const rowData: HoverRowDataType[] = [
                 {
@@ -192,10 +191,14 @@ export const UnivariateMap = (props: Props) => {
               return (
                 <g
                   key={i}
-                  opacity={regionOpacity && incomeGroupOpacity && countryOpacity && countryGroupOpacity && selectedColorOpacity ? 1 : 0.3}
+                  opacity={
+                    !hoverData
+                      ? selectedColor
+                        ? selectedColor === color ? 1 : 0.1
+                        : regionOpacity && incomeGroupOpacity && countryOpacity && countryGroupOpacity ? 1 : 0.1
+                      : hoverData.country === d['Country or Area'] ? 1 : 0.1
+                  }
                   onMouseEnter={(event) => {
-                    select(event.currentTarget)
-                      .raise();
                     setHoverData({
                       country: d['Country or Area'],
                       continent: d['Group 1'],
@@ -281,18 +284,61 @@ export const UnivariateMap = (props: Props) => {
                     const incomeGroupOpacity = selectedIncomeGroups.length === 0 || selectedIncomeGroups.indexOf(d['Income group']) !== -1;
                     const countryOpacity = selectedCountries.length === 0 || selectedCountries.indexOf(d['Country or Area']) !== -1;
                     const countryGroupOpacity = selectedCountryGroup === 'All' ? true : d[selectedCountryGroup];
-                    const selectedColorOpacity = !selectedColor || selectedColor === color;
 
+                    const rowData: HoverRowDataType[] = [
+                      {
+                        title: xAxisIndicator,
+                        value: val === undefined ? 'NA' : `${xIndicatorMetaData?.LabelPrefix} ${val} ${xIndicatorMetaData?.LabelSuffix}`,
+                        type: 'color',
+                        year: year === -1 || showMostRecentData ? d.indicators[indicatorIndex].yearlyData[d.indicators[indicatorIndex].yearlyData.length - 1]?.year : year,
+                        color,
+                      },
+                    ];
+                    if (sizeIndicatorMetaData) {
+                      rowData.push({
+                        title: sizeIndicator,
+                        value: sizeVal ? `${sizeIndicatorMetaData?.LabelPrefix} ${sizeVal} ${sizeIndicatorMetaData?.LabelSuffix}` : sizeVal,
+                        type: 'size',
+                        year: year === -1 || showMostRecentData ? d.indicators[sizeIndicatorIndex].yearlyData[d.indicators[sizeIndicatorIndex].yearlyData.length - 1]?.year : year,
+                      });
+                    }
                     return (
                       <circle
                         key={i}
+                        onMouseEnter={(event) => {
+                          setHoverData({
+                            country: d['Country or Area'],
+                            continent: d['Group 1'],
+                            rows: rowData,
+                            xPosition: event.clientX,
+                            yPosition: event.clientY,
+                          });
+                        }}
+                        onMouseMove={(event) => {
+                          setHoverData({
+                            country: d['Country or Area'],
+                            continent: d['Group 1'],
+                            rows: rowData,
+                            xPosition: event.clientX,
+                            yPosition: event.clientY,
+                          });
+                        }}
+                        onMouseLeave={() => {
+                          setHoverData(undefined);
+                        }}
                         cx={center[0]}
                         cy={center[1]}
                         r={sizeVal !== undefined ? radiusScale(sizeVal) : 0}
                         stroke='#212121'
                         strokeWidth={1}
                         fill='none'
-                        opacity={regionOpacity && incomeGroupOpacity && countryOpacity && countryGroupOpacity && selectedColorOpacity ? 1 : 0.1}
+                        opacity={
+                          !hoverData
+                            ? selectedColor
+                              ? selectedColor === color ? 1 : 0.1
+                              : regionOpacity && incomeGroupOpacity && countryOpacity && countryGroupOpacity ? 1 : 0.1
+                            : hoverData.country === d['Country or Area'] ? 1 : 0.1
+                        }
                       />
                     );
                   })
