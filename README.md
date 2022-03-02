@@ -79,3 +79,8 @@ Craco is used to add a cofiguration layer for CRA. The primary function is to st
 * __ant design__: For UI elements like dropdown, buttons, checkbox, and slider.
 * __dom-to-image__: This is used to allow users to download images of various visualization views they create.
 * __lodash__: This is used for manipulating and iterating arrays and objects.
+
+## Data and Meta Data Used
+
+* __Indicator Meta Data__: https://github.com/UNDP-Data/Indicators-MetaData
+* __Country Taxonomy__: https://github.com/UNDP-Data/Country-Taxonomy
