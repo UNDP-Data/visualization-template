@@ -81,9 +81,9 @@ export const BarGraphIcon = (props: IconProps) => {
   return (
     <IconEl height={size}>
       <svg width={size || 16} height={size || 16} viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg' opacity={opacity || 1}>
-        <path d='M7 11C7 10.4477 6.55229 10 6 10C5.44771 10 5 10.4477 5 11V16H7V11Z' fill={fill || '#212121'} />
-        <path d='M11 9C11 8.44772 10.5523 8 10 8C9.44771 8 9 8.44772 9 9V16H11V9Z' fill={fill || '#212121'} />
-        <path d='M15 6C15 5.44772 14.5523 5 14 5C13.4477 5 13 5.44772 13 6V16H15V6Z' fill={fill || '#212121'} />
+        <path d='M8 7C8.5523 7 9 6.55229 9 6C9 5.44771 8.5523 5 8 5L3 5L3 7L8 7Z' fill={fill || '#212121'} />
+        <path d='M10 11C10.5523 11 11 10.5523 11 10C11 9.44771 10.5523 9 10 9L3 9L3 11L10 11Z' fill={fill || '#212121'} />
+        <path d='M13 15C13.5523 15 14 14.5523 14 14C14 13.4477 13.5523 13 13 13L3 13L3 15L13 15Z' fill={fill || '#212121'} />
         <path d='M3 2.5C3 2.22386 2.77614 2 2.5 2C2.22386 2 2 2.22386 2 2.5V16V17H3H16.5C16.7761 17 17 16.7761 17 16.5C17 16.2239 16.7761 16 16.5 16H3V2.5Z' fill={fill || '#212121'} />
       </svg>
     </IconEl>
@@ -124,17 +124,6 @@ export const VerticalArrow = (props: IconProps) => {
 };
 
 export const ChevronDown = (props: IconProps) => {
-  const { size, fill, opacity } = props;
-  return (
-    <IconEl height={size}>
-      <svg width={size || 16} height={size || 16} viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' opacity={opacity || 1}>
-        <path d='M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 16.6944 7.30558 20.5 12 20.5C16.6944 20.5 20.5 16.6944 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM7.46967 9.96967C7.76256 9.67678 8.23744 9.67678 8.53033 9.96967L12 13.4393L15.4697 9.96967C15.7626 9.67678 16.2374 9.67678 16.5303 9.96967C16.8232 10.2626 16.8232 10.7374 16.5303 11.0303L12.5303 15.0303C12.2374 15.3232 11.7626 15.3232 11.4697 15.0303L7.46967 11.0303C7.17678 10.7374 7.17678 10.2626 7.46967 9.96967Z' fill={fill || '#212121'} />
-      </svg>
-    </IconEl>
-  );
-};
-
-export const ChevronUp = (props: IconProps) => {
   const { size, fill, opacity } = props;
   return (
     <IconEl height={size}>

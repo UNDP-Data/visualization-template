@@ -99,6 +99,8 @@ export interface CtxDataType {
   trendChartCountry: undefined | string;
   multiCountrytrendChartCountries: string[];
   useSameRange: boolean;
+  reverseOrder: boolean;
+  verticalBarLayout: boolean;
   updateGraphType: (_d: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine' | 'multiCountryTrendLine') => void;
   updateSelectedRegions: (_d: string[]) => void;
   updateSelectedCountries: (_d: string[]) => void;
@@ -113,6 +115,8 @@ export interface CtxDataType {
   updateShowSource: (_d: boolean) => void;
   updateShowLabel: (_d: boolean) => void;
   updateUseSameRange: (_d: boolean) => void;
+  updateReverseOrder: (_d: boolean) => void;
   updateTrendChartCountry: (_d: string) => void;
   updateMultiCountrytrendChartCountries: (_d: string[]) => void;
+  updateBarLayout: (_d: boolean) => void;
 }

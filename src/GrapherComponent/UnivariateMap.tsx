@@ -391,7 +391,7 @@ export const UnivariateMap = (props: Props) => {
                     fontSize={12}
                     fill='#212121'
                   >
-                    {d < 1 ? d : format('~s')(d)}
+                    {Math.abs(d) < 1 ? d : format('~s')(d)}
                   </text>
                 </g>
               ))

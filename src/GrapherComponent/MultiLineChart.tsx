@@ -207,7 +207,7 @@ export const MultiLineChart = (props: Props) => {
                             dy={3}
                             opacity={d === 0 ? 0 : 1}
                           >
-                            {d < 1 ? d : format('~s')(d)}
+                            {Math.abs(d) < 1 ? d : format('~s')(d)}
                           </text>
                         </g>
                       ))

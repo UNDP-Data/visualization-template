@@ -32,6 +32,10 @@ export default (state: any, action: any) => {
       return { ...state, multiCountrytrendChartCountries: action.payload };
     case 'UPDATE_USE_SAME_RANGE':
       return { ...state, useSameRange: action.payload };
+    case 'UPDATE_REVERSE_ORDER':
+      return { ...state, reverseOrder: action.payload };
+    case 'UPDATE_BAR_LAYOUT':
+      return { ...state, verticalBarLayout: action.payload };
     default:
       return { ...state };
   }

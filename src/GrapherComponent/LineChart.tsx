@@ -202,7 +202,7 @@ export const LineChart = (props: Props) => {
                             fontSize={12}
                             dy={3}
                           >
-                            {d < 1 ? d : format('~s')(d)}
+                            {Math.abs(d) < 1 ? d : format('~s')(d)}
                           </text>
                         </g>
                       ))
@@ -245,7 +245,7 @@ export const LineChart = (props: Props) => {
                             dy={3}
                             dx={-2}
                           >
-                            {d < 1 ? d : format('~s')(d)}
+                            {Math.abs(d) < 1 ? d : format('~s')(d)}
                           </text>
                         </g>
                       ))

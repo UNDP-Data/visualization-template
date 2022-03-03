@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { CtxDataType } from '../Types';
 
 const Context = createContext<CtxDataType>({
-  graphType: 'scatterPlot',
+  graphType: 'map',
   selectedRegions: [],
   selectedCountries: [],
   selectedIncomeGroups: [],
@@ -17,6 +17,8 @@ const Context = createContext<CtxDataType>({
   showSource: false,
   trendChartCountry: undefined,
   useSameRange: false,
+  reverseOrder: true,
+  verticalBarLayout: true,
   multiCountrytrendChartCountries: ['China', 'India', 'United States of America', 'Indonesia', 'Pakistan'],
   updateGraphType: (_d: 'scatterPlot' | 'map' | 'barGraph' | 'trendLine' | 'multiCountryTrendLine') => {},
   updateSelectedRegions: (_d: string[]) => {},
@@ -34,6 +36,8 @@ const Context = createContext<CtxDataType>({
   updateUseSameRange: (_d: boolean) => {},
   updateTrendChartCountry: (_d: string) => {},
   updateMultiCountrytrendChartCountries: (_d: string[]) => {},
+  updateReverseOrder: (_d: boolean) => {},
+  updateBarLayout: (_d: boolean) => {},
 });
 
 export default Context;

@@ -111,17 +111,17 @@ export const GrapherComponent = (props: Props) => {
       <h3>Explore Data</h3>
       <RootEl>
         <TabsContainerEl>
-          <TabsEl selected={graphType === 'scatterPlot'} onClick={() => { updateGraphType('scatterPlot'); }}>
-            <IconEl>
-              <ScatterPlotIcon size={48} fill={graphType === 'scatterPlot' ? 'var(--primary-blue)' : 'var(--black-500)'} />
-            </IconEl>
-            <>Correlation</>
-          </TabsEl>
           <TabsEl selected={graphType === 'map'} onClick={() => { updateGraphType('map'); }}>
             <IconEl>
               <MapIcon size={48} fill={graphType === 'map' ? 'var(--primary-blue)' : 'var(--black-500)'} />
             </IconEl>
             <>Maps</>
+          </TabsEl>
+          <TabsEl selected={graphType === 'scatterPlot'} onClick={() => { updateGraphType('scatterPlot'); }}>
+            <IconEl>
+              <ScatterPlotIcon size={48} fill={graphType === 'scatterPlot' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+            </IconEl>
+            <>Correlation</>
           </TabsEl>
           <TabsEl selected={graphType === 'barGraph'} onClick={() => { updateGraphType('barGraph'); }}>
             <IconEl>

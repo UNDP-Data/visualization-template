@@ -118,6 +118,7 @@ export const Settings = (props: Props) => {
     selectedCountries,
     selectedIncomeGroups,
     selectedRegions,
+    reverseOrder,
     updateSelectedCountryGroup,
     updateColorIndicator,
     updateXAxisIndicator,
@@ -131,6 +132,9 @@ export const Settings = (props: Props) => {
     updateShowSource,
     updateUseSameRange,
     updateMultiCountrytrendChartCountries,
+    updateReverseOrder,
+    verticalBarLayout,
+    updateBarLayout,
   } = useContext(Context) as CtxDataType;
   const options = graphType === 'scatterPlot'
     ? indicators.filter((d) => d.ScatterPlot).map((d) => d.IndicatorLabelTable)
@@ -353,6 +357,20 @@ export const Settings = (props: Props) => {
                   <CheckboxEl>
                     <Checkbox checked={showMostRecentData} onChange={(e) => { updateShowMostRecentData(e.target.checked); }}>Show Most Recent Avalable Data</Checkbox>
                   </CheckboxEl>
+                  {
+                    graphType === 'barGraph'
+                      ? (
+                        <>
+                          <CheckboxEl>
+                            <Checkbox checked={!verticalBarLayout} onChange={(e) => { updateBarLayout(!e.target.checked); }}>Show Horizontal</Checkbox>
+                          </CheckboxEl>
+                          <CheckboxEl>
+                            <Checkbox disabled={!verticalBarLayout} checked={reverseOrder} onChange={(e) => { updateReverseOrder(e.target.checked); }}>Show Largest First</Checkbox>
+                          </CheckboxEl>
+                        </>
+                      )
+                      : null
+                  }
                 </CheckboxContainer>
               ) : null
           }

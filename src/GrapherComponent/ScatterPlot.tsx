@@ -298,7 +298,7 @@ export const ScatterPlot = (props: Props) => {
                     dy={4}
                     dx={-3}
                   >
-                    {d < 1 ? d : format('~s')(d)}
+                    {Math.abs(d) < 1 ? d : format('~s')(d)}
                   </text>
                 </g>
               ))
@@ -352,7 +352,7 @@ export const ScatterPlot = (props: Props) => {
                     fontSize={12}
                     dy={12}
                   >
-                    {d < 1 ? d : format('~s')(d)}
+                    {Math.abs(d) < 1 ? d : format('~s')(d)}
                   </text>
                 </g>
               ))

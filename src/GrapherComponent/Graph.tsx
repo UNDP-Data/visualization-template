@@ -5,12 +5,13 @@ import 'antd/dist/antd.css';
 import intersection from 'lodash.intersection';
 import { CtxDataType, DataType, IndicatorMetaDataWithYear } from '../Types';
 import Context from '../Context/Context';
-import { BarChart } from './BarChart';
+import { HorizontalBarChart } from './HorizontalBarChart';
 import { ScatterPlot } from './ScatterPlot';
 import { BivariateMap } from './BivariateMap';
 import { UnivariateMap } from './UnivariateMap';
 import { LineChart } from './LineChart';
 import { MultiLineChart } from './MultiLineChart';
+import { BarChart } from './BarChart';
 
 interface Props {
   data: DataType[];
@@ -31,7 +32,9 @@ const El = styled.div`
 const SliderEl = styled.div`
   padding: 2rem 0 3rem 0;
   background-color: var(--black-200);
-  box-shadow: var(--shadow-bottom); 
+  box-shadow: var(--shadow-bottom);
+  position: sticky;
+  top: 0;
 `;
 
 const ErrorNote = styled.div`
@@ -42,6 +45,8 @@ const ErrorNote = styled.div`
   box-shadow: var(--shadow-bottom); 
   text-align: center;
   font-style: italic;
+  position: sticky;
+  top: 0;
 `;
 
 const InfoNote = styled.div`
@@ -52,7 +57,8 @@ const InfoNote = styled.div`
   height: 6.2rem;
   font-style: italic;
   text-align: center;
-  text-align: center;
+  position: sticky;
+  top: 0;
 `;
 
 const getMarks = (arr: number[]) => {
@@ -77,36 +83,43 @@ export const Graph = (props: Props) => {
     sizeIndicator,
     showMostRecentData,
     updateYear,
+    verticalBarLayout,
   } = useContext(Context) as CtxDataType;
   const [commonYears, setCommonYears] = useState<number[]>([]);
   const [marks, setMarks] = useState<any>(undefined);
 
   useEffect(() => {
-    if (yAxisIndicator) {
-      if (!sizeIndicator) {
-        const intersectedYears = intersection(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years, indicators[indicators.findIndex((d) => d.IndicatorLabelTable === yAxisIndicator)].years);
-        setCommonYears(intersectedYears);
-        setMarks(getMarks(intersectedYears));
-        updateYear(intersectedYears.length === 0 ? -1 : intersectedYears[intersectedYears.length - 1]);
+    if (graphType !== 'barGraph') {
+      if (yAxisIndicator) {
+        if (!sizeIndicator) {
+          const intersectedYears = intersection(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years, indicators[indicators.findIndex((d) => d.IndicatorLabelTable === yAxisIndicator)].years);
+          setCommonYears(intersectedYears);
+          setMarks(getMarks(intersectedYears));
+          updateYear(intersectedYears.length === 0 ? -1 : intersectedYears[intersectedYears.length - 1]);
+        } else {
+          const intersectedYears = intersection(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years,
+            indicators[indicators.findIndex((d) => d.IndicatorLabelTable === yAxisIndicator)].years,
+            indicators[indicators.findIndex((d) => d.IndicatorLabelTable === sizeIndicator)].years);
+          setCommonYears(intersectedYears);
+          setMarks(getMarks(intersectedYears));
+          updateYear(intersectedYears.length === 0 ? -1 : intersectedYears[intersectedYears.length - 1]);
+        }
+      } else if (!sizeIndicator) {
+        setCommonYears(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years);
+        setMarks(getMarks(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years));
+        updateYear(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years[indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years.length - 1]);
       } else {
-        const intersectedYears = intersection(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years,
-          indicators[indicators.findIndex((d) => d.IndicatorLabelTable === yAxisIndicator)].years,
-          indicators[indicators.findIndex((d) => d.IndicatorLabelTable === sizeIndicator)].years);
+        const intersectedYears = intersection(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years, indicators[indicators.findIndex((d) => d.IndicatorLabelTable === sizeIndicator)].years);
         setCommonYears(intersectedYears);
         setMarks(getMarks(intersectedYears));
         updateYear(intersectedYears.length === 0 ? -1 : intersectedYears[intersectedYears.length - 1]);
       }
-    } else if (!sizeIndicator) {
+    } else {
       setCommonYears(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years);
       setMarks(getMarks(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years));
       updateYear(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years[indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years.length - 1]);
-    } else {
-      const intersectedYears = intersection(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years, indicators[indicators.findIndex((d) => d.IndicatorLabelTable === sizeIndicator)].years);
-      setCommonYears(intersectedYears);
-      setMarks(getMarks(intersectedYears));
-      updateYear(intersectedYears.length === 0 ? -1 : intersectedYears[intersectedYears.length - 1]);
     }
-  }, [xAxisIndicator, yAxisIndicator, sizeIndicator]);
+  }, [xAxisIndicator, yAxisIndicator, sizeIndicator, graphType]);
 
   return (
     <El id='graph-node'>
@@ -164,12 +177,18 @@ export const Graph = (props: Props) => {
                 />
               )
             : graphType === 'barGraph'
-              ? (
-                <BarChart
+              ? verticalBarLayout ? (
+                <HorizontalBarChart
                   data={data}
                   indicators={indicators}
                 />
               )
+                : (
+                  <BarChart
+                    data={data}
+                    indicators={indicators}
+                  />
+                )
               : graphType === 'trendLine'
                 ? yAxisIndicator
                   ? (

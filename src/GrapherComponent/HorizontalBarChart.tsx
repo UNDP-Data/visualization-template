@@ -2,11 +2,11 @@ import {
   useContext, useState,
 } from 'react';
 import styled from 'styled-components';
-import { format } from 'd3-format';
 import maxBy from 'lodash.maxby';
 import orderBy from 'lodash.orderby';
+import { format } from 'd3-format';
 import {
-  scaleOrdinal, scaleLinear, scaleThreshold, scaleBand,
+  scaleOrdinal, scaleLinear, scaleThreshold,
 } from 'd3-scale';
 import minBy from 'lodash.minby';
 import {
@@ -14,7 +14,7 @@ import {
 } from '../Types';
 import Context from '../Context/Context';
 import {
-  COLOR_SCALES, CONTINENTS, HDI_LEVELS, INCOME_GROUPS, MAX_TEXT_LENGTH,
+  COLOR_SCALES, CONTINENTS, HDI_LEVELS, INCOME_GROUPS,
 } from '../Constants';
 import { Tooltip } from '../Components/Tooltip';
 
@@ -27,7 +27,7 @@ const El = styled.div`
   height: calc(100% - 71px);
 `;
 
-export const BarChart = (props: Props) => {
+export const HorizontalBarChart = (props: Props) => {
   const {
     data,
     indicators,
@@ -41,19 +41,18 @@ export const BarChart = (props: Props) => {
     selectedRegions,
     selectedIncomeGroups,
     selectedCountryGroup,
+    reverseOrder,
   } = useContext(Context) as CtxDataType;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
   const [hoverData, setHoverData] = useState<HoverDataType | undefined>(undefined);
   const svgWidth = 960;
-  const svgHeight = 678;
   const margin = {
-    top: 90,
-    bottom: 50,
-    left: 90,
-    right: 20,
+    top: 150,
+    bottom: 10,
+    left: 225,
+    right: 40,
   };
   const graphWidth = svgWidth - margin.left - margin.right;
-  const graphHeight = svgHeight - margin.top - margin.bottom;
   const xIndicatorMetaData = indicators[indicators.findIndex((indicator) => indicator.IndicatorLabelTable === xAxisIndicator)];
   const colorIndicatorMetaData = indicators[indicators.findIndex((indicator) => indicator.IndicatorLabelTable === colorIndicator)];
 
@@ -80,6 +79,7 @@ export const BarChart = (props: Props) => {
       const colorYear = (year === -1 || showMostRecentData) && colorIndicatorIndex !== -1 ? d.indicators[colorIndicatorIndex].yearlyData[d.indicators[colorIndicatorIndex].yearlyData.length - 1]?.year : year;
       return ({
         countryCode: d['Alpha-3 code-1'],
+        countryName: d['Country or Area'],
         xVal,
         colorVal,
         region,
@@ -89,18 +89,16 @@ export const BarChart = (props: Props) => {
         xYear,
         colorYear,
       });
-    }).filter((d) => d.xVal !== undefined && d.country && d.countryGroup && d.incomeGroup && d.region), 'xVal', 'asc',
+    }).filter((d) => d.xVal !== undefined && d.country && d.countryGroup && d.incomeGroup && d.region), 'xVal', reverseOrder ? 'desc' : 'asc',
   );
 
+  const svgHeight = dataFormatted.length * 25 + margin.top + margin.bottom;
   const xMaxValue = maxBy(dataFormatted, (d) => d.xVal) ? maxBy(dataFormatted, (d) => d.xVal)?.xVal as number : 0;
   const xMinValue = minBy(dataFormatted, (d) => d.xVal) ? minBy(dataFormatted, (d) => d.xVal)?.xVal as number : 0;
 
-  const heightScale = scaleLinear().domain([xMinValue > 0 ? 0 : xMinValue, xMaxValue]).range([graphHeight, 0]).nice();
-  const yTicks = heightScale.ticks(5);
-  const xScale = scaleBand()
-    .domain(dataFormatted.map((d) => d.countryCode))
-    .range([0, graphWidth])
-    .paddingInner(0.25);
+  const widthScale = scaleLinear().domain([xMinValue > 0 ? 0 : xMinValue, xMaxValue]).range([0, graphWidth]).nice();
+
+  const xTicks = widthScale.ticks(5);
 
   let colorList = colorIndicator === 'Income Groups' ? COLOR_SCALES.Divergent.Color4 : COLOR_SCALES.Categorical;
 
@@ -156,9 +154,17 @@ export const BarChart = (props: Props) => {
 
   return (
     <El>
-      <svg width='100%' height='100%' viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
+      <svg width='100%' viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
+        <text
+          x={25}
+          y={50}
+          fontSize={18}
+          fill='#212121'
+        >
+          {xIndicatorMetaData.IndicatorLabelTable}
+        </text>
         <g
-          transform='translate(90,20)'
+          transform={`translate(${margin.left},70)`}
         >
           <text
             x={0}
@@ -245,63 +251,36 @@ export const BarChart = (props: Props) => {
             </text>
           </g>
         </g>
-        <g transform={`translate(${margin.left},${margin.top})`}>
-          <g>
-            {
-              yTicks.map((d, i) => (
-                <g key={i} opacity={d === 0 ? 0 : 1}>
-                  <line
-                    y1={heightScale(d)}
-                    y2={heightScale(d)}
-                    x1={0}
-                    x2={graphWidth}
-                    stroke='#AAA'
-                    strokeWidth={1}
-                    strokeDasharray='4,8'
-                  />
-                  <text
-                    x={0}
-                    y={heightScale(d)}
-                    fill='#666'
-                    textAnchor='end'
-                    fontSize={12}
-                    dy={3}
-                    dx={-2}
-                  >
-                    {Math.abs(d) < 1 ? d : format('~s')(d)}
-                  </text>
-                </g>
-              ))
-            }
-            <line
-              y1={heightScale(0)}
-              y2={heightScale(0)}
-              x1={0}
-              x2={graphWidth}
-              stroke='#666'
-              strokeWidth={1}
-            />
-            <text
-              x={0}
-              y={heightScale(0)}
-              fill='#666'
-              textAnchor='end'
-              fontSize={12}
-              dy={3}
-              dx={-2}
-            >
-              {0}
-            </text>
-            <text
-              transform={`translate(-50, ${graphHeight / 2}) rotate(-90)`}
-              fill='#212121'
-              textAnchor='middle'
-              fontSize={12}
-            >
-              {xIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? `${xIndicatorMetaData.IndicatorLabelTable.substring(0, MAX_TEXT_LENGTH)}...` : xIndicatorMetaData.IndicatorLabelTable}
-            </text>
-          </g>
-
+        <g
+          transform={`translate(${margin.left},${margin.top})`}
+        >
+          {
+            xTicks.map((d, i) => (
+              <g
+                key={i}
+              >
+                <text
+                  x={widthScale(d)}
+                  y={-12.5}
+                  fill='#AAA'
+                  textAnchor='middle'
+                  fontSize={12}
+                >
+                  {Math.abs(d) < 1 ? d : format('~s')(d)}
+                </text>
+                <line
+                  x1={widthScale(d)}
+                  x2={widthScale(d)}
+                  y1={-2.5}
+                  y2={dataFormatted.length * 25 - 2.5}
+                  stroke='#AAA'
+                  strokeWidth={1}
+                  strokeDasharray='4,8'
+                  opacity={d === 0 ? 0 : 1}
+                />
+              </g>
+            ))
+          }
           {
             dataFormatted.map((d, i) => {
               const countryData = data[data.findIndex((el) => el['Alpha-3 code-1'] === d.countryCode)];
@@ -355,56 +334,50 @@ export const BarChart = (props: Props) => {
                     setHoverData(undefined);
                   }}
                 >
+                  <text
+                    fill={d.colorVal ? colorScale(d.colorVal) : '#212121'}
+                    y={i * 25}
+                    x={0}
+                    dx={-50}
+                    dy={14}
+                    fontSize={12}
+                    textAnchor='end'
+                  >
+                    {d.countryName.length < 25 ? d.countryName : `${d.countryName.substring(0, 25)}...`}
+                  </text>
                   <rect
-                    x={xScale(d.countryCode)}
-                    y={heightScale(Math.max(0, d.xVal))}
-                    width={xScale.bandwidth()}
+                    y={i * 25}
+                    x={widthScale(Math.min(0, d.xVal))}
+                    height={20}
                     fill={d.colorVal ? colorScale(d.colorVal) : '#666'}
-                    height={Math.abs(heightScale(d.xVal) - heightScale(0))}
+                    width={Math.abs(widthScale(d.xVal) - widthScale(0))}
+                    rx={3}
+                    ry={3}
                   />
-                  {
-                    xScale.bandwidth() >= 7 && xScale.bandwidth() < 20
-                      ? (
-                        <g
-                          transform={`translate(${xScale(d.countryCode) as number + (xScale.bandwidth() / 2)},${heightScale(0)})`}
-                        >
-                          <text
-                            x={0}
-                            y={0}
-                            fontSize='12px'
-                            textAnchor={d.xVal >= 0 ? 'end' : 'start'}
-                            fill='#110848'
-                            transform='rotate(-90)'
-                            dy='5px'
-                            dx={d.xVal >= 0 ? '-5px' : '19px'}
-                          >
-                            {countryData['Alpha-3 code-1']}
-                          </text>
-                        </g>
-                      )
-                      : null
-                  }
-                  {
-                    xScale.bandwidth() >= 20
-                      ? (
-                        <text
-                          x={xScale(d.countryCode) as number + (xScale.bandwidth() / 2)}
-                          y={heightScale(0)}
-                          fontSize='12px'
-                          textAnchor='middle'
-                          fill='#110848'
-                          dy={d.xVal >= 0 ? '15px' : '-5px'}
-                        >
-                          {d.countryCode}
-                        </text>
-                      )
-                      : null
-                  }
+                  <text
+                    fill='#212121'
+                    fontWeight='bold'
+                    y={i * 25}
+                    x={d.xVal < 0 ? widthScale(Math.min(0, d.xVal)) : widthScale(d.xVal)}
+                    dx={d.xVal < 0 ? -5 : 5}
+                    textAnchor={d.xVal < 0 ? 'end' : 'start'}
+                    dy={14}
+                    fontSize={12}
+                  >
+                    {d.xVal < 1 ? d.xVal : format('~s')(d.xVal)}
+                  </text>
                 </g>
               );
             })
           }
-
+          <line
+            x1={widthScale(0)}
+            x2={widthScale(0)}
+            y1={-2.5}
+            y2={dataFormatted.length * 25 - 2.5}
+            stroke='#212121'
+            strokeWidth={1}
+          />
         </g>
       </svg>
       {

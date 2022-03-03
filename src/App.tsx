@@ -164,7 +164,7 @@ const App = () => {
   const [countryList, setCountryList] = useState<string[] | undefined>(undefined);
 
   const initialState = {
-    graphType: 'scatterPlot',
+    graphType: 'map',
     selectedRegions: [],
     selectedCountries: [],
     selectedIncomeGroups: [],
@@ -180,6 +180,8 @@ const App = () => {
     trendChartCountry: undefined,
     multiCountrytrendChartCountries: ['China', 'India', 'United States of America', 'Indonesia', 'Pakistan'],
     useSameRange: false,
+    reverseOrder: false,
+    verticalBarLayout: true,
   };
 
   const [state, dispatch] = useReducer(Reducer, initialState);
@@ -195,6 +197,13 @@ const App = () => {
     dispatch({
       type: 'UPDATE_MULTI_COUNTRY_TREND_CHART_COUNTRIES',
       payload: multiCountrytrendChartCountries,
+    });
+  };
+
+  const updateReverseOrder = (reverseOrder: boolean) => {
+    dispatch({
+      type: 'UPDATE_REVERSE_ORDER',
+      payload: reverseOrder,
     });
   };
 
@@ -294,6 +303,13 @@ const App = () => {
       payload: useSameRange,
     });
   };
+  const updateBarLayout = (varticalBarLayout: boolean) => {
+    dispatch({
+      type: 'UPDATE_BAR_LAYOUT',
+      payload: varticalBarLayout,
+    });
+  };
+
   useEffect(() => {
     queue()
       .defer(json, './data/ALL-DATA.json')
@@ -394,6 +410,8 @@ const App = () => {
                   updateTrendChartCountry,
                   updateMultiCountrytrendChartCountries,
                   updateUseSameRange,
+                  updateReverseOrder,
+                  updateBarLayout,
                 }}
               >
                 <GrapherComponent
