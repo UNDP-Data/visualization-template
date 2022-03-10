@@ -1,4 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import {
+  useContext, useEffect, useRef, useState,
+} from 'react';
 import styled from 'styled-components';
 import { Slider } from 'antd';
 import 'antd/dist/antd.css';
@@ -13,6 +15,7 @@ import { DualAxisLineChart } from './DualAxisLineChart';
 import { MultiLineChart } from './MultiLineChart';
 import { BarChart } from './BarChart';
 import { LineChart } from './LineChart';
+import { PauseIcon, PlayIcon } from '../Icons';
 
 interface Props {
   data: DataType[];
@@ -31,7 +34,9 @@ const El = styled.div`
 `;
 
 const SliderEl = styled.div`
-  padding: 2rem 0 3rem 0;
+  padding: 2rem 1rem 2rem 0;
+  display: flex;
+  align-items: center;
   background-color: var(--black-200);
   box-shadow: var(--shadow-bottom);
   position: sticky;
@@ -62,6 +67,11 @@ const InfoNote = styled.div`
   top: 0;
 `;
 
+const Button = styled.button`
+  background-color: transparent;
+  border: none;
+`;
+
 const getMarks = (arr: number[]) => {
   const marksTemp: any = {};
   arr.forEach((d) => {
@@ -88,8 +98,13 @@ export const Graph = (props: Props) => {
   } = useContext(Context) as CtxDataType;
   const [commonYears, setCommonYears] = useState<number[]>([]);
   const [marks, setMarks] = useState<any>(undefined);
+  const [play, setPlay] = useState(false);
+  const [yearForPlay, setYearForPlay] = useState<undefined | number>(undefined);
+  // eslint-disable-next-line no-undef
+  const timer: { current: NodeJS.Timeout | null } = useRef(null);
 
   useEffect(() => {
+    setPlay(false);
     if (graphType !== 'barGraph') {
       if (yAxisIndicator) {
         if (!sizeIndicator) {
@@ -97,6 +112,7 @@ export const Graph = (props: Props) => {
           setCommonYears(intersectedYears);
           setMarks(getMarks(intersectedYears));
           updateYear(intersectedYears.length === 0 ? -1 : intersectedYears[intersectedYears.length - 1]);
+          setYearForPlay(intersectedYears.length === 0 ? undefined : intersectedYears[intersectedYears.length - 1]);
         } else {
           const intersectedYears = intersection(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years,
             indicators[indicators.findIndex((d) => d.IndicatorLabelTable === yAxisIndicator)].years,
@@ -104,30 +120,52 @@ export const Graph = (props: Props) => {
           setCommonYears(intersectedYears);
           setMarks(getMarks(intersectedYears));
           updateYear(intersectedYears.length === 0 ? -1 : intersectedYears[intersectedYears.length - 1]);
+          setYearForPlay(intersectedYears.length === 0 ? undefined : intersectedYears[intersectedYears.length - 1]);
         }
       } else if (!sizeIndicator) {
         setCommonYears(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years);
         setMarks(getMarks(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years));
         updateYear(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years[indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years.length - 1]);
+        setYearForPlay(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years[indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years.length - 1]);
       } else {
         const intersectedYears = intersection(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years, indicators[indicators.findIndex((d) => d.IndicatorLabelTable === sizeIndicator)].years);
         setCommonYears(intersectedYears);
         setMarks(getMarks(intersectedYears));
         updateYear(intersectedYears.length === 0 ? -1 : intersectedYears[intersectedYears.length - 1]);
+        setYearForPlay(intersectedYears.length === 0 ? undefined : intersectedYears[intersectedYears.length - 1]);
       }
     } else {
       setCommonYears(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years);
       setMarks(getMarks(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years));
       updateYear(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years[indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years.length - 1]);
+      setYearForPlay(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years[indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years.length - 1]);
     }
   }, [xAxisIndicator, yAxisIndicator, sizeIndicator, graphType]);
 
+  useEffect(() => {
+    if (play && yearForPlay) {
+      timer.current = setInterval(() => {
+        setYearForPlay((prevCounter) => (prevCounter ? commonYears.indexOf(prevCounter) === commonYears.length - 1 ? commonYears[0] : commonYears[commonYears.indexOf(prevCounter) + 1] : commonYears[0]));
+      }, 1000);
+    }
+    if (!play && timer.current) clearInterval(timer.current);
+  }, [play, commonYears]);
+  useEffect(() => {
+    if (yearForPlay !== undefined) { updateYear(yearForPlay as number); }
+  }, [yearForPlay]);
   return (
     <El id='graph-node'>
       {
         graphType === 'trendLine' || graphType === 'multiCountryTrendLine' ? null
           : commonYears.length > 1 && !showMostRecentData ? (
             <SliderEl>
+              <Button onClick={() => { setPlay(!play); }} role='button'>
+                {
+                  play
+                    ? <PauseIcon size={18} fill='#006EB5' />
+                    : <PlayIcon size={18} fill='#006EB5' />
+                }
+              </Button>
               <Slider
                 min={marks[Object.keys(marks)[0]]}
                 max={marks[Object.keys(marks)[Object.keys(marks).length - 1]]}
@@ -135,7 +173,8 @@ export const Graph = (props: Props) => {
                 step={null}
                 value={year}
                 style={{ width: '95%', margin: '0 auto' }}
-                onChange={(d) => { updateYear(d); }}
+                onChange={(d) => { updateYear(d); setYearForPlay(d); }}
+                tooltipVisible
               />
             </SliderEl>
           ) : commonYears.length === 0 || showMostRecentData ? (

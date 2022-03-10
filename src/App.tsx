@@ -145,7 +145,17 @@ const GlobalStyle = createGlobalStyle`
     &:last-of-type {
       display: inline;
     }
-
+  }
+  .ant-slider-tooltip{
+    padding: 0 !important;
+  }
+  .ant-tooltip-inner{
+    font-size: 1.4rem !important;
+    background-color: var(--black-550) !important;
+    border-radius: 0.4rem;
+  }
+  .ant-tooltip-arrow-content{
+    background-color: var(--black-550) !important;
   }
 `;
 
