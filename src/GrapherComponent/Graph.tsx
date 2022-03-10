@@ -9,9 +9,10 @@ import { HorizontalBarChart } from './HorizontalBarChart';
 import { ScatterPlot } from './ScatterPlot';
 import { BivariateMap } from './BivariateMap';
 import { UnivariateMap } from './UnivariateMap';
-import { LineChart } from './LineChart';
+import { DualAxisLineChart } from './DualAxisLineChart';
 import { MultiLineChart } from './MultiLineChart';
 import { BarChart } from './BarChart';
+import { LineChart } from './LineChart';
 
 interface Props {
   data: DataType[];
@@ -192,12 +193,19 @@ export const Graph = (props: Props) => {
               : graphType === 'trendLine'
                 ? yAxisIndicator
                   ? (
+                    <DualAxisLineChart
+                      data={data}
+                      indicators={indicators}
+                      countries={countries}
+                    />
+                  )
+                  : (
                     <LineChart
                       data={data}
                       indicators={indicators}
                       countries={countries}
                     />
-                  ) : null
+                  )
                 : (
                   <MultiLineChart
                     data={data}

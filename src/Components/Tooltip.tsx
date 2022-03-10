@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { format } from 'd3-format';
 import { HoverDataType } from '../Types';
 import { HorizontalArrow, VerticalArrow } from '../Icons';
 
@@ -145,7 +146,15 @@ export const Tooltip = (props: Props) => {
             <div>
               <RowMetaData>{d.year}</RowMetaData>
               <RowTitleEl>{d.title}</RowTitleEl>
-              <RowValue>{d.value}</RowValue>
+              <RowValue>
+                {
+                  d.prefix && d.value && d.value !== 'NA' ? `${d.prefix} ` : ''
+                }
+                {typeof d.value === 'number' ? d.value < 1000000 ? format(',')(d.value).replace(',', ' ') : format('.3s')(d.value).replace('G', 'B') : d.value }
+                {
+                  d.suffix && d.value && d.value !== 'NA' ? ` ${d.suffix}` : ''
+                }
+              </RowValue>
             </div>
           </RowEl>
         ))

@@ -48,18 +48,12 @@ const DropdownTitle = styled.div`
   line-height: 1.8rem;
 `;
 
-const Subnote = styled.span`
-  font-size: 1.2rem;
-  color: var(--black-550);
-`;
-
 const FiltersEl = styled.div`
   padding: 1rem 0 0 0;
   border-top: 1px solid var(--black-400);
   @media (max-width: 960px) {
     padding: 2rem 0;
   }  
-
 `;
 
 const FilterTitle = styled.div`
@@ -154,7 +148,7 @@ export const Settings = (props: Props) => {
     if (options.findIndex((d) => d === xAxisIndicator) === -1) {
       updateXAxisIndicator(options[0]);
     }
-    if (options.findIndex((d) => d === yAxisIndicator) === -1 && (graphType === 'scatterPlot' || graphType === 'trendLine')) {
+    if (options.findIndex((d) => d === yAxisIndicator) === -1 && (graphType === 'scatterPlot')) {
       updateYAxisIndicator(options[0]);
     }
   }, [graphType, options]);
@@ -216,8 +210,6 @@ export const Settings = (props: Props) => {
             <DropdownEl>
               <DropdownTitle>
                 Secondary Indicator
-                {' '}
-                <Subnote>Use Backspace to remove selection</Subnote>
               </DropdownTitle>
               <Select
                 showSearch
@@ -242,6 +234,7 @@ export const Settings = (props: Props) => {
               </DropdownTitle>
               <Select
                 showSearch
+                allowClear
                 style={{ width: '100%' }}
                 value={yAxisIndicator}
                 placeholder='Please select'
@@ -262,8 +255,6 @@ export const Settings = (props: Props) => {
           <DropdownEl>
             <DropdownTitle>
               Size By
-              {' '}
-              <Subnote>Use Backspace to remove selection</Subnote>
             </DropdownTitle>
             <Select
               allowClear
@@ -286,8 +277,6 @@ export const Settings = (props: Props) => {
           <DropdownEl>
             <DropdownTitle>
               Color By
-              {' '}
-              <Subnote>Use Backspace to remove selection</Subnote>
             </DropdownTitle>
             <Select
               showSearch
@@ -306,7 +295,7 @@ export const Settings = (props: Props) => {
         ) : null
       }
       <ButtonEl>
-        <Button type='primary' onClick={() => { updateShowSource(true); }}>Data Source</Button>
+        <Button type='primary' onClick={() => { updateShowSource(true); }}>Data Source & Description</Button>
         <Button
           type='primary'
           onClick={() => {
@@ -355,7 +344,7 @@ export const Settings = (props: Props) => {
                       : null
                   }
                   <CheckboxEl>
-                    <Checkbox checked={showMostRecentData} onChange={(e) => { updateShowMostRecentData(e.target.checked); }}>Show Most Recent Avalable Data</Checkbox>
+                    <Checkbox checked={showMostRecentData} onChange={(e) => { updateShowMostRecentData(e.target.checked); }}>Show Most Recent Available Data</Checkbox>
                   </CheckboxEl>
                   {
                     graphType === 'barGraph'
@@ -382,7 +371,7 @@ export const Settings = (props: Props) => {
                     <Checkbox checked={showLabel} onChange={(e) => { updateShowLabel(e.target.checked); }}>Show Label</Checkbox>
                   </CheckboxEl>
                   <CheckboxEl>
-                    <Checkbox checked={useSameRange} onChange={(e) => { updateUseSameRange(e.target.checked); }}>Use Same Range for Both Y-Axes</Checkbox>
+                    <Checkbox checked={useSameRange} disabled={!yAxisIndicator} onChange={(e) => { updateUseSameRange(e.target.checked); }}>Use Same Range for Both Y-Axes</Checkbox>
                   </CheckboxEl>
                 </CheckboxContainer>
               ) : null

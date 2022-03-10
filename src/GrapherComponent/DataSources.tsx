@@ -90,7 +90,13 @@ export const DataSources = (props: Props) => {
   return (
     <El>
       <HeaderEl>
-        <div>Data Sources</div>
+        <div>
+          Data Sources
+          {' '}
+          &
+          {' '}
+          Descriptions
+        </div>
         <Button type='primary' onClick={() => { updateShowSource(false); }}>Close</Button>
       </HeaderEl>
       <TitleEl>{xIndicatorMetaData.IndicatorLabelTable}</TitleEl>

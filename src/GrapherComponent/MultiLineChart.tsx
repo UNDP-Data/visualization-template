@@ -207,7 +207,7 @@ export const MultiLineChart = (props: Props) => {
                             dy={3}
                             opacity={d === 0 ? 0 : 1}
                           >
-                            {Math.abs(d) < 1 ? d : format('~s')(d)}
+                            {Math.abs(d) < 1 ? d : format('~s')(d).replace('G', 'B')}
                           </text>
                         </g>
                       ))
@@ -312,9 +312,11 @@ export const MultiLineChart = (props: Props) => {
                               continent: `${d}`,
                               rows: dataFormatted.map((el, j) => ({
                                 title: el.countryName,
-                                value: el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param === undefined ? 'NA' : `${xIndicatorMetaData?.LabelPrefix} ${el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param} ${xIndicatorMetaData?.LabelSuffix}`,
+                                value: el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param !== undefined ? el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param : 'NA',
                                 type: 'color',
                                 color: COLOR_SCALES.Categorical[j % 8],
+                                suffix: xIndicatorMetaData?.LabelPrefix,
+                                prefix: xIndicatorMetaData?.LabelSuffix,
                               })),
                               xPosition: event.clientX,
                               yPosition: event.clientY,
@@ -326,9 +328,11 @@ export const MultiLineChart = (props: Props) => {
                               continent: `${d}`,
                               rows: dataFormatted.map((el, j) => ({
                                 title: el.countryName,
-                                value: el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param === undefined ? 'NA' : `${xIndicatorMetaData?.LabelPrefix} ${el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param} ${xIndicatorMetaData?.LabelSuffix}`,
+                                value: el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param !== undefined ? el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param : 'NA',
                                 type: 'color',
                                 color: COLOR_SCALES.Categorical[j % 8],
+                                suffix: xIndicatorMetaData?.LabelPrefix,
+                                prefix: xIndicatorMetaData?.LabelSuffix,
                               })),
                               xPosition: event.clientX,
                               yPosition: event.clientY,

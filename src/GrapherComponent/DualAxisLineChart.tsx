@@ -21,7 +21,8 @@ interface Props {
 
 interface DataFormattedType {
   year: number;
-  param?: number;
+  param1?: number;
+  param2?: number;
 }
 
 const El = styled.div`
@@ -67,7 +68,7 @@ const InfoNote = styled.div`
   transform: translateY(-50%);
 `;
 
-export const LineChart = (props: Props) => {
+export const DualAxisLineChart = (props: Props) => {
   const {
     data,
     indicators,
@@ -75,8 +76,10 @@ export const LineChart = (props: Props) => {
   } = props;
   const {
     xAxisIndicator,
+    yAxisIndicator,
     trendChartCountry,
     updateTrendChartCountry,
+    useSameRange,
     showLabel,
   } = useContext(Context) as CtxDataType;
   const [hoverData, setHoverData] = useState<HoverDataType | undefined>(undefined);
@@ -86,51 +89,63 @@ export const LineChart = (props: Props) => {
     top: 40,
     bottom: 50,
     left: 90,
-    right: 30,
+    right: 90,
   };
   const graphWidth = svgWidth - margin.left - margin.right;
   const graphHeight = svgHeight - margin.top - margin.bottom;
 
   const xIndicatorMetaData = indicators[indicators.findIndex((indicator) => indicator.IndicatorLabelTable === xAxisIndicator)];
+  const yIndicatorMetaData = indicators[indicators.findIndex((indicator) => indicator.IndicatorLabelTable === yAxisIndicator)];
 
   const countryData = data[data.findIndex((d) => d['Country or Area'] === trendChartCountry)];
 
-  const minYear = xIndicatorMetaData.years[0];
-  const maxYear = xIndicatorMetaData.years[xIndicatorMetaData.years.length - 1];
+  const minYear = xIndicatorMetaData.years[0] < yIndicatorMetaData.years[0] ? xIndicatorMetaData.years[0] : yIndicatorMetaData.years[0];
+  const maxYear = xIndicatorMetaData.years[xIndicatorMetaData.years.length - 1] > yIndicatorMetaData.years[yIndicatorMetaData.years.length - 1] ? xIndicatorMetaData.years[xIndicatorMetaData.years.length - 1] : yIndicatorMetaData.years[yIndicatorMetaData.years.length - 1];
 
   const xIndicatorIndex = countryData?.indicators.findIndex((el) => xIndicatorMetaData.DataKey === el.indicator);
+  const yIndicatorIndex = countryData?.indicators.findIndex((el) => yIndicatorMetaData.DataKey === el.indicator);
 
   const dataFormatted: DataFormattedType[] = [];
 
   for (let i = minYear; i < maxYear + 1; i += 1) {
     dataFormatted.push({
       year: i,
-      param: countryData?.indicators[xIndicatorIndex].yearlyData[countryData?.indicators[xIndicatorIndex].yearlyData.findIndex((d) => d.year === i)]?.value,
+      param1: countryData?.indicators[xIndicatorIndex].yearlyData[countryData?.indicators[xIndicatorIndex].yearlyData.findIndex((d) => d.year === i)]?.value,
+      param2: countryData?.indicators[yIndicatorIndex].yearlyData[countryData?.indicators[yIndicatorIndex].yearlyData.findIndex((d) => d.year === i)]?.value,
     });
   }
-  const minParam: number = minBy(dataFormatted, (d) => d.param)?.param ? minBy(dataFormatted, (d) => d.param)?.param as number > 0 ? 0 : minBy(dataFormatted, (d) => d.param)?.param as number : 0;
-  const maxParam: number = maxBy(dataFormatted, (d) => d.param)?.param ? maxBy(dataFormatted, (d) => d.param)?.param as number : 0;
+  const minParam1: number = minBy(dataFormatted, (d) => d.param1)?.param1 ? minBy(dataFormatted, (d) => d.param1)?.param1 as number > 0 ? 0 : minBy(dataFormatted, (d) => d.param1)?.param1 as number : 0;
+  const minParam2: number = minBy(dataFormatted, (d) => d.param2)?.param2 ? minBy(dataFormatted, (d) => d.param2)?.param2 as number > 0 ? 0 : minBy(dataFormatted, (d) => d.param2)?.param2 as number : 0;
+  const maxParam1: number = maxBy(dataFormatted, (d) => d.param1)?.param1 ? maxBy(dataFormatted, (d) => d.param1)?.param1 as number : 0;
+  const maxParam2: number = maxBy(dataFormatted, (d) => d.param2)?.param2 ? maxBy(dataFormatted, (d) => d.param2)?.param2 as number : 0;
 
-  const dataFilterd = dataFormatted.filter((d) => d.param !== undefined);
+  const minParam = minParam1 < minParam2 ? minParam1 : minParam2;
+  const maxParam = maxParam1 > maxParam2 ? maxParam1 : maxParam2;
+
+  const dataFilterd = dataFormatted.filter((d) => d.param1 !== undefined || d.param2 !== undefined);
   const minYearFiltered = minBy(dataFilterd, (d) => d.year)?.year ? minBy(dataFilterd, (d) => d.year)?.year : minYear;
   const maxYearFiltered = maxBy(dataFilterd, (d) => d.year)?.year ? maxBy(dataFilterd, (d) => d.year)?.year : maxYear;
 
   const x = scaleLinear().domain([minYearFiltered as number, maxYearFiltered as number]).range([0, graphWidth]);
-  const y1 = scaleLinear().domain([minParam, maxParam]).range([graphHeight, 0]).nice();
+  const y1 = scaleLinear().domain([useSameRange ? minParam : minParam1, useSameRange ? maxParam : maxParam1]).range([graphHeight, 0]).nice();
+  const y2 = scaleLinear().domain([useSameRange ? minParam : minParam2, useSameRange ? maxParam : maxParam2]).range([graphHeight, 0]).nice();
 
-  const dataParam1 = dataFormatted.filter((d) => d.param !== undefined);
+  const dataParam1 = dataFormatted.filter((d) => d.param1 !== undefined);
+  const dataParam2 = dataFormatted.filter((d) => d.param2 !== undefined);
 
-  const lineShape = line()
-    .defined((d: any) => d.param !== undefined)
+  const lineShape1 = line()
+    .defined((d: any) => d.param1 !== undefined)
     .x((d: any) => x(d.year))
-    .y((d: any) => y1(d.param))
+    .y((d: any) => y1(d.param1))
+    .curve(curveMonotoneX);
+  const lineShape2 = line()
+    .defined((d: any) => d.param2 !== undefined)
+    .x((d: any) => x(d.year))
+    .y((d: any) => y2(d.param2))
     .curve(curveMonotoneX);
   const y1Ticks = y1.ticks(5);
-  const xTicks = x.ticks(
-    (((maxYearFiltered as number) - (minYearFiltered as number)) > 10 || ((maxYearFiltered as number) - (minYearFiltered as number)) === 0)
-      ? 10
-      : (maxYearFiltered as number) - (minYearFiltered as number),
-  );
+  const y2Ticks = y2.ticks(5);
+  const xTicks = x.ticks(10);
   return (
     <El>
       <SelectEl>
@@ -211,6 +226,49 @@ export const LineChart = (props: Props) => {
                   </g>
                   <g>
                     {
+                      y2Ticks.map((d, i) => (
+                        <g key={i}>
+                          <line
+                            y1={y2(d)}
+                            y2={y2(d)}
+                            x1={graphWidth + 15}
+                            x2={graphWidth + 20}
+                            stroke='#266291'
+                            strokeWidth={1}
+                          />
+                          <text
+                            x={graphWidth + 25}
+                            y={y2(d)}
+                            fill='#266291'
+                            textAnchor='start'
+                            fontSize={12}
+                            dy={3}
+                            dx={-2}
+                          >
+                            {Math.abs(d) < 1 ? d : format('~s')(d).replace('G', 'B')}
+                          </text>
+                        </g>
+                      ))
+                    }
+                    <line
+                      y1={0}
+                      y2={graphHeight}
+                      x1={graphWidth + 15}
+                      x2={graphWidth + 15}
+                      stroke='#266291'
+                      strokeWidth={1}
+                    />
+                    <text
+                      transform={`translate(${graphWidth + 50}, ${graphHeight / 2}) rotate(-90)`}
+                      fill='#266291'
+                      textAnchor='middle'
+                      fontSize={12}
+                    >
+                      {yIndicatorMetaData.IndicatorLabelTable.length > MAX_TEXT_LENGTH ? `${yIndicatorMetaData.IndicatorLabelTable.substring(0, MAX_TEXT_LENGTH)}...` : yIndicatorMetaData.IndicatorLabelTable}
+                    </text>
+                  </g>
+                  <g>
+                    {
                       xTicks.map((d, i) => (
                         <g key={i}>
                           <text
@@ -226,10 +284,20 @@ export const LineChart = (props: Props) => {
                         </g>
                       ))
                     }
+                    <line
+                      y1={0}
+                      y2={graphHeight}
+                      x1={graphWidth + 15}
+                      x2={graphWidth + 15}
+                      stroke='#266291'
+                      strokeWidth={1}
+                    />
                   </g>
                   <g>
-                    <path d={lineShape(dataFormatted as any) as string} fill='none' stroke='#E26B8D' strokeWidth={2} />
-                    <path d={lineShape(dataParam1 as any) as string} fill='none' stroke='#E26B8D' strokeWidth={2} strokeDasharray='4 8' />
+                    <path d={lineShape1(dataFormatted as any) as string} fill='none' stroke='#E26B8D' strokeWidth={2} />
+                    <path d={lineShape2(dataFormatted as any) as string} fill='none' stroke='#266291' strokeWidth={2} />
+                    <path d={lineShape1(dataParam1 as any) as string} fill='none' stroke='#E26B8D' strokeWidth={2} strokeDasharray='4 8' />
+                    <path d={lineShape2(dataParam2 as any) as string} fill='none' stroke='#266291' strokeWidth={2} strokeDasharray='4 8' />
                     {
                       hoverData
                         ? (
@@ -250,11 +318,11 @@ export const LineChart = (props: Props) => {
                     dataFormatted.map((d, i) => (
                       <g key={i}>
                         {
-                          d.param !== undefined ? (
+                          d.param1 !== undefined ? (
                             <g>
                               <circle
                                 cx={x(d.year)}
-                                cy={y1(d.param)}
+                                cy={y1(d.param1)}
                                 r={4}
                                 fill='#E26B8D'
                               />
@@ -263,8 +331,8 @@ export const LineChart = (props: Props) => {
                                   ? (
                                     <text
                                       x={x(d.year)}
-                                      y={y1(d.param)}
-                                      dy={16}
+                                      y={y1(d.param1)}
+                                      dy={d.param2 !== undefined && (y1(d.param1) > y2(d.param2)) ? 16 : -8}
                                       fontSize={12}
                                       textAnchor='middle'
                                       fill='#E26B8D'
@@ -272,7 +340,37 @@ export const LineChart = (props: Props) => {
                                       stroke='#fff'
                                       fontWeight='bold'
                                     >
-                                      {d.param < 1 ? d.param : format('~s')(d.param)}
+                                      {d.param1 < 1 ? d.param1 : format('~s')(d.param1)}
+                                    </text>
+                                  ) : null
+                              }
+                            </g>
+                          ) : null
+                        }
+                        {
+                          d.param2 !== undefined ? (
+                            <g>
+                              <circle
+                                cx={x(d.year)}
+                                cy={y2(d.param2)}
+                                r={4}
+                                fill='#266291'
+                              />
+                              {
+                                showLabel
+                                  ? (
+                                    <text
+                                      x={x(d.year)}
+                                      y={y2(d.param2)}
+                                      dy={d.param1 !== undefined && (y1(d.param1) > y2(d.param2)) ? -8 : 16}
+                                      fontSize={12}
+                                      textAnchor='middle'
+                                      fill='#266291'
+                                      strokeWidth={0.25}
+                                      stroke='#fff'
+                                      fontWeight='bold'
+                                    >
+                                      {d.param2 < 1 ? d.param2 : format('~s')(d.param2)}
                                     </text>
                                   ) : null
                               }
@@ -293,12 +391,21 @@ export const LineChart = (props: Props) => {
                               rows: [
                                 {
                                   title: xAxisIndicator,
-                                  value: d.param !== undefined ? d.param : 'NA',
+                                  value: d.param1 !== undefined ? d.param1 : 'NA',
                                   type: 'color',
                                   year: d.year,
                                   color: '#E26B8D',
                                   suffix: xIndicatorMetaData?.LabelPrefix,
                                   prefix: xIndicatorMetaData?.LabelSuffix,
+                                },
+                                {
+                                  title: yAxisIndicator,
+                                  value: d.param2 !== undefined ? d.param2 : 'NA',
+                                  type: 'color',
+                                  year: d.year,
+                                  color: '#266291',
+                                  suffix: yIndicatorMetaData?.LabelPrefix,
+                                  prefix: yIndicatorMetaData?.LabelSuffix,
                                 },
                               ],
                               xPosition: event.clientX,
@@ -312,12 +419,21 @@ export const LineChart = (props: Props) => {
                               rows: [
                                 {
                                   title: xAxisIndicator,
-                                  value: d.param !== undefined ? d.param : 'NA',
+                                  value: d.param1 !== undefined ? d.param1 : 'NA',
                                   type: 'color',
                                   year: d.year,
                                   color: '#E26B8D',
                                   suffix: xIndicatorMetaData?.LabelPrefix,
                                   prefix: xIndicatorMetaData?.LabelSuffix,
+                                },
+                                {
+                                  title: yAxisIndicator,
+                                  value: d.param2 !== undefined ? d.param2 : 'NA',
+                                  type: 'color',
+                                  year: d.year,
+                                  color: '#266291',
+                                  suffix: yIndicatorMetaData?.LabelPrefix,
+                                  prefix: yIndicatorMetaData?.LabelSuffix,
                                 },
                               ],
                               xPosition: event.clientX,

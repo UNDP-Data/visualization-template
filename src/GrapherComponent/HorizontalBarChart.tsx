@@ -266,7 +266,7 @@ export const HorizontalBarChart = (props: Props) => {
                   textAnchor='middle'
                   fontSize={12}
                 >
-                  {Math.abs(d) < 1 ? d : format('~s')(d)}
+                  {Math.abs(d) < 1 ? d : format('~s')(d).replace('G', 'B')}
                 </text>
                 <line
                   x1={widthScale(d)}
@@ -288,18 +288,22 @@ export const HorizontalBarChart = (props: Props) => {
               const rowData: HoverRowDataType[] = [
                 {
                   title: xAxisIndicator,
-                  value: d.xVal ? `${xIndicatorMetaData?.LabelPrefix} ${d.xVal} ${xIndicatorMetaData?.LabelSuffix}` : d.xVal,
-                  type: 'x-axis',
+                  value: d.xVal !== undefined ? d.xVal : 'NA',
+                  type: 'y-axis',
                   year: d.xYear,
+                  suffix: xIndicatorMetaData?.LabelPrefix,
+                  prefix: xIndicatorMetaData?.LabelSuffix,
                 },
               ];
               if (colorIndicator !== 'Continents') {
                 rowData.push({
                   title: colorIndicator,
-                  value: d.colorVal ? d.colorVal : 'NA',
+                  value: d.colorVal !== undefined ? d.colorVal : 'NA',
                   type: 'color',
                   year: colorIndicator === 'Income Groups' ? undefined : d.colorYear,
                   color: d.colorVal ? colorScale(d.colorVal) as string : '#666',
+                  suffix: colorIndicatorMetaData?.LabelPrefix,
+                  prefix: colorIndicatorMetaData?.LabelSuffix,
                 });
               }
 

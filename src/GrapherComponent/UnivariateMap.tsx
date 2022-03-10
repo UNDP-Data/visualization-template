@@ -170,10 +170,12 @@ export const UnivariateMap = (props: Props) => {
               const rowData: HoverRowDataType[] = [
                 {
                   title: xAxisIndicator,
-                  value: val === undefined ? 'NA' : `${xIndicatorMetaData?.LabelPrefix} ${val} ${xIndicatorMetaData?.LabelSuffix}`,
+                  value: val === undefined ? 'NA' : val,
                   type: 'color',
                   year: year === -1 || showMostRecentData ? d.indicators[indicatorIndex].yearlyData[d.indicators[indicatorIndex].yearlyData.length - 1]?.year : year,
                   color,
+                  suffix: xIndicatorMetaData?.LabelPrefix,
+                  prefix: xIndicatorMetaData?.LabelSuffix,
                 },
               ];
               if (sizeIndicatorMetaData) {
@@ -183,8 +185,10 @@ export const UnivariateMap = (props: Props) => {
                     : d.indicators[sizeIndicatorIndex].yearlyData[d.indicators[sizeIndicatorIndex].yearlyData.length - 1]?.value;
                 rowData.push({
                   title: sizeIndicator,
-                  value: sizeVal ? `${sizeIndicatorMetaData?.LabelPrefix} ${sizeVal} ${sizeIndicatorMetaData?.LabelSuffix}` : sizeVal,
+                  value: sizeVal !== undefined ? sizeVal : 'NA',
                   type: 'size',
+                  suffix: sizeIndicatorMetaData?.LabelPrefix,
+                  prefix: sizeIndicatorMetaData?.LabelSuffix,
                   year: year === -1 || showMostRecentData ? d.indicators[sizeIndicatorIndex].yearlyData[d.indicators[sizeIndicatorIndex].yearlyData.length - 1]?.year : year,
                 });
               }
@@ -288,17 +292,21 @@ export const UnivariateMap = (props: Props) => {
                     const rowData: HoverRowDataType[] = [
                       {
                         title: xAxisIndicator,
-                        value: val === undefined ? 'NA' : `${xIndicatorMetaData?.LabelPrefix} ${val} ${xIndicatorMetaData?.LabelSuffix}`,
+                        value: val === undefined ? 'NA' : val,
                         type: 'color',
                         year: year === -1 || showMostRecentData ? d.indicators[indicatorIndex].yearlyData[d.indicators[indicatorIndex].yearlyData.length - 1]?.year : year,
                         color,
+                        suffix: xIndicatorMetaData?.LabelPrefix,
+                        prefix: xIndicatorMetaData?.LabelSuffix,
                       },
                     ];
                     if (sizeIndicatorMetaData) {
                       rowData.push({
                         title: sizeIndicator,
-                        value: sizeVal ? `${sizeIndicatorMetaData?.LabelPrefix} ${sizeVal} ${sizeIndicatorMetaData?.LabelSuffix}` : sizeVal,
+                        value: sizeVal !== undefined ? sizeVal : 'NA',
                         type: 'size',
+                        suffix: sizeIndicatorMetaData?.LabelPrefix,
+                        prefix: sizeIndicatorMetaData?.LabelSuffix,
                         year: year === -1 || showMostRecentData ? d.indicators[sizeIndicatorIndex].yearlyData[d.indicators[sizeIndicatorIndex].yearlyData.length - 1]?.year : year,
                       });
                     }
@@ -391,7 +399,7 @@ export const UnivariateMap = (props: Props) => {
                     fontSize={12}
                     fill='#212121'
                   >
-                    {Math.abs(d) < 1 ? d : format('~s')(d)}
+                    {Math.abs(d) < 1 ? d : format('~s')(d).replace('G', 'B')}
                   </text>
                 </g>
               ))
