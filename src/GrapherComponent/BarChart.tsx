@@ -312,8 +312,8 @@ export const BarChart = (props: Props) => {
                   value: d.xVal !== undefined ? d.xVal : 'NA',
                   type: 'x-axis',
                   year: d.xYear,
-                  suffix: xIndicatorMetaData?.LabelPrefix,
-                  prefix: xIndicatorMetaData?.LabelSuffix,
+                  prefix: xIndicatorMetaData?.LabelPrefix,
+                  suffix: xIndicatorMetaData?.LabelSuffix,
                 },
               ];
               if (colorIndicator !== 'Continents') {
@@ -323,8 +323,8 @@ export const BarChart = (props: Props) => {
                   type: 'color',
                   year: colorIndicator === 'Income Groups' ? undefined : d.colorYear,
                   color: d.colorVal ? colorScale(d.colorVal) as string : '#666',
-                  suffix: colorIndicatorMetaData?.LabelPrefix,
-                  prefix: colorIndicatorMetaData?.LabelSuffix,
+                  prefix: colorIndicatorMetaData?.LabelPrefix,
+                  suffix: colorIndicatorMetaData?.LabelSuffix,
                 });
               }
 

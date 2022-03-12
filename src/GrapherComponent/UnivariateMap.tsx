@@ -174,8 +174,8 @@ export const UnivariateMap = (props: Props) => {
                   type: 'color',
                   year: year === -1 || showMostRecentData ? d.indicators[indicatorIndex].yearlyData[d.indicators[indicatorIndex].yearlyData.length - 1]?.year : year,
                   color,
-                  suffix: xIndicatorMetaData?.LabelPrefix,
-                  prefix: xIndicatorMetaData?.LabelSuffix,
+                  prefix: xIndicatorMetaData?.LabelPrefix,
+                  suffix: xIndicatorMetaData?.LabelSuffix,
                 },
               ];
               if (sizeIndicatorMetaData) {
@@ -187,8 +187,8 @@ export const UnivariateMap = (props: Props) => {
                   title: sizeIndicator,
                   value: sizeVal !== undefined ? sizeVal : 'NA',
                   type: 'size',
-                  suffix: sizeIndicatorMetaData?.LabelPrefix,
-                  prefix: sizeIndicatorMetaData?.LabelSuffix,
+                  prefix: sizeIndicatorMetaData?.LabelPrefix,
+                  suffix: sizeIndicatorMetaData?.LabelSuffix,
                   year: year === -1 || showMostRecentData ? d.indicators[sizeIndicatorIndex].yearlyData[d.indicators[sizeIndicatorIndex].yearlyData.length - 1]?.year : year,
                 });
               }
@@ -296,8 +296,8 @@ export const UnivariateMap = (props: Props) => {
                         type: 'color',
                         year: year === -1 || showMostRecentData ? d.indicators[indicatorIndex].yearlyData[d.indicators[indicatorIndex].yearlyData.length - 1]?.year : year,
                         color,
-                        suffix: xIndicatorMetaData?.LabelPrefix,
-                        prefix: xIndicatorMetaData?.LabelSuffix,
+                        prefix: xIndicatorMetaData?.LabelPrefix,
+                        suffix: xIndicatorMetaData?.LabelSuffix,
                       },
                     ];
                     if (sizeIndicatorMetaData) {
@@ -305,8 +305,8 @@ export const UnivariateMap = (props: Props) => {
                         title: sizeIndicator,
                         value: sizeVal !== undefined ? sizeVal : 'NA',
                         type: 'size',
-                        suffix: sizeIndicatorMetaData?.LabelPrefix,
-                        prefix: sizeIndicatorMetaData?.LabelSuffix,
+                        prefix: sizeIndicatorMetaData?.LabelPrefix,
+                        suffix: sizeIndicatorMetaData?.LabelSuffix,
                         year: year === -1 || showMostRecentData ? d.indicators[sizeIndicatorIndex].yearlyData[d.indicators[sizeIndicatorIndex].yearlyData.length - 1]?.year : year,
                       });
                     }

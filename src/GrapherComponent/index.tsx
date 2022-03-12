@@ -1,5 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
+import { Button, Modal } from 'antd';
 import { CtxDataType, DataType, IndicatorMetaDataWithYear } from '../Types';
 import {
   ScatterPlotIcon, BarGraphIcon, MapIcon, DualAxesChartIcon, MultiLineChartIcon,
@@ -30,6 +31,12 @@ const RootEl = styled.div`
 const TabsContainerEl = styled.div`
   background-color: var(--black-200);
   display: flex;
+`;
+
+const HeadingEl = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
 `;
 
 interface SelectedData {
@@ -106,49 +113,58 @@ export const GrapherComponent = (props: Props) => {
     showSource,
     updateGraphType,
   } = useContext(Context) as CtxDataType;
+  const [modalVisibility, setModalVisibility] = useState(false);
   return (
-    <Container>
-      <h3>Explore Data</h3>
-      <RootEl>
-        <TabsContainerEl>
-          <TabsEl selected={graphType === 'map'} onClick={() => { updateGraphType('map'); }}>
-            <IconEl>
-              <MapIcon size={48} fill={graphType === 'map' ? 'var(--primary-blue)' : 'var(--black-500)'} />
-            </IconEl>
-            <>Maps</>
-          </TabsEl>
-          <TabsEl selected={graphType === 'scatterPlot'} onClick={() => { updateGraphType('scatterPlot'); }}>
-            <IconEl>
-              <ScatterPlotIcon size={48} fill={graphType === 'scatterPlot' ? 'var(--primary-blue)' : 'var(--black-500)'} />
-            </IconEl>
-            <>Correlation</>
-          </TabsEl>
-          <TabsEl selected={graphType === 'barGraph'} onClick={() => { updateGraphType('barGraph'); }}>
-            <IconEl>
-              <BarGraphIcon size={48} fill={graphType === 'barGraph' ? 'var(--primary-blue)' : 'var(--black-500)'} />
-            </IconEl>
-            <>Ranks</>
-          </TabsEl>
-          <TabsEl selected={graphType === 'trendLine'} onClick={() => { updateGraphType('trendLine'); }}>
-            <IconEl>
-              <DualAxesChartIcon size={48} fill={graphType === 'trendLine' ? 'var(--primary-blue)' : 'var(--black-500)'} />
-            </IconEl>
-            <>Dual Axes Line Chart</>
-          </TabsEl>
-          <TabsEl selected={graphType === 'multiCountryTrendLine'} onClick={() => { updateGraphType('multiCountryTrendLine'); }}>
-            <IconEl>
-              <MultiLineChartIcon size={48} fill={graphType === 'multiCountryTrendLine' ? 'var(--primary-blue)' : 'var(--black-500)'} />
-            </IconEl>
-            <>Multi Country Trends</>
-          </TabsEl>
-        </TabsContainerEl>
-        <GraphEl>
-          <Settings
-            indicators={indicators}
-            regions={regions}
-            countries={countries}
-          />
-          {
+    <>
+      <Container>
+        <HeadingEl>
+          <h1>Eplore All Data</h1>
+          <button type='button' onClick={() => { setModalVisibility(true); }}>
+            {'</>'}
+            {' '}
+            Embed
+          </button>
+        </HeadingEl>
+        <RootEl>
+          <TabsContainerEl>
+            <TabsEl selected={graphType === 'map'} onClick={() => { updateGraphType('map'); }}>
+              <IconEl>
+                <MapIcon size={48} fill={graphType === 'map' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+              </IconEl>
+              <>Maps</>
+            </TabsEl>
+            <TabsEl selected={graphType === 'scatterPlot'} onClick={() => { updateGraphType('scatterPlot'); }}>
+              <IconEl>
+                <ScatterPlotIcon size={48} fill={graphType === 'scatterPlot' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+              </IconEl>
+              <>Correlation</>
+            </TabsEl>
+            <TabsEl selected={graphType === 'barGraph'} onClick={() => { updateGraphType('barGraph'); }}>
+              <IconEl>
+                <BarGraphIcon size={48} fill={graphType === 'barGraph' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+              </IconEl>
+              <>Ranks</>
+            </TabsEl>
+            <TabsEl selected={graphType === 'trendLine'} onClick={() => { updateGraphType('trendLine'); }}>
+              <IconEl>
+                <DualAxesChartIcon size={48} fill={graphType === 'trendLine' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+              </IconEl>
+              <>Dual Axes Line Chart</>
+            </TabsEl>
+            <TabsEl selected={graphType === 'multiCountryTrendLine'} onClick={() => { updateGraphType('multiCountryTrendLine'); }}>
+              <IconEl>
+                <MultiLineChartIcon size={48} fill={graphType === 'multiCountryTrendLine' ? 'var(--primary-blue)' : 'var(--black-500)'} />
+              </IconEl>
+              <>Multi Country Trends</>
+            </TabsEl>
+          </TabsContainerEl>
+          <GraphEl>
+            <Settings
+              indicators={indicators}
+              regions={regions}
+              countries={countries}
+            />
+            {
             showSource
               ? (
                 <DataSources
@@ -163,8 +179,26 @@ export const GrapherComponent = (props: Props) => {
                 />
               )
           }
-        </GraphEl>
-      </RootEl>
-    </Container>
+          </GraphEl>
+        </RootEl>
+      </Container>
+      <Modal
+        visible={modalVisibility}
+        title='Embed Code'
+        onOk={() => { setModalVisibility(false); }}
+        onCancel={() => { setModalVisibility(false); }}
+        footer={[
+          <Button key='back' type='primary' onClick={() => { setModalVisibility(false); }}>
+            Return
+          </Button>,
+        ]}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
+    </>
   );
 };

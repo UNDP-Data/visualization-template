@@ -291,8 +291,8 @@ export const HorizontalBarChart = (props: Props) => {
                   value: d.xVal !== undefined ? d.xVal : 'NA',
                   type: 'y-axis',
                   year: d.xYear,
-                  suffix: xIndicatorMetaData?.LabelPrefix,
-                  prefix: xIndicatorMetaData?.LabelSuffix,
+                  prefix: xIndicatorMetaData?.LabelPrefix,
+                  suffix: xIndicatorMetaData?.LabelSuffix,
                 },
               ];
               if (colorIndicator !== 'Continents') {
@@ -302,8 +302,8 @@ export const HorizontalBarChart = (props: Props) => {
                   type: 'color',
                   year: colorIndicator === 'Income Groups' ? undefined : d.colorYear,
                   color: d.colorVal ? colorScale(d.colorVal) as string : '#666',
-                  suffix: colorIndicatorMetaData?.LabelPrefix,
-                  prefix: colorIndicatorMetaData?.LabelSuffix,
+                  prefix: colorIndicatorMetaData?.LabelPrefix,
+                  suffix: colorIndicatorMetaData?.LabelSuffix,
                 });
               }
 
@@ -368,7 +368,7 @@ export const HorizontalBarChart = (props: Props) => {
                     dy={14}
                     fontSize={12}
                   >
-                    {d.xVal < 1 ? d.xVal : format('~s')(d.xVal)}
+                    {d.xVal < 1000000 ? format(',')(parseFloat(d.xVal.toFixed(2))).replace(',', ' ') : format('.3s')(d.xVal).replace('G', 'B')}
                   </text>
                 </g>
               );

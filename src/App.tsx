@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import { useState, useEffect, useReducer } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { json } from 'd3-request';
@@ -70,6 +71,19 @@ const GlobalStyle = createGlobalStyle`
   a {
     text-decoration: none;
     color: var(--primary-blue);
+  }
+
+  h1 {
+    color: var(--primary-blue);
+    font-size: 3.2rem;
+    font-weight: 700;
+    
+    @media (max-width: 760px) {
+      font-size: 2.4rem;
+    }
+    @media (max-width: 480px) {
+      font-size: 1.8rem;
+    }
   }
 
   h3 {
@@ -172,7 +186,6 @@ const App = () => {
   const [indicatorsList, setIndicatorsList] = useState<IndicatorMetaDataWithYear[] | undefined>(undefined);
   const [regionList, setRegionList] = useState<string[] | undefined>(undefined);
   const [countryList, setCountryList] = useState<string[] | undefined>(undefined);
-
   const initialState = {
     graphType: 'map',
     selectedRegions: [],

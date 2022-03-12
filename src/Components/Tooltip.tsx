@@ -10,6 +10,8 @@ interface Props {
 interface TooltipElProps {
   x: number;
   y: number;
+  verticalAlignment: string;
+  horizontalAlignment: string;
 }
 
 const TooltipEl = styled.div<TooltipElProps>`
@@ -21,9 +23,10 @@ const TooltipEl = styled.div<TooltipElProps>`
   background-color: var(--white);
   box-shadow: 0 0 1rem rgb(0 0 0 / 15%);
   word-wrap: break-word;
-  top: ${(props) => props.y - 40}px;
-  left: ${(props) => props.x + 20}px;
+  top: ${(props) => (props.verticalAlignment === 'bottom' ? props.y - 40 : props.y + 40)}px;
+  left: ${(props) => (props.horizontalAlignment === 'left' ? props.x - 20 : props.x + 20)}px;
   max-width: 24rem;
+  transform: ${(props) => `translate(${props.horizontalAlignment === 'left' ? '-100%' : '0%'},${props.verticalAlignment === 'top' ? '-100%' : '0%'})`};
 `;
 
 const TooltipTitle = styled.div`
@@ -118,7 +121,7 @@ export const Tooltip = (props: Props) => {
     data,
   } = props;
   return (
-    <TooltipEl x={data.xPosition} y={data.yPosition}>
+    <TooltipEl x={data.xPosition} y={data.yPosition} verticalAlignment={data.yPosition > window.innerHeight / 2 ? 'top' : 'bottom'} horizontalAlignment={data.xPosition > window.innerWidth / 2 ? 'left' : 'right'}>
       <TooltipHead>
         <TooltipTitle>
           {data.country}
@@ -150,7 +153,7 @@ export const Tooltip = (props: Props) => {
                 {
                   d.prefix && d.value && d.value !== 'NA' ? `${d.prefix} ` : ''
                 }
-                {typeof d.value === 'number' ? d.value < 1000000 ? format(',')(d.value).replace(',', ' ') : format('.3s')(d.value).replace('G', 'B') : d.value }
+                {typeof d.value === 'number' ? d.value < 1000000 ? format(',')(parseFloat(d.value.toFixed(2))).replace(',', ' ') : format('.3s')(d.value).replace('G', 'B') : d.value }
                 {
                   d.suffix && d.value && d.value !== 'NA' ? ` ${d.suffix}` : ''
                 }

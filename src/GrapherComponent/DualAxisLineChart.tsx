@@ -145,7 +145,11 @@ export const DualAxisLineChart = (props: Props) => {
     .curve(curveMonotoneX);
   const y1Ticks = y1.ticks(5);
   const y2Ticks = y2.ticks(5);
-  const xTicks = x.ticks(10);
+  const xTicks = x.ticks(
+    (((maxYearFiltered as number) - (minYearFiltered as number)) > 10 || ((maxYearFiltered as number) - (minYearFiltered as number)) === 0)
+      ? 10
+      : (maxYearFiltered as number) - (minYearFiltered as number),
+  );
   return (
     <El>
       <SelectEl>
@@ -395,8 +399,8 @@ export const DualAxisLineChart = (props: Props) => {
                                   type: 'color',
                                   year: d.year,
                                   color: '#E26B8D',
-                                  suffix: xIndicatorMetaData?.LabelPrefix,
-                                  prefix: xIndicatorMetaData?.LabelSuffix,
+                                  prefix: xIndicatorMetaData?.LabelPrefix,
+                                  suffix: xIndicatorMetaData?.LabelSuffix,
                                 },
                                 {
                                   title: yAxisIndicator,
@@ -404,8 +408,8 @@ export const DualAxisLineChart = (props: Props) => {
                                   type: 'color',
                                   year: d.year,
                                   color: '#266291',
-                                  suffix: yIndicatorMetaData?.LabelPrefix,
-                                  prefix: yIndicatorMetaData?.LabelSuffix,
+                                  prefix: yIndicatorMetaData?.LabelPrefix,
+                                  suffix: yIndicatorMetaData?.LabelSuffix,
                                 },
                               ],
                               xPosition: event.clientX,
@@ -423,8 +427,8 @@ export const DualAxisLineChart = (props: Props) => {
                                   type: 'color',
                                   year: d.year,
                                   color: '#E26B8D',
-                                  suffix: xIndicatorMetaData?.LabelPrefix,
-                                  prefix: xIndicatorMetaData?.LabelSuffix,
+                                  prefix: xIndicatorMetaData?.LabelPrefix,
+                                  suffix: xIndicatorMetaData?.LabelSuffix,
                                 },
                                 {
                                   title: yAxisIndicator,
@@ -432,8 +436,8 @@ export const DualAxisLineChart = (props: Props) => {
                                   type: 'color',
                                   year: d.year,
                                   color: '#266291',
-                                  suffix: yIndicatorMetaData?.LabelPrefix,
-                                  prefix: yIndicatorMetaData?.LabelSuffix,
+                                  prefix: yIndicatorMetaData?.LabelPrefix,
+                                  suffix: yIndicatorMetaData?.LabelSuffix,
                                 },
                               ],
                               xPosition: event.clientX,

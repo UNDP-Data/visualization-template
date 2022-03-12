@@ -242,15 +242,16 @@ export const MultiLineChart = (props: Props) => {
                   <g>
                     {
                       dataFormatted.map((d, i) => (
-                        <g key={i}>
+                        <g key={d.alphaCode3}>
                           <path d={lineShape1(d.countryFormattedData.filter((el) => el.param !== undefined) as any) as string} fill='none' stroke={COLOR_SCALES.Categorical[i % 8]} strokeWidth={2} strokeDasharray='4 8' />
                           <path d={lineShape1(d.countryFormattedData as any) as string} fill='none' stroke={COLOR_SCALES.Categorical[i % 8]} strokeWidth={2} />
                           {
                             d.countryFormattedData.filter((el) => el.param !== undefined).map((el, k) => (el.param !== undefined
                               ? (
-                                <g>
+                                <g
+                                  key={k}
+                                >
                                   <circle
-                                    key={k}
                                     cx={x(el.year)}
                                     cy={y(el.param)}
                                     r={4}
@@ -299,8 +300,8 @@ export const MultiLineChart = (props: Props) => {
                     {
                       yearRange.map((d, i) => (
                         <rect
-                          x={x(d) - 3}
                           key={i}
+                          x={x(d) - 3}
                           y={0}
                           width={6}
                           height={graphHeight}
@@ -315,8 +316,8 @@ export const MultiLineChart = (props: Props) => {
                                 value: el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param !== undefined ? el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param : 'NA',
                                 type: 'color',
                                 color: COLOR_SCALES.Categorical[j % 8],
-                                suffix: xIndicatorMetaData?.LabelPrefix,
-                                prefix: xIndicatorMetaData?.LabelSuffix,
+                                prefix: xIndicatorMetaData?.LabelPrefix,
+                                suffix: xIndicatorMetaData?.LabelSuffix,
                               })),
                               xPosition: event.clientX,
                               yPosition: event.clientY,
@@ -331,8 +332,8 @@ export const MultiLineChart = (props: Props) => {
                                 value: el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param !== undefined ? el.countryFormattedData[el.countryFormattedData.findIndex((d1) => d1.year === d)].param : 'NA',
                                 type: 'color',
                                 color: COLOR_SCALES.Categorical[j % 8],
-                                suffix: xIndicatorMetaData?.LabelPrefix,
-                                prefix: xIndicatorMetaData?.LabelSuffix,
+                                prefix: xIndicatorMetaData?.LabelPrefix,
+                                suffix: xIndicatorMetaData?.LabelSuffix,
                               })),
                               xPosition: event.clientX,
                               yPosition: event.clientY,

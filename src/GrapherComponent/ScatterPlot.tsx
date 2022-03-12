@@ -398,16 +398,16 @@ export const ScatterPlot = (props: Props) => {
                   value: d.xVal !== undefined ? d.xVal : 'NA',
                   type: 'x-axis',
                   year: d.xYear,
-                  suffix: xIndicatorMetaData?.LabelPrefix,
-                  prefix: xIndicatorMetaData?.LabelSuffix,
+                  prefix: xIndicatorMetaData?.LabelPrefix,
+                  suffix: xIndicatorMetaData?.LabelSuffix,
                 },
                 {
                   title: yAxisIndicator,
                   value: d.yVal !== undefined ? d.yVal : 'NA',
                   type: 'y-axis',
                   year: d.yYear,
-                  suffix: yIndicatorMetaData?.LabelPrefix,
-                  prefix: yIndicatorMetaData?.LabelSuffix,
+                  prefix: yIndicatorMetaData?.LabelPrefix,
+                  suffix: yIndicatorMetaData?.LabelSuffix,
                 },
               ];
               if (sizeIndicator) {
@@ -416,8 +416,8 @@ export const ScatterPlot = (props: Props) => {
                   value: d.radiusValue !== undefined ? d.radiusValue : 'NA',
                   type: 'size',
                   year: d.radiusYear,
-                  suffix: sizeIndicatorMetaData?.LabelPrefix,
-                  prefix: sizeIndicatorMetaData?.LabelSuffix,
+                  prefix: sizeIndicatorMetaData?.LabelPrefix,
+                  suffix: sizeIndicatorMetaData?.LabelSuffix,
                 });
               }
               if (colorIndicator !== 'Continents') {
@@ -427,8 +427,8 @@ export const ScatterPlot = (props: Props) => {
                   type: 'color',
                   year: colorIndicator === 'Income Groups' ? undefined : d.colorYear,
                   color: d.colorVal ? colorScale(d.colorVal) as string : '#666',
-                  suffix: colorIndicatorMetaData?.LabelPrefix,
-                  prefix: colorIndicatorMetaData?.LabelSuffix,
+                  prefix: colorIndicatorMetaData?.LabelPrefix,
+                  suffix: colorIndicatorMetaData?.LabelSuffix,
                 });
               }
               if (d.xVal === undefined || d.yVal === undefined || d.radiusValue === undefined) return null;
