@@ -5,8 +5,8 @@ import { json } from 'd3-request';
 import { nest } from 'd3-collection';
 import sortBy from 'lodash.sortby';
 import uniqBy from 'lodash.uniqby';
-import Loader from 'react-loader-spinner';
 import { queue } from 'd3-queue';
+import { Spin } from 'antd';
 import {
   DataType, CountryGroupDataType, IndicatorMetaDataType, IndicatorMetaDataWithYear,
 } from './Types';
@@ -62,9 +62,9 @@ const GlobalStyle = createGlobalStyle`
     color: var(--black-600);
     background-color: var(--white);
     margin: 0;
-    padding: 0 2rem;
+    padding: 1rem 0;
     font-size: 1.6rem;
-    font-weight: 500;
+    font-weight: normal;
     line-height: 2.56rem;
   }
 
@@ -176,6 +176,7 @@ const GlobalStyle = createGlobalStyle`
 const VizAreaEl = styled.div`
   display: flex;
   max-width: 1220px;
+  margin: auto;
   align-items: center;
   justify-content: center;
   height: 10rem;
@@ -186,25 +187,26 @@ const App = () => {
   const [indicatorsList, setIndicatorsList] = useState<IndicatorMetaDataWithYear[] | undefined>(undefined);
   const [regionList, setRegionList] = useState<string[] | undefined>(undefined);
   const [countryList, setCountryList] = useState<string[] | undefined>(undefined);
+  const queryParams = new URLSearchParams(window.location.search);
   const initialState = {
-    graphType: 'map',
-    selectedRegions: [],
-    selectedCountries: [],
-    selectedIncomeGroups: [],
+    graphType: queryParams.get('graphType') || 'map',
+    selectedRegions: queryParams.get('regions')?.split('~') || [],
+    selectedCountries: queryParams.get('countries')?.split('~') || [],
+    selectedIncomeGroups: queryParams.get('incomeGroups')?.split('~') || [],
     year: 2021,
-    selectedCountryGroup: 'All',
-    xAxisIndicator: DEFAULT_VALUES.firstMetric,
-    yAxisIndicator: DEFAULT_VALUES.secondMetric,
-    colorIndicator: DEFAULT_VALUES.colorMetric,
-    sizeIndicator: undefined,
-    showMostRecentData: false,
-    showLabel: false,
+    selectedCountryGroup: queryParams.get('countryGroup') || 'All',
+    xAxisIndicator: queryParams.get('firstMetric') || DEFAULT_VALUES.firstMetric,
+    yAxisIndicator: queryParams.get('secondMetric') || DEFAULT_VALUES.secondMetric,
+    colorIndicator: queryParams.get('colorMetric') || DEFAULT_VALUES.colorMetric,
+    sizeIndicator: queryParams.get('sizeMetric') || undefined,
+    showMostRecentData: queryParams.get('showMostRecentData') === 'true',
+    showLabel: queryParams.get('showLabel') === 'true',
     showSource: false,
-    trendChartCountry: undefined,
-    multiCountrytrendChartCountries: ['China', 'India', 'United States of America', 'Indonesia', 'Pakistan'],
-    useSameRange: false,
-    reverseOrder: false,
-    verticalBarLayout: true,
+    trendChartCountry: queryParams.get('trendChartCountry') || undefined,
+    multiCountrytrendChartCountries: queryParams.get('multiCountrytrendChartCountries')?.split('~') || ['China', 'India', 'United States of America', 'Indonesia', 'Pakistan'],
+    useSameRange: queryParams.get('useSameRange') === 'true',
+    reverseOrder: queryParams.get('reverseOrder') === 'true',
+    verticalBarLayout: queryParams.get('verticalBarLayout') !== 'false',
   };
 
   const [state, dispatch] = useReducer(Reducer, initialState);
@@ -448,12 +450,7 @@ const App = () => {
           )
           : (
             <VizAreaEl>
-              <Loader
-                type='Oval'
-                color='#0969FA'
-                height={50}
-                width={50}
-              />
+              <Spin size='large' />
             </VizAreaEl>
           )
       }

@@ -21,10 +21,15 @@ interface Props {
   data: DataType[];
   indicators: IndicatorMetaDataWithYear[];
   countries: string[];
+  fullWidth: boolean;
 }
 
-const El = styled.div`
-  width: 75%;
+interface ElProps {
+  fullWidth: boolean;
+}
+
+const El = styled.div<ElProps>`
+  width: ${(props) => (props.fullWidth ? '100%' : '75%')};
   box-shadow: var(--shadow-right);
   height: 74rem;
   overflow: auto;
@@ -85,6 +90,7 @@ export const Graph = (props: Props) => {
     data,
     indicators,
     countries,
+    fullWidth,
   } = props;
   const {
     year,
@@ -154,7 +160,7 @@ export const Graph = (props: Props) => {
     if (yearForPlay !== undefined) { updateYear(yearForPlay as number); }
   }, [yearForPlay]);
   return (
-    <El id='graph-node'>
+    <El id='graph-node' fullWidth={fullWidth}>
       {
         graphType === 'trendLine' || graphType === 'multiCountryTrendLine' ? null
           : commonYears.length > 1 && !showMostRecentData ? (
