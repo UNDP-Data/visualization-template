@@ -450,7 +450,7 @@ const App = () => {
           )
           : (
             <VizAreaEl>
-              <Spin />
+              <Spin size='large' />
             </VizAreaEl>
           )
       }
