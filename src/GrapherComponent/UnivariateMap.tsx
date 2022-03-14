@@ -33,9 +33,11 @@ const LegendEl = styled.div`
   width: 32rem;
   margin-left: 1rem;
   margin-top: -2rem;
-  transform: translateY(-100%);
   position: relative;
   z-index: 1000;
+  @media (min-width: 961px) {
+    transform: translateY(-100%);
+  }
 `;
 
 const TitleEl = styled.div`

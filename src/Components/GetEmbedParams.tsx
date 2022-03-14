@@ -1,6 +1,7 @@
 import { Button, Checkbox, message } from 'antd';
 import { useState, useContext } from 'react';
 import styled from 'styled-components';
+import { EMBED_LINK_ROOT } from '../Constants';
 import Context from '../Context/Context';
 import { CtxDataType } from '../Types';
 
@@ -90,7 +91,7 @@ export const GetEmbedParams = () => {
     <>
       <EmbedLinkBox>
         {
-          `<iframe src="https://data.undp.org/access-all-data-viz/?${queryParams}&embeded=true" loading="lazy" style="width: 100%; border: 0px none; max-width: 1380px"></iframe>`
+          `<iframe src="${EMBED_LINK_ROOT}?${queryParams}&embeded=true" loading="lazy" style="width: 100%; border: 0px none; max-width: 1380px"></iframe>`
         }
       </EmbedLinkBox>
       <Buttons>
@@ -98,8 +99,8 @@ export const GetEmbedParams = () => {
         <Button
           type='primary'
           onClick={() => {
-            navigator.clipboard.writeText(`<iframe src="https://data.undp.org/access-all-data-viz/?${queryParams}&embeded=true" loading="lazy" style="width: 100%; border: 0px none; max-width: 1380px"></iframe>`);
-            message.success({ content: 'Embed Link Copied', duration: 1 });
+            navigator.clipboard.writeText(`<iframe src="${EMBED_LINK_ROOT}?${queryParams}&embeded=true" loading="lazy" style="width: 100%; border: 0px none; max-width: 1380px"></iframe>`);
+            message.success({ content: 'Embed Link Copied', duration: 2 });
           }}
         >
           Copy Embed Code

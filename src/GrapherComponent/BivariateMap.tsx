@@ -84,9 +84,11 @@ const LegendColorEl = styled.div`
 
 const LegendContainer = styled.div`
   display: flex;
-  transform: translateY(-100%);
   margin-top: -2rem;
   pointer-events: none;
+  @media (min-width: 961px) {
+    transform: translateY(-100%);
+  }
 `;
 
 export const BivariateMap = (props: Props) => {

@@ -31,8 +31,10 @@ interface ElProps {
 const El = styled.div<ElProps>`
   width: ${(props) => (props.fullWidth ? '100%' : '75%')};
   box-shadow: var(--shadow-right);
-  height: 74rem;
   overflow: auto;
+  @media (min-width: 961px) {
+    height: 74rem;
+  }
   @media (max-width: 960px) {
     width: 100%;
   }

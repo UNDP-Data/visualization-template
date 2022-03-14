@@ -4,6 +4,10 @@ export const MAX_TEXT_LENGTH = 100;
 
 export const TRUNCATE_MAX_TEXT_LENGTH = 125;
 
+export const EMBED_LINK_ROOT = 'https://data.undp.org/access-all-data-viz-v2/';
+
+export const PARENT_LINK_ROOT = 'https://data.undp.org/explore-all-data/';
+
 export const DEFAULT_VALUES = {
   firstMetric: 'Number of hospital beds per 10,000 people',
   secondMetric: 'Physicians per 10,000 people',

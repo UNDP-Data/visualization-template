@@ -125,12 +125,18 @@ const H1 = styled.div`
   color: var(--primary-blue);
   line-height: 2rem;
   margin: 1rem 0 0.5rem 1rem;
+  @media (max-width: 600px) {
+    font-size: 2rem;
+  }
 `;
 const H2 = styled.div`
   font-size: 2rem;
   font-weight: bold;
   line-height: 2rem;
   margin: 0 0 0.5rem 1rem;
+  @media (max-width: 600px) {
+    font-size: 1.6rem;
+  }
 `;
 
 export const GrapherComponent = (props: Props) => {
@@ -166,9 +172,9 @@ export const GrapherComponent = (props: Props) => {
                 )
             }
             <Button type='primary' onClick={() => { setModalVisibility(true); }}>
-              {'</>'}
-              {' '}
-              Embed
+              {
+                window.innerWidth < 600 ? '</>' : '</> Embed'
+              }
             </Button>
           </ButtonsEl>
         </HeadingEl>

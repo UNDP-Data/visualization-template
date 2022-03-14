@@ -70,7 +70,7 @@ export const CopyLinkWithParamButton = () => {
       type='default'
       onClick={() => {
         navigator.clipboard.writeText(`https://data.undp.org/access-all-data-viz/?${queryParams}`);
-        message.success({ content: 'Embed Link Copied', duration: 1 });
+        message.success({ content: 'Embed Link Copied', duration: 2 });
       }}
     >
       Copy Link
