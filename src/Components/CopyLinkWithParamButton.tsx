@@ -1,5 +1,6 @@
-import { Button, message } from 'antd';
+import { message } from 'antd';
 import { useContext } from 'react';
+import { PARENT_LINK_ROOT } from '../Constants';
 import Context from '../Context/Context';
 import { CtxDataType } from '../Types';
 
@@ -66,14 +67,15 @@ export const CopyLinkWithParamButton = () => {
     + reverseOrderParam
     + verticalBarLayoutParam;
   return (
-    <Button
-      type='default'
+    <button
+      className='secondary'
+      type='button'
       onClick={() => {
-        navigator.clipboard.writeText(`https://data.undp.org/access-all-data-viz/?${queryParams}`);
+        navigator.clipboard.writeText(`${PARENT_LINK_ROOT}?${queryParams}`);
         message.success({ content: 'Embed Link Copied', duration: 2 });
       }}
     >
       Copy Link
-    </Button>
+    </button>
   );
 };

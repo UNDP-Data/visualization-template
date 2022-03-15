@@ -83,7 +83,8 @@ export const DualAxisLineChart = (props: Props) => {
     showLabel,
   } = useContext(Context) as CtxDataType;
   const [hoverData, setHoverData] = useState<HoverDataType | undefined>(undefined);
-  const svgWidth = 960;
+  const queryParams = new URLSearchParams(window.location.search);
+  const svgWidth = queryParams.get('showSettings') === 'false' && window.innerWidth > 960 ? 1280 : 960;
   const svgHeight = 678;
   const margin = {
     top: 40,

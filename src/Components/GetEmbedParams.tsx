@@ -1,4 +1,4 @@
-import { Button, Checkbox, message } from 'antd';
+import { Checkbox, message } from 'antd';
 import { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { EMBED_LINK_ROOT } from '../Constants';
@@ -96,15 +96,16 @@ export const GetEmbedParams = () => {
       </EmbedLinkBox>
       <Buttons>
         <Checkbox checked={showSettingsInEmbed} onChange={(e) => { setShowSettingsInEmbed(e.target.checked); }}>Show Settings</Checkbox>
-        <Button
-          type='primary'
+        <button
+          type='button'
+          className='primary'
           onClick={() => {
             navigator.clipboard.writeText(`<iframe src="${EMBED_LINK_ROOT}?${queryParams}&embeded=true" loading="lazy" style="width: 100%; border: 0px none; max-width: 1380px"></iframe>`);
             message.success({ content: 'Embed Link Copied', duration: 2 });
           }}
         >
           Copy Embed Code
-        </Button>
+        </button>
       </Buttons>
     </>
   );

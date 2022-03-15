@@ -3,7 +3,6 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { Slider } from 'antd';
-import 'antd/dist/antd.css';
 import intersection from 'lodash.intersection';
 import { CtxDataType, DataType, IndicatorMetaDataWithYear } from '../Types';
 import Context from '../Context/Context';

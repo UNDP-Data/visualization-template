@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import { CtxDataType, DataType, IndicatorMetaDataWithYear } from '../Types';
 import {
   ScatterPlotIcon, BarGraphIcon, MapIcon, DualAxesChartIcon, MultiLineChartIcon, Logo,
@@ -112,7 +112,7 @@ const IconEl = styled.div`
 
 const ButtonsEl = styled.div`
   button{
-    margin-right: 1rem;   
+    margin: 0 0.5rem 0 0.5rem;   
     &:last-of-type{
       margin-right: 0;
     }
@@ -166,16 +166,16 @@ export const GrapherComponent = (props: Props) => {
           </TitleEl>
           <ButtonsEl>
             {
-              queryParams.get('showSettings') === 'true' ? null
+              queryParams.get('embeded') === 'true' ? null
                 : (
                   <CopyLinkWithParamButton />
                 )
             }
-            <Button type='primary' onClick={() => { setModalVisibility(true); }}>
+            <button className='primary' type='button' onClick={() => { setModalVisibility(true); }}>
               {
                 window.innerWidth < 600 ? '</>' : '</> Embed'
               }
-            </Button>
+            </button>
           </ButtonsEl>
         </HeadingEl>
         <RootEl>
@@ -252,9 +252,9 @@ export const GrapherComponent = (props: Props) => {
         onOk={() => { setModalVisibility(false); }}
         onCancel={() => { setModalVisibility(false); }}
         footer={[
-          <Button key='back' type='primary' onClick={() => { setModalVisibility(false); }}>
-            OK
-          </Button>,
+          <button className='primary' key='back' type='button' onClick={() => { setModalVisibility(false); }}>
+            Close
+          </button>,
         ]}
       >
         <GetEmbedParams />

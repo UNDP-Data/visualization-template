@@ -45,7 +45,8 @@ export const HorizontalBarChart = (props: Props) => {
   } = useContext(Context) as CtxDataType;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
   const [hoverData, setHoverData] = useState<HoverDataType | undefined>(undefined);
-  const svgWidth = 960;
+  const queryParams = new URLSearchParams(window.location.search);
+  const svgWidth = queryParams.get('showSettings') === 'false' && window.innerWidth > 960 ? 1280 : 960;
   const margin = {
     top: 150,
     bottom: 10,

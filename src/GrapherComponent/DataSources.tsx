@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
-import { Button } from 'antd';
 import { CtxDataType, IndicatorMetaDataWithYear } from '../Types';
 import Context from '../Context/Context';
 
@@ -97,7 +96,7 @@ export const DataSources = (props: Props) => {
           {' '}
           Descriptions
         </div>
-        <Button type='primary' onClick={() => { updateShowSource(false); }}>Close</Button>
+        <button className='primary' type='button' onClick={() => { updateShowSource(false); }}>Close</button>
       </HeaderEl>
       <TitleEl>{xIndicatorMetaData.IndicatorLabelTable}</TitleEl>
       <RowEl>
@@ -236,7 +235,7 @@ export const DataSources = (props: Props) => {
       }
       <hr />
       <ButtonEl>
-        <Button type='primary' onClick={() => { updateShowSource(false); }}>Close</Button>
+        <button className='primary' type='button' onClick={() => { updateShowSource(false); }}>Close</button>
       </ButtonEl>
     </El>
   );

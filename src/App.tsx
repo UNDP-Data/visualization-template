@@ -7,6 +7,7 @@ import sortBy from 'lodash.sortby';
 import uniqBy from 'lodash.uniqby';
 import { queue } from 'd3-queue';
 import { Spin } from 'antd';
+import 'antd/dist/antd.css';
 import {
   DataType, CountryGroupDataType, IndicatorMetaDataType, IndicatorMetaDataWithYear,
 } from './Types';
@@ -85,48 +86,42 @@ const GlobalStyle = createGlobalStyle`
       font-size: 1.8rem;
     }
   }
-
-  h3 {
-    color: var(--navy);
-    font-size: 3.2rem;
-    font-weight: 700;
+  
+  button.primary {
+    border-radius: 0.2rem;
+    font-size: 1.4rem;
+    font-weight: normal;
+    color: var(--white);
+    background-color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+    cursor: pointer;
+    padding: 0.4rem 1rem;
+    &:hover {
+      border: 1px solid var(--blue-medium);
+      background-color: var(--blue-medium);
+    }
+    &:active{
+      border: 1px solid var(--blue-medium);
+      background-color: var(--blue-medium);
+    }
   }
 
   button.secondary {
-    padding: 2rem;
     border-radius: 0.2rem;
     font-size: 1.4rem;
-    font-weight: 700;
-    background-color: var(--blue-very-light);
-    color: var(--navy);
-    border: 0;
-    text-transform: uppercase;
-    margin: 0 1rem;
+    font-weight: normal;
+    color: var(--black-600);
+    border: 1px solid var(--black-450);
     cursor: pointer;
-    border-radius: 100px;
-    padding: 1rem 3rem;
+    padding: 0.4rem 1rem;
+    background-color: var(--white);
     &:hover {
-      background: #B6D3FE;
+      border: 1px solid var(--primary-blue);
+      color: var(--primary-blue);
     }
     &:active{
-      background: #84B5FD;
-    }
-  }
-
-  button.tertiary {
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: var(--primary-blue);
-    border: 0;
-    text-transform: uppercase;
-    background-color: transparent;
-    cursor: pointer;
-    text-decoration: underline;
-    &:hover {
-      color: var(--navy);
-    }
-    &:active{
-      color: var(--navy);
+      border: 1px solid var(--primary-blue);
+      color: var(--primary-blue);
     }
   }
 
@@ -140,6 +135,10 @@ const GlobalStyle = createGlobalStyle`
   
   .italics{
     font-style: italic;
+  }
+
+  .ant-modal-close {
+    display: none !important;
   }
 
   .ant-select-item-option-content {

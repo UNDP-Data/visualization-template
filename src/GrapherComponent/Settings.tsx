@@ -1,9 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  Select, Radio, Checkbox, Button,
-} from 'antd';
-import 'antd/dist/antd.css';
+import { Select, Radio, Checkbox } from 'antd';
 import domtoimage from 'dom-to-image';
 import { CtxDataType, IndicatorMetaDataWithYear } from '../Types';
 import Context from '../Context/Context';
@@ -77,10 +74,7 @@ const ButtonEl = styled.div`
   flex-wrap: wrap;
   margin: 1rem 0 2rem 0;
   button {
-    margin-right: 1rem;
-    margin-top: 1rem;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    margin: 0.5rem 1rem 0.5rem 0;
   }
 `;
 
@@ -295,9 +289,10 @@ export const Settings = (props: Props) => {
         ) : null
       }
       <ButtonEl>
-        <Button type='primary' onClick={() => { updateShowSource(true); }}>Data Source & Description</Button>
-        <Button
-          type='primary'
+        <button className='primary' type='button' onClick={() => { updateShowSource(true); }}>Data Source & Description</button>
+        <button
+          className='primary'
+          type='button'
           onClick={() => {
             // tslint:disable-next-line: no-floating-promises
             domtoimage
@@ -311,7 +306,7 @@ export const Settings = (props: Props) => {
           }}
         >
           Download Graph
-        </Button>
+        </button>
       </ButtonEl>
       <FiltersEl>
         <FilterTitle onClick={() => { setSettingsExpanded(!settingExpanded); }}>
