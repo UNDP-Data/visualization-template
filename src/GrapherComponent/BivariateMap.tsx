@@ -329,7 +329,7 @@ export const BivariateMap = (props: Props) => {
                           <path
                             key={j}
                             d={masterPath}
-                            stroke={hoverData?.country === d['Country or Area'] ? '#212121' : '#fff'}
+                            stroke={hoverData?.country === d['Country or Area'] ? '#212121' : '#ccc'}
                             strokeWidth={hoverData?.country === d['Country or Area'] ? 1 : 0.25}
                             fill={color}
                           />
@@ -345,7 +345,7 @@ export const BivariateMap = (props: Props) => {
                           <path
                             key={j}
                             d={path}
-                            stroke={hoverData?.country === d['Country or Area'] ? '#212121' : '#fff'}
+                            stroke={hoverData?.country === d['Country or Area'] ? '#212121' : '#ccc'}
                             strokeWidth={hoverData?.country === d['Country or Area'] ? 1 : 0.25}
                             fill={color}
                           />

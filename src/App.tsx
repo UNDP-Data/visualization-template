@@ -88,40 +88,40 @@ const GlobalStyle = createGlobalStyle`
   }
   
   button.primary {
-    border-radius: 0.2rem;
-    font-size: 1.4rem;
-    font-weight: normal;
-    color: var(--white);
-    background-color: var(--primary-blue);
-    border: 1px solid var(--primary-blue);
-    cursor: pointer;
-    padding: 0.4rem 1rem;
+    border-radius: 0.2rem !important;
+    font-size: 1.4rem !important;
+    font-weight: normal !important;
+    color: var(--white) !important;
+    background-color: var(--primary-blue) !important;
+    border: 1px solid var(--primary-blue) !important;
+    cursor: pointer !important;
+    padding: 0.4rem 1rem !important;
     &:hover {
-      border: 1px solid var(--blue-medium);
-      background-color: var(--blue-medium);
+      border: 1px solid var(--blue-medium) !important;
+      background-color: var(--blue-medium) !important;
     }
     &:active{
-      border: 1px solid var(--blue-medium);
-      background-color: var(--blue-medium);
+      border: 1px solid var(--blue-medium) !important;
+      background-color: var(--blue-medium) !important;
     }
   }
 
   button.secondary {
-    border-radius: 0.2rem;
-    font-size: 1.4rem;
-    font-weight: normal;
-    color: var(--black-600);
-    border: 1px solid var(--black-450);
-    cursor: pointer;
-    padding: 0.4rem 1rem;
-    background-color: var(--white);
+    border-radius: 0.2rem !important;
+    font-size: 1.4rem !important;
+    font-weight: normal !important;
+    color: var(--black-600) !important;
+    border: 1px solid var(--black-450) !important;
+    cursor: pointer !important;
+    padding: 0.4rem 1rem !important;
+    background-color: var(--white) !important;
     &:hover {
-      border: 1px solid var(--primary-blue);
-      color: var(--primary-blue);
+      border: 1px solid var(--primary-blue) !important;
+      color: var(--primary-blue) !important;
     }
     &:active{
-      border: 1px solid var(--primary-blue);
-      color: var(--primary-blue);
+      border: 1px solid var(--primary-blue) !important;
+      color: var(--primary-blue) !important;
     }
   }
 
