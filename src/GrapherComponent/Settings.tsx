@@ -60,6 +60,7 @@ const FilterTitle = styled.div`
   align-items: center;
   margin-left: -5px;
   margin-bottom: 1rem;
+  cursor: pointer;
 `;
 
 const CheckboxEl = styled.div`
