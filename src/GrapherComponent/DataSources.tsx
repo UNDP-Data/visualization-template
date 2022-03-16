@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
-import { CtxDataType, IndicatorMetaDataWithYear } from '../Types';
+import { CSVLink } from 'react-csv';
+import { CtxDataType, DataType, IndicatorMetaDataWithYear } from '../Types';
 import Context from '../Context/Context';
 
 interface Props {
   indicators: IndicatorMetaDataWithYear[];
+  data: DataType[];
 }
 
 const El = styled.div`
@@ -43,8 +45,12 @@ const HeaderEl = styled.div`
   padding: 2rem;
   font-size: 2rem;
   font-weight: bold;
-  border-bottom: 1px solid var(--black-500);
+  background-color: var(--white);
+  border-bottom: 1px solid var(--black-400);
   margin-bottom: 2rem;
+  position: sticky;
+  box-shadow: var(--shadow-bottom);
+  top: 0;
 `;
 
 const YearSpan = styled.div`
@@ -59,15 +65,59 @@ const YearEl = styled.div`
   margin-left: -0.5rem;
 `;
 
-const ButtonEl = styled.div`
-  margin: 3rem 0;
-  padding: 0 2rem;
-
+const DownloadButton = styled.div`
+  border-radius: 0.2rem;
+  font-size: 1.4rem;
+  font-weight: normal;
+  color: var(--black-600);
+  border: 1px solid var(--black-450);
+  cursor: pointer;
+  padding: 0.4rem 1rem;
+  margin: 2rem 0 1rem 0;
+  background-color: var(--white);
+  &:hover {
+    border: 1px solid var(--primary-blue);
+    color: var(--primary-blue);
+  }
+  &:active{
+    border: 1px solid var(--primary-blue);
+    color: var(--primary-blue);
+  }
 `;
+
+const HR = styled.hr`
+  margin: 0 2rem 2rem 2rem;
+  border: 1px solid var(--black-400);
+`;
+
+const dataTable = (data: DataType[], indicator: IndicatorMetaDataWithYear) => {
+  const table: any = [];
+  data.forEach((d) => {
+    const country = d['Country or Area'];
+    const countryCode = d['Alpha-3 code-1'];
+    indicator.years.forEach((year) => {
+      if (d.indicatorAvailable.indexOf(indicator.DataKey) !== -1) {
+        const indicatorIndex = d.indicators.findIndex((ind) => ind.indicator === indicator.DataKey);
+        if (indicatorIndex !== -1) {
+          const yearIndex = d.indicators[indicatorIndex].yearlyData.findIndex((yr) => year === yr.year);
+          const value = d.indicators[indicatorIndex].yearlyData[yearIndex]?.value;
+          table.push({
+            country,
+            countryCode,
+            year,
+            value,
+          });
+        }
+      }
+    });
+  });
+  return table;
+};
 
 export const DataSources = (props: Props) => {
   const {
     indicators,
+    data,
   } = props;
   const {
     graphType,
@@ -90,11 +140,7 @@ export const DataSources = (props: Props) => {
     <El>
       <HeaderEl>
         <div>
-          Data Sources
-          {' '}
-          &
-          {' '}
-          Descriptions
+          Data Description
         </div>
         <button className='primary' type='button' onClick={() => { updateShowSource(false); }}>Close</button>
       </HeaderEl>
@@ -131,10 +177,32 @@ export const DataSources = (props: Props) => {
             : <div />
         }
       </RowEl>
+      <RowEl>
+        <CSVLink
+          headers={
+            [
+              { label: 'Country or Area', key: 'country' },
+              { label: 'Alpha-3 code-1', key: 'countryCode' },
+              { label: 'Year', key: 'year' },
+              { label: xIndicatorMetaData.Indicator, key: 'value' },
+            ]
+          }
+          enclosingCharacter=''
+          separator=';'
+          data={dataTable(data, xIndicatorMetaData)}
+          filename={`${xIndicatorMetaData.Indicator.replaceAll(',', '').replaceAll('.', ' ')}.csv`}
+          asyncOnClick
+          target='_blank'
+        >
+          <DownloadButton>
+            Download Data
+          </DownloadButton>
+        </CSVLink>
+      </RowEl>
       {
         graphType !== 'barGraph' && yIndicatorMetaData ? (
           <>
-            <hr />
+            <HR />
             <TitleEl>{yIndicatorMetaData.IndicatorLabelTable}</TitleEl>
             <RowEl>
               <FirstColumn>Description</FirstColumn>
@@ -168,13 +236,35 @@ export const DataSources = (props: Props) => {
                   : <div />
               }
             </RowEl>
+            <RowEl>
+              <CSVLink
+                headers={
+                  [
+                    { label: 'Country or Area', key: 'country' },
+                    { label: 'Alpha-3 code-1', key: 'countryCode' },
+                    { label: 'Year', key: 'year' },
+                    { label: yIndicatorMetaData.Indicator, key: 'value' },
+                  ]
+                }
+                enclosingCharacter=''
+                separator=';'
+                data={dataTable(data, yIndicatorMetaData)}
+                filename={`${yIndicatorMetaData.Indicator.replaceAll(',', '').replaceAll('.', ' ')}.csv`}
+                asyncOnClick
+                target='_blank'
+              >
+                <DownloadButton>
+                  Download Data
+                </DownloadButton>
+              </CSVLink>
+            </RowEl>
           </>
         ) : null
       }
       {
         graphType !== 'map' && colorIndicatorMetaData ? (
           <>
-            <hr />
+            <HR />
             <TitleEl>{colorIndicatorMetaData.IndicatorLabelTable}</TitleEl>
             <RowEl>
               <FirstColumn>Description</FirstColumn>
@@ -208,13 +298,35 @@ export const DataSources = (props: Props) => {
                   : <div />
               }
             </RowEl>
+            <RowEl>
+              <CSVLink
+                headers={
+                  [
+                    { label: 'Country or Area', key: 'country' },
+                    { label: 'Alpha-3 code-1', key: 'countryCode' },
+                    { label: 'Year', key: 'year' },
+                    { label: colorIndicatorMetaData.Indicator, key: 'value' },
+                  ]
+                }
+                enclosingCharacter=''
+                separator=';'
+                data={dataTable(data, colorIndicatorMetaData)}
+                filename={`${colorIndicatorMetaData.Indicator.replaceAll(',', '').replaceAll('.', ' ')}.csv`}
+                asyncOnClick
+                target='_blank'
+              >
+                <DownloadButton>
+                  Download Data
+                </DownloadButton>
+              </CSVLink>
+            </RowEl>
           </>
         ) : null
       }
       {
         (graphType === 'scatterPlot' || graphType === 'map') && sizeIndicatorMetaData ? (
           <>
-            <hr />
+            <HR />
             <TitleEl>{sizeIndicatorMetaData.IndicatorLabelTable}</TitleEl>
             <RowEl>
               <FirstColumn>Description</FirstColumn>
@@ -248,13 +360,31 @@ export const DataSources = (props: Props) => {
                   : <div />
               }
             </RowEl>
+            <RowEl>
+              <CSVLink
+                headers={
+                  [
+                    { label: 'Country or Area', key: 'country' },
+                    { label: 'Alpha-3 code-1', key: 'countryCode' },
+                    { label: 'Year', key: 'year' },
+                    { label: sizeIndicatorMetaData.Indicator, key: 'value' },
+                  ]
+                }
+                enclosingCharacter=''
+                separator=';'
+                data={dataTable(data, sizeIndicatorMetaData)}
+                filename={`${sizeIndicatorMetaData.Indicator.replaceAll(',', '').replaceAll('.', ' ')}.csv`}
+                asyncOnClick
+                target='_blank'
+              >
+                <DownloadButton>
+                  Download Data
+                </DownloadButton>
+              </CSVLink>
+            </RowEl>
           </>
         ) : null
       }
-      <hr />
-      <ButtonEl>
-        <button className='primary' type='button' onClick={() => { updateShowSource(false); }}>Close</button>
-      </ButtonEl>
     </El>
   );
 };

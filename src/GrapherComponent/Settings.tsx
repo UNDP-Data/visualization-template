@@ -290,7 +290,7 @@ export const Settings = (props: Props) => {
         ) : null
       }
       <ButtonEl>
-        <button className='primary' type='button' onClick={() => { updateShowSource(true); }}>Data Source & Description</button>
+        <button className='primary' type='button' onClick={() => { updateShowSource(true); }}>Data Description & Download</button>
         <button
           className='primary'
           type='button'
