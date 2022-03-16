@@ -148,7 +148,6 @@ export const Graph = (props: Props) => {
       setYearForPlay(indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years[indicators[indicators.findIndex((d) => d.IndicatorLabelTable === xAxisIndicator)].years.length - 1]);
     }
   }, [xAxisIndicator, yAxisIndicator, sizeIndicator, graphType]);
-
   useEffect(() => {
     if (play && yearForPlay) {
       timer.current = setInterval(() => {

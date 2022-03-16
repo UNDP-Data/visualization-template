@@ -118,14 +118,14 @@ export const DataSources = (props: Props) => {
             ? (
               <div>
                 {
-                xIndicatorMetaData.DataSourceLink.split(';').map((d) => (
-                  <div>
-                    <a href={d} target='_blank' rel='noreferrer'>
-                      {d}
-                    </a>
-                  </div>
-                ))
-              }
+                  xIndicatorMetaData.DataSourceLink.split(';').map((d, i) => (
+                    <div key={i}>
+                      <a href={d} target='_blank' rel='noreferrer'>
+                        {d}
+                      </a>
+                    </div>
+                  ))
+                }
               </div>
             )
             : <div />
@@ -154,9 +154,15 @@ export const DataSources = (props: Props) => {
                 yIndicatorMetaData.DataSourceLink !== ''
                   ? (
                     <div>
-                      <a href={yIndicatorMetaData.DataSourceLink} target='_blank' rel='noreferrer'>
-                        {yIndicatorMetaData.DataSourceLink}
-                      </a>
+                      {
+                        yIndicatorMetaData.DataSourceLink.split(';').map((d, i) => (
+                          <div key={i}>
+                            <a href={d} target='_blank' rel='noreferrer'>
+                              {d}
+                            </a>
+                          </div>
+                        ))
+                      }
                     </div>
                   )
                   : <div />
@@ -188,9 +194,15 @@ export const DataSources = (props: Props) => {
                 colorIndicatorMetaData.DataSourceLink !== ''
                   ? (
                     <div>
-                      <a href={colorIndicatorMetaData.DataSourceLink} target='_blank' rel='noreferrer'>
-                        {colorIndicatorMetaData.DataSourceLink}
-                      </a>
+                      {
+                        colorIndicatorMetaData.DataSourceLink.split(';').map((d, i) => (
+                          <div key={i}>
+                            <a href={d} target='_blank' rel='noreferrer'>
+                              {d}
+                            </a>
+                          </div>
+                        ))
+                      }
                     </div>
                   )
                   : <div />
@@ -222,9 +234,15 @@ export const DataSources = (props: Props) => {
                 sizeIndicatorMetaData.DataSourceLink !== ''
                   ? (
                     <div>
-                      <a href={sizeIndicatorMetaData.DataSourceLink} target='_blank' rel='noreferrer'>
-                        {sizeIndicatorMetaData.DataSourceLink}
-                      </a>
+                      {
+                        sizeIndicatorMetaData.DataSourceLink.split(';').map((d, i) => (
+                          <div key={i}>
+                            <a href={d} target='_blank' rel='noreferrer'>
+                              {d}
+                            </a>
+                          </div>
+                        ))
+                      }
                     </div>
                   )
                   : <div />
