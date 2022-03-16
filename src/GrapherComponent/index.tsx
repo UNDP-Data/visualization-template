@@ -232,6 +232,7 @@ export const GrapherComponent = (props: Props) => {
               ? (
                 <DataSources
                   indicators={indicators}
+                  data={data}
                 />
               )
               : (
