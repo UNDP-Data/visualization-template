@@ -27,6 +27,7 @@ interface DataFormattedType {
 
 const El = styled.div`
   height: 100%;
+  overflow-y: hidden;
 `;
 
 const SelectEl = styled.div`

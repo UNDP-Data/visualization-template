@@ -74,8 +74,9 @@ const InfoNote = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: transparent;
-  border: none;
+  background-color: transparent !important;
+  padding: 0 !important;
+  border: none !important;
 `;
 
 const getMarks = (arr: number[]) => {

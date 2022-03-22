@@ -27,6 +27,7 @@ interface Props {
 
 const El = styled.div`
   height: calc(100% - 71px);
+  overflow-y: hidden;
 `;
 
 export const ScatterPlot = (props: Props) => {

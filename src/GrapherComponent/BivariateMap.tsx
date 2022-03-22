@@ -26,6 +26,7 @@ interface Props {
 
 const El = styled.div`
   height: calc(100% - 72px);
+  overflow-y: hidden;
 `;
 
 const LegendEl = styled.div`
