@@ -92,6 +92,10 @@ const LegendContainer = styled.div`
   }
 `;
 
+const G = styled.g`
+  pointer-events: none;
+`;
+
 export const BivariateMap = (props: Props) => {
   const {
     data,
@@ -115,7 +119,7 @@ export const BivariateMap = (props: Props) => {
   const svgHeight = 678;
   const mapSvg = useRef<SVGSVGElement>(null);
   const mapG = useRef<SVGGElement>(null);
-  const projection = geoEqualEarth().rotate([0, 0]).scale(200).translate([450, 350]);
+  const projection = geoEqualEarth().rotate([0, 0]).scale(180).translate([465, 315]);
   const xIndicatorMetaData = indicators[indicators.findIndex((indicator) => indicator.IndicatorLabelTable === xAxisIndicator)];
   const yIndicatorMetaData = indicators[indicators.findIndex((indicator) => indicator.IndicatorLabelTable === yAxisIndicator)];
 
@@ -161,8 +165,8 @@ export const BivariateMap = (props: Props) => {
     const mapGSelect = select(mapG.current);
     const mapSvgSelect = select(mapSvg.current);
     const zoomBehaviour = zoom()
-      .scaleExtent([1, 3])
-      .translateExtent([[0, 0], [svgWidth, svgHeight]])
+      .scaleExtent([1, 6])
+      .translateExtent([[-20, 0], [svgWidth + 20, svgHeight]])
       .on('zoom', ({ transform }) => {
         mapGSelect.attr('transform', transform);
       });
@@ -285,11 +289,9 @@ export const BivariateMap = (props: Props) => {
                 <g
                   key={i}
                   opacity={
-                    !hoverData
-                      ? selectedColor
-                        ? selectedColor === color ? 1 : 0.1
-                        : regionOpacity && incomeGroupOpacity && countryOpacity && countryGroupOpacity ? 1 : 0.1
-                      : hoverData.country === d['Country or Area'] ? 1 : 0.1
+                    selectedColor
+                      ? selectedColor === color ? 1 : 0.1
+                      : regionOpacity && incomeGroupOpacity && countryOpacity && countryGroupOpacity ? 1 : 0.1
                   }
                   onMouseEnter={(event) => {
                     setHoverData({
@@ -330,8 +332,8 @@ export const BivariateMap = (props: Props) => {
                           <path
                             key={j}
                             d={masterPath}
-                            stroke={hoverData?.country === d['Country or Area'] ? '#212121' : '#ccc'}
-                            strokeWidth={hoverData?.country === d['Country or Area'] ? 1 : 0.25}
+                            stroke='#fff'
+                            strokeWidth={0.25}
                             fill={color}
                           />
                         );
@@ -346,8 +348,8 @@ export const BivariateMap = (props: Props) => {
                           <path
                             key={j}
                             d={path}
-                            stroke={hoverData?.country === d['Country or Area'] ? '#212121' : '#ccc'}
-                            strokeWidth={hoverData?.country === d['Country or Area'] ? 1 : 0.25}
+                            stroke='#fff'
+                            strokeWidth={0.25}
                             fill={color}
                           />
                         );
@@ -356,6 +358,58 @@ export const BivariateMap = (props: Props) => {
                 </g>
               );
             })
+          }
+          {
+            hoverData
+              ? (World as any).features.filter((d: any) => d.properties.ISO3 === data[data.findIndex((el: DataType) => el['Country or Area'] === hoverData?.country)]['Alpha-3 code-1']).map((d: any) => (
+                <G
+                  opacity={!selectedColor ? 1 : 0}
+                >
+                  {
+                    d.geometry.type === 'MultiPolygon' ? d.geometry.coordinates.map((el:any, j: any) => {
+                      let masterPath = '';
+                      el.forEach((geo: number[][]) => {
+                        let path = ' M';
+                        geo.forEach((c: number[], k: number) => {
+                          const point = projection([c[0], c[1]]) as [number, number];
+                          if (k !== geo.length - 1) path = `${path}${point[0]} ${point[1]}L`;
+                          else path = `${path}${point[0]} ${point[1]}`;
+                        });
+                        masterPath += path;
+                      });
+                      return (
+                        <path
+                          key={j}
+                          d={masterPath}
+                          stroke='#212121'
+                          opacity={1}
+                          strokeWidth={1}
+                          fillOpacity={0}
+                          fill={COLOR_SCALES.Null}
+                        />
+                      );
+                    }) : d.geometry.coordinates.map((el:any, j: number) => {
+                      let path = 'M';
+                      el.forEach((c: number[], k: number) => {
+                        const point = projection([c[0], c[1]]) as [number, number];
+                        if (k !== el.length - 1) path = `${path}${point[0]} ${point[1]}L`;
+                        else path = `${path}${point[0]} ${point[1]}`;
+                      });
+                      return (
+                        <path
+                          key={j}
+                          d={path}
+                          stroke='#212121'
+                          opacity={1}
+                          strokeWidth={1}
+                          fillOpacity={0}
+                          fill='none'
+                        />
+                      );
+                    })
+                  }
+                </G>
+              )) : null
           }
           {
             sizeIndicatorMetaData ? (
