@@ -119,7 +119,7 @@ export const BivariateMap = (props: Props) => {
   const svgHeight = 678;
   const mapSvg = useRef<SVGSVGElement>(null);
   const mapG = useRef<SVGGElement>(null);
-  const projection = geoEqualEarth().rotate([0, 0]).scale(180).translate([465, 315]);
+  const projection = geoEqualEarth().rotate([0, 0]).scale(180).translate([470, 315]);
   const xIndicatorMetaData = indicators[indicators.findIndex((indicator) => indicator.IndicatorLabelTable === xAxisIndicator)];
   const yIndicatorMetaData = indicators[indicators.findIndex((indicator) => indicator.IndicatorLabelTable === yAxisIndicator)];
 
@@ -149,7 +149,7 @@ export const BivariateMap = (props: Props) => {
     : [0, 1, 2, 3, 4];
 
   const xScale = xIndicatorMetaData.IsCategorical ? scaleOrdinal<number, number>().domain(xDomain).range(xRange) : scaleThreshold<number, number>().domain(xDomain).range(xRange);
-  const yScale = xIndicatorMetaData.IsCategorical ? scaleOrdinal<number, number>().domain(yDomain).range(yRange) : scaleThreshold<number, number>().domain(yDomain).range(yRange);
+  const yScale = yIndicatorMetaData.IsCategorical ? scaleOrdinal<number, number>().domain(yDomain).range(yRange) : scaleThreshold<number, number>().domain(yDomain).range(yRange);
   const sizeIndicatorMetaData = indicators[indicators.findIndex((indicator) => indicator.IndicatorLabelTable === sizeIndicator)];
   const maxRadiusValue = [0];
   if (sizeIndicator) {
@@ -166,7 +166,7 @@ export const BivariateMap = (props: Props) => {
     const mapSvgSelect = select(mapSvg.current);
     const zoomBehaviour = zoom()
       .scaleExtent([1, 6])
-      .translateExtent([[-20, 0], [svgWidth + 20, svgHeight]])
+      .translateExtent([[-20, -50], [svgWidth + 20, svgHeight + 50]])
       .on('zoom', ({ transform }) => {
         mapGSelect.attr('transform', transform);
       });
@@ -202,7 +202,7 @@ export const BivariateMap = (props: Props) => {
                       <path
                         key={j}
                         d={masterPath}
-                        stroke='#fff'
+                        stroke='#AAA'
                         strokeWidth={0.25}
                         fill={COLOR_SCALES.Null}
                       />
@@ -218,7 +218,7 @@ export const BivariateMap = (props: Props) => {
                       <path
                         key={j}
                         d={path}
-                        stroke='#fff'
+                        stroke='#AAA'
                         strokeWidth={0.25}
                         fill={COLOR_SCALES.Null}
                       />
@@ -242,8 +242,7 @@ export const BivariateMap = (props: Props) => {
                   : d.indicators[yIndicatorIndex].yearlyData[d.indicators[yIndicatorIndex].yearlyData.length - 1]?.value;
               const xColorCoord = xVal !== undefined ? xScale(xIndicatorMetaData.IsCategorical ? Math.floor(xVal) : xVal) : undefined;
               const yColorCoord = yVal !== undefined ? yScale(yIndicatorMetaData.IsCategorical ? Math.floor(yVal) : yVal) : undefined;
-
-              const color = xColorCoord !== undefined && yColorCoord !== undefined ? COLOR_SCALES.Bivariate[xColorCoord][yColorCoord] : COLOR_SCALES.Null;
+              const color = xColorCoord !== undefined && yColorCoord !== undefined ? COLOR_SCALES[`Bivariate${Math.max(Math.min((yKey.length + 1), 5), 4) as 4 | 5}x${Math.max(Math.min((xKey.length + 1), 5), 4) as 4 | 5}`][yColorCoord][xColorCoord] : COLOR_SCALES.Null;
 
               const regionOpacity = selectedRegions.length === 0 || selectedRegions.indexOf(d['Group 2']) !== -1;
               const incomeGroupOpacity = selectedIncomeGroups.length === 0 || selectedIncomeGroups.indexOf(d['Income group']) !== -1;
@@ -332,7 +331,7 @@ export const BivariateMap = (props: Props) => {
                           <path
                             key={j}
                             d={masterPath}
-                            stroke='#fff'
+                            stroke={color === COLOR_SCALES.Null ? '#AAA' : '#fff'}
                             strokeWidth={0.25}
                             fill={color}
                           />
@@ -348,7 +347,7 @@ export const BivariateMap = (props: Props) => {
                           <path
                             key={j}
                             d={path}
-                            stroke='#fff'
+                            stroke={color === COLOR_SCALES.Null ? '#AAA' : '#fff'}
                             strokeWidth={0.25}
                             fill={color}
                           />
@@ -432,7 +431,7 @@ export const BivariateMap = (props: Props) => {
                     const xColorCoord = xVal !== undefined ? xScale(xIndicatorMetaData.IsCategorical ? Math.floor(xVal) : xVal) : undefined;
                     const yColorCoord = yVal !== undefined ? yScale(yIndicatorMetaData.IsCategorical ? Math.floor(yVal) : yVal) : undefined;
 
-                    const color = xColorCoord !== undefined && yColorCoord !== undefined ? COLOR_SCALES.Bivariate[xColorCoord][yColorCoord] : COLOR_SCALES.Null;
+                    const color = xColorCoord !== undefined && yColorCoord !== undefined ? COLOR_SCALES[`Bivariate${Math.max(Math.min((yKey.length + 1), 5), 4) as 4 | 5}x${Math.max(Math.min((xKey.length + 1), 5), 4) as 4 | 5}`][yColorCoord][xColorCoord] : COLOR_SCALES.Null;
 
                     const regionOpacity = selectedRegions.length === 0 || selectedRegions.indexOf(d['Group 2']) !== -1;
                     const incomeGroupOpacity = selectedIncomeGroups.length === 0 || selectedIncomeGroups.indexOf(d['Income group']) !== -1;
@@ -523,7 +522,7 @@ export const BivariateMap = (props: Props) => {
               <svg width='135px' viewBox={`0 0 ${135} ${135}`}>
                 <g>
                   {
-                  COLOR_SCALES.Bivariate.map((d, i) => (
+                  COLOR_SCALES[`Bivariate${Math.max(Math.min((yKey.length + 1), 5), 4) as 4 | 5}x${Math.max(Math.min((xKey.length + 1), 5), 4) as 4 | 5}`].map((d, i) => (
                     <g
                       key={i}
                       transform={`translate(0,${100 - (i * 25)})`}
@@ -537,8 +536,8 @@ export const BivariateMap = (props: Props) => {
                             fill={el}
                             width={23}
                             height={23}
-                            strokeWidth={2}
-                            stroke={selectedColor === el ? '#212121' : el}
+                            strokeWidth={selectedColor === el ? 2 : 0.25}
+                            stroke={selectedColor === el ? '#212121' : '#fff'}
                             style={{ cursor: 'pointer' }}
                             onMouseOver={() => { setSelectedColor(el); }}
                             onMouseLeave={() => { setSelectedColor(undefined); }}
@@ -552,25 +551,25 @@ export const BivariateMap = (props: Props) => {
                     transform='translate(0,125)'
                   >
                     {
-                    xKey.map((el, j) => (
-                      <text
-                        key={j}
-                        y={10}
-                        x={xKey.length === 5 ? (j * 25) + 12.5 : (j + 1) * 25}
-                        fill='#212121'
-                        fontSize={10}
-                        textAnchor='middle'
-                      >
-                        {typeof el === 'string' || el < 1 ? el : format('~s')(el)}
-                      </text>
-                    ))
-                  }
+                      xKey.map((el, j) => (
+                        <text
+                          key={j}
+                          y={10}
+                          x={xKey.length === 5 ? (j * 25) + 12.5 : (j + 1) * 25}
+                          fill='#212121'
+                          fontSize={10}
+                          textAnchor='middle'
+                        >
+                          {typeof el === 'string' || el < 1 ? el : format('~s')(el)}
+                        </text>
+                      ))
+                    }
                   </g>
                   {
                     yKey.map((el, j) => (
                       <g
                         key={j}
-                        transform={`translate(135,${yKey.length !== 5 ? 100 - (j * 25) : 100 - (j * 25) + 12.5})`}
+                        transform={`translate(${(Math.max(Math.min((xKey.length + 1), 5), 4) * 25) + 10},${yKey.length !== 5 ? 100 - (j * 25) : 100 - (j * 25) + 12.5})`}
                       >
                         <text
                           x={0}

@@ -290,7 +290,7 @@ export const HorizontalBarChart = (props: Props) => {
                 {
                   title: xAxisIndicator,
                   value: d.xVal !== undefined ? d.xVal : 'NA',
-                  type: 'y-axis',
+                  type: 'x-axis',
                   year: d.xYear,
                   prefix: xIndicatorMetaData?.LabelPrefix,
                   suffix: xIndicatorMetaData?.LabelSuffix,

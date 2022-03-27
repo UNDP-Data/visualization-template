@@ -9,8 +9,8 @@ export const EMBED_LINK_ROOT = 'https://data.undp.org/access-all-data-viz-v2/';
 export const PARENT_LINK_ROOT = 'https://data.undp.org/explore-all-data/';
 
 export const DEFAULT_VALUES = {
-  firstMetric: 'Number of hospital beds per 10,000 people',
-  secondMetric: 'Physicians per 10,000 people',
+  firstMetric: 'GDP per capita, PPP (current international $)',
+  secondMetric: 'Human development index (HDI)',
   colorMetric: 'Continents',
 };
 
@@ -19,7 +19,7 @@ export const INCOME_GROUPS = ['Low income', 'Lower middle income', 'Upper middle
 export const HDI_LEVELS = ['Low', 'Medium', 'High', 'Very High'];
 
 export const COLOR_SCALES = {
-  Null: '#F1F1F1',
+  Null: '#FFF',
   Linear: {
     RedColor4: [
       'rgb(230, 168, 58)',
@@ -237,11 +237,30 @@ export const COLOR_SCALES = {
     '#f781bf',
     '#ffff33',
   ],
-  Bivariate: [
-    ['#f1f1f1', '#BAE7F6', '#7FDCF9', '#41D0FC', '#0BC6FF'],
+  Bivariate5x5: [
+    ['#e5e5e5', '#BAE7F6', '#7FDCF9', '#41D0FC', '#0BC6FF'],
     ['#F6C5D4', '#BFBEDD', '#88B8E5', '#57B2ED', '#21ABF5'],
     ['#F99FBA', '#C89BC6', '#9697D3', '#6494DF', '#3690EB'],
     ['#F782A5', '#D180B3', '#9F7DC5', '#727AD4', '#4978E3'],
     ['#F4618D', '#D2619F', '#A961B3', '#8061C8', '#5C61DA'],
+  ],
+  Bivariate4x4: [
+    ['#e5e5e5', '#BAE7F6', '#7FDCF9', '#41D0FC'],
+    ['#F6C5D4', '#BFBEDD', '#88B8E5', '#57B2ED'],
+    ['#F99FBA', '#C89BC6', '#9697D3', '#6494DF'],
+    ['#F782A5', '#D180B3', '#9F7DC5', '#727AD4'],
+  ],
+  Bivariate5x4: [
+    ['#e5e5e5', '#BAE7F6', '#7FDCF9', '#41D0FC'],
+    ['#F6C5D4', '#BFBEDD', '#88B8E5', '#57B2ED'],
+    ['#F99FBA', '#C89BC6', '#9697D3', '#6494DF'],
+    ['#F782A5', '#D180B3', '#9F7DC5', '#727AD4'],
+    ['#F4618D', '#D2619F', '#A961B3', '#8061C8'],
+  ],
+  Bivariate4x5: [
+    ['#e5e5e5', '#BAE7F6', '#7FDCF9', '#41D0FC', '#0BC6FF'],
+    ['#F6C5D4', '#BFBEDD', '#88B8E5', '#57B2ED', '#21ABF5'],
+    ['#F99FBA', '#C89BC6', '#9697D3', '#6494DF', '#3690EB'],
+    ['#F782A5', '#D180B3', '#9F7DC5', '#727AD4', '#4978E3'],
   ],
 };
