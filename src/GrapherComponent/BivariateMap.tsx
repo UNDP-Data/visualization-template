@@ -360,8 +360,9 @@ export const BivariateMap = (props: Props) => {
           }
           {
             hoverData
-              ? (World as any).features.filter((d: any) => d.properties.ISO3 === data[data.findIndex((el: DataType) => el['Country or Area'] === hoverData?.country)]['Alpha-3 code-1']).map((d: any) => (
+              ? (World as any).features.filter((d: any) => d.properties.ISO3 === data[data.findIndex((el: DataType) => el['Country or Area'] === hoverData?.country)]['Alpha-3 code-1']).map((d: any, i: number) => (
                 <G
+                  key={i}
                   opacity={!selectedColor ? 1 : 0}
                 >
                   {
