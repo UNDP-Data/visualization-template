@@ -22,6 +22,7 @@
     "@types/d3-transition": "^3.0.1",
     "@types/d3-zoom": "^3.0.1",
     "@types/dom-to-image": "^2.6.3",
+    "@types/file-saver": "^2.0.5",
     "@types/jest": "^26.0.24",
     "@types/lodash.filter": "^4.6.6",
     "@types/lodash.intersection": "^4.4.6",
@@ -54,6 +55,7 @@
     "d3-transition": "^3.0.1",
     "d3-zoom": "^3.0.0",
     "dom-to-image": "^2.6.0",
+    "file-saver": "^2.0.5",
     "lodash.filter": "^4.6.0",
     "lodash.intersection": "^4.4.0",
     "lodash.max": "^4.0.1",
@@ -70,7 +72,8 @@
     "react-scripts": "4.0.3",
     "styled-components": "^5.3.1",
     "typescript": "^4.4.3",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "craco start",

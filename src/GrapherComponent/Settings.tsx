@@ -295,9 +295,9 @@ export const Settings = (props: Props) => {
           className='primary'
           type='button'
           onClick={() => {
-            // tslint:disable-next-line: no-floating-promises
+            const node = document.getElementById('graph-node') as HTMLElement;
             domtoimage
-              .toPng(document.getElementById('graph-node') as HTMLElement)
+              .toPng(node, { height: node.scrollHeight })
               .then((dataUrl: any) => {
                 const link = document.createElement('a');
                 link.download = 'graph.png';
