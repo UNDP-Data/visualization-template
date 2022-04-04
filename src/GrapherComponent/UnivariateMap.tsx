@@ -247,7 +247,7 @@ export const UnivariateMap = (props: Props) => {
                           <path
                             key={j}
                             d={masterPath}
-                            stroke={color === COLOR_SCALES.Null ? '#AAA' : '#fff'}
+                            stroke='#AAA'
                             strokeWidth={0.25}
                             fill={color}
                           />
@@ -263,7 +263,7 @@ export const UnivariateMap = (props: Props) => {
                           <path
                             key={j}
                             d={path}
-                            stroke={color === COLOR_SCALES.Null ? '#AAA' : '#fff'}
+                            stroke='#AAA'
                             strokeWidth={0.25}
                             fill={color}
                           />

@@ -155,8 +155,8 @@ export const Settings = (props: Props) => {
             graphType === 'scatterPlot'
               ? 'X-Axis'
               : graphType === 'map'
-                ? 'Indicator to color region'
-                : 'Indicator'
+                ? 'Primary Indicator to color region'
+                : 'Primary Indicator'
           }
         </DropdownTitle>
         <Select
@@ -204,7 +204,7 @@ export const Settings = (props: Props) => {
           ) : graphType === 'map' ? (
             <DropdownEl>
               <DropdownTitle>
-                Secondary Indicator
+                Secondary Indicator (optional)
               </DropdownTitle>
               <Select
                 showSearch
@@ -225,7 +225,7 @@ export const Settings = (props: Props) => {
           ) : graphType === 'trendLine' ? (
             <DropdownEl>
               <DropdownTitle>
-                Secondary Indicator
+                Secondary Indicator (optional)
               </DropdownTitle>
               <Select
                 showSearch
@@ -249,7 +249,9 @@ export const Settings = (props: Props) => {
         graphType === 'map' || graphType === 'scatterPlot' ? (
           <DropdownEl>
             <DropdownTitle>
-              Size By
+              {graphType === 'map' ? 'Choose an indicator to overlay' : 'Size By'}
+              {' '}
+              (optional)
             </DropdownTitle>
             <Select
               allowClear
@@ -441,10 +443,10 @@ export const Settings = (props: Props) => {
                     Country Groups
                   </DropdownTitle>
                   <Radio.Group onChange={(d) => { updateSelectedCountryGroup(d.target.value); }} value={selectedCountryGroup} buttonStyle='solid' size='small'>
-                    <Radio.Button value='All'>All</Radio.Button>
-                    <Radio.Button value='LDC'>LDC</Radio.Button>
-                    <Radio.Button value='LLDC'>LLDC</Radio.Button>
-                    <Radio.Button value='SIDS'>SIDS</Radio.Button>
+                    <Radio.Button value='All'><span title='All'>All</span></Radio.Button>
+                    <Radio.Button value='LDC'><span title='Least Developed Countries'>LDC</span></Radio.Button>
+                    <Radio.Button value='LLDC'><span title='Land Locked Developing Countries'>LLDC</span></Radio.Button>
+                    <Radio.Button value='SIDS'><span title='Small Island Developing States'>SIDS</span></Radio.Button>
                   </Radio.Group>
                 </DropdownEl>
                 <DropdownEl>
