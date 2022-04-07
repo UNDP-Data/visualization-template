@@ -66,17 +66,17 @@ const RowEl = styled.div`
 const RowTitleEl = styled.div`
   font-weight: 400;
   font-size: 1.2rem;
-  line-height: 1.2rem;
-  margin-bottom: 0.6rem;
+  line-height: 1.4rem;
+  margin-bottom: 0.3rem;
   color: var(--navy);
 `;
 
 const RowMetaData = styled.div`
   font-weight: 400;
   font-size: 1.2rem;
-  margin-bottom: 0.6rem;
   color: var(--navy);
   opacity: 0.5;
+  margin-bottom: -5px;
 `;
 
 const RowValue = styled.div`
@@ -117,6 +117,10 @@ const IconDiv = styled.div`
   margin-top: 0.5rem;
 `;
 
+const IconEl = styled.div`
+  margin-top: 0.5rem;
+`;
+
 export const Tooltip = (props: Props) => {
   const {
     data,
@@ -140,8 +144,8 @@ export const Tooltip = (props: Props) => {
           <RowEl key={i}>
             <IconDiv>
               {
-                d.type === 'x-axis' ? <HorizontalArrow size={20} />
-                  : d.type === 'y-axis' ? <VerticalArrow size={20} />
+                d.type === 'x-axis' ? <IconEl><HorizontalArrow size={20} /></IconEl>
+                  : d.type === 'y-axis' ? <IconEl><VerticalArrow size={20} /></IconEl>
                     : d.type === 'color' ? <ColorIcon fill={d.color} />
                       : d.type === 'size' ? <SizeIcon />
                         : null
