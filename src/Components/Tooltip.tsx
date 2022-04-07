@@ -60,6 +60,7 @@ const RowEl = styled.div`
   color: var(--dark-grey);
   margin-bottom: 1.5rem;
   display: flex;
+  align-items: flex-start; 
 `;
 
 const RowTitleEl = styled.div`
@@ -73,7 +74,6 @@ const RowTitleEl = styled.div`
 const RowMetaData = styled.div`
   font-weight: 400;
   font-size: 1.2rem;
-  line-height: 1.2rem;
   margin-bottom: 0.6rem;
   color: var(--navy);
   opacity: 0.5;
@@ -101,6 +101,7 @@ const ColorIcon = styled.div<ColorIconProps>`
   height: 1.6rem;
   margin: 0 0.2rem;
   background-color: ${(props) => (props.fill ? props.fill : 'var(--yellow)')};
+  border: ${(props) => (props.fill === '#FFF' || props.fill === '#fff' || props.fill === '#FFFFFF' || props.fill === '#ffffff' ? '1px solid #AAA' : `1px solid ${props.fill}`)};
 `;
 
 const SizeIcon = styled.div`
