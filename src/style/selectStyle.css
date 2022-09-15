@@ -1,0 +1,105 @@
+
+.undp-select {
+  width: 100%;
+  border: 2px solid var(--black);
+  height: 3.25rem;
+}
+
+.ant-select-selector{
+  min-height: 3rem !important;
+  border: 0 !important;
+}
+
+.undp-select .ant-select-selection-placeholder {
+  font-size: 1rem;
+  color: black;
+  padding-left: 0;
+  font-weight: 600;
+  color: var(--gray-500);
+}
+
+.undp-select:after {
+  transform: translateY(-50%);
+  transition: all 200ms ease-in-out;
+  background: url(https://design.undp.org/static/media/chevron-down.16c97a3f.svg) no-repeat center center;
+  content: "";
+  float: right;
+  height: 13px;
+  position: absolute;
+  pointer-events: none;
+  right: 14px;
+  top: 50%;
+  width: 20px;
+}
+
+.undp-select .ant-select-selection-item {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: black;
+  padding: 10px 3rem 0 0 !important;
+}
+
+
+.undp-select .ant-select-arrow {
+  opacity: 0;
+}
+
+.undp-select-option {
+  font-size: 1.25rem;
+  white-space: normal;
+  padding: 1rem;
+  border-top: 1px solid var(--gray-400);
+  line-height: 1.4;
+}
+
+.undp-select-option.ant-select-item-option-selected{
+  background-color: var(--blue-100);
+}
+
+.undp-select-option.ant-select-item-option-active:not(.ant-select-item-option-disabled){
+  background-color: var(--gray-200);
+}
+
+
+.undp-select.ant-select-single .ant-select-selector:after, .undp-select.ant-select-single .ant-select-selector .ant-select-selection-item:after, .undp-select.ant-select-single .ant-select-selector .ant-select-selection-placeholder:after{
+  display: none;
+}
+
+.undp-select.ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder{
+  padding-top: 10px;
+}
+
+.ant-select-selection-search {
+  margin-top: 2px;
+  font-size: 1.25rem;
+}
+.undp-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-search-input {
+  height: 2rem;
+  padding-bottom: 0;
+}
+.undp-select.ant-select-single .ant-select-selection-search-input {
+  padding: 0.875rem 0 0 0 !important;
+  font-size: 1.25rem;
+}
+
+
+.undp-select.ant-select-multiple .ant-select-selection-item {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: black;
+  padding: 0 5px !important;
+}
+
+.undp-select .ant-select-selector{
+  padding: 0 5px;
+}
+
+.clearIcon {
+  background: url(https://design.undp.org/icons/times-circle.svg) no-repeat center center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 50%;
+  transform: translate(-50%,-50%);
+}

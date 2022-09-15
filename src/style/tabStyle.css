@@ -1,0 +1,52 @@
+
+.undp-tabs .ant-tabs-nav {
+    padding: 0 3rem;
+  }
+  
+  .undp-tabs .ant-tabs-nav-list {
+    font-size: 1rem;
+    color: var(--black);
+    font-weight: 700;    
+    border-bottom: 2px solid rgba(0,0,0,0);
+    cursor: pointer;
+    display: inline-block;
+    letter-spacing: .03em;
+    margin-bottom: -0.125rem;
+    margin-right: 1.5rem;
+    margin-top: 0.75rem;
+    text-transform: uppercase;
+  }
+  
+  .undp-tabs .ant-tabs-tab {
+    font-size: 1rem;
+    color: var(--black);
+    font-weight: 700;
+    padding: 0;
+    text-transform: uppercase;
+  }
+  
+  .undp-tabs .ant-tabs-tab .ant-tabs-tab-btn {
+    color: var(--black);
+    padding-bottom: 0.5rem;
+    padding-left: 0;
+    border-bottom: 2px solid var(--gray-200);
+  }
+  
+  .undp-tabs .ant-tabs-tab .ant-tabs-tab-btn:hover {
+    border-bottom: 2px solid var(--gray-500);
+  }
+  
+  .undp-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--black);
+    padding-bottom: 0.5rem;
+    padding-left: 0;
+    border-bottom: 2px solid var(--dark-red);
+  }
+  
+  .undp-tabs .ant-tabs-tab + .ant-tabs-tab {
+    margin-left: 1.5rem;
+  }
+  
+  .undp-tabs .ant-tabs-ink-bar {
+    display: none;
+  }

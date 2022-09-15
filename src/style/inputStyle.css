@@ -1,0 +1,21 @@
+
+.undp-input{
+  border: 2px solid var(--black);    
+  padding: 0.625rem;
+  font-size: 1rem;
+  appearance: none;
+  border: 2px solid #000;
+  border-radius: 0;
+  line-height: 1.4;
+  color: var(--black);
+  width: 100%;
+}
+
+.undp-input:hover{
+  border: 2px solid var(--blue-600) !important; 
+}
+
+.undp-input:focus{
+  box-shadow: 0 0 4px #0468b1;
+  outline: 0;
+}

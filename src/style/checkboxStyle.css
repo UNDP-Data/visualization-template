@@ -1,0 +1,50 @@
+
+.undp-checkbox .ant-checkbox .ant-checkbox-inner {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 2px solid var(--dark-red);
+  cursor: pointer;
+  height: 16px;
+  margin: 0;
+  width: 16px;
+}
+
+.undp-checkbox .ant-checkbox-checked .ant-checkbox-inner{
+  background-color: transparent;
+}
+
+.undp-checkbox:hover .ant-checkbox .ant-checkbox-inner {
+  border: 2px solid var(--light-red);
+}
+
+.undp-checkbox:hover .ant-checkbox-checked .ant-checkbox-inner {
+  border: 2px solid var(--light-red);
+}
+
+.undp-checkbox .ant-checkbox-checked {
+  background: url(https://design.undp.org/static/media/icon-check.b332b98d.svg) no-repeat center center;
+}
+
+.undp-checkbox .ant-checkbox-checked .ant-checkbox-inner:after {
+  display: none;
+}
+
+.undp-checkbox-label {
+  font-size: 1rem;
+  margin: 0 7px;
+  line-height: 1rem;
+}
+
+.undp-checkbox .ant-checkbox + span {
+  padding: 0 7px;
+  font-size: 1rem;
+}
+
+.undp-checkbox .ant-checkbox-disabled + span {
+  color: var(--gray-400);
+}
+
+.undp-checkbox .ant-checkbox-disabled .ant-checkbox-inner {
+  background-color: var(--gray-200);
+  border-color: var(--gray-400) !important;
+}
