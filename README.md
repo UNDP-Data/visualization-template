@@ -106,5 +106,5 @@ __Required Classs For `Input` tag__: `undp-input`
 ### For Modal
 __Required Classs For `Modal` tag__: `undp-modal`
 
-### For Curtom Scrollbar
+### For Custom Scrollbar
 __Required Classs For parent element__: `undp-scrollbar`
