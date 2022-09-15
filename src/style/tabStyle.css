@@ -27,11 +27,20 @@
   text-transform: uppercase;
 }
 
+.undp-tabs .ant-tabs-nav-list{
+  transform: translate(2px, 0px) !important;
+}
+
 .undp-tabs .ant-tabs-tab .ant-tabs-tab-btn {
   color: var(--black);
   padding-bottom: 0.5rem;
   padding-left: 0;
   border-bottom: 2px solid var(--gray-200);
+}
+
+.undp-tabs .ant-tabs-tab .ant-tabs-tab-btn:focus {
+  box-shadow: 0 0 4px #0468b1;
+  outline: 0;
 }
 
 .undp-tabs .ant-tabs-tab .ant-tabs-tab-btn:hover {
@@ -44,6 +53,12 @@
   padding-left: 0;
   border-bottom: 2px solid var(--dark-red);
 }
+
+.undp-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn:focus {
+  box-shadow: 0 0 4px #0468b1;
+  outline: 0;
+}
+
 
 .undp-tabs .ant-tabs-tab + .ant-tabs-tab {
   margin-left: 1.5rem;

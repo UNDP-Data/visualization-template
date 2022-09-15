@@ -12,10 +12,11 @@
 }
 
 .undp-input:hover{
-  border: 2px solid var(--blue-600) !important; 
+  border: 2px solid var(--black) !important; 
 }
 
 .undp-input:focus{
+  border: 2px solid var(--black) !important; 
   box-shadow: 0 0 4px #0468b1;
   outline: 0;
 }

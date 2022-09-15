@@ -48,3 +48,13 @@
   background-color: var(--gray-200);
   border-color: var(--gray-400) !important;
 }
+
+.undp-checkbox .ant-checkbox:focus {
+  box-shadow: 0 0 4px #0468b1;
+  outline: 0;
+}
+
+.undp-checkbox .ant-checkbox:focus-visible {
+  box-shadow: 0 0 4px #0468b1;
+  outline: 0;
+}
