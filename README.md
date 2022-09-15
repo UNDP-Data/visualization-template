@@ -108,3 +108,33 @@ __Required Classs For `Modal` tag__: `undp-modal`
 
 ### For Custom Scrollbar
 __Required Classs For parent element__: `undp-scrollbar`
+
+### Color Variables for CSS
+__--blue-100__: `#B5D5F5`
+__--blue-200__: `#94C4F5`
+__--blue-300__: `#6BABEB`
+__--blue-400__: `#4F95DD`
+__--blue-500__: `#3288CE`
+__--blue-600__: `#006EB5`
+__--blue-700__: `#1F5A95`
+__--white__: `#FFF`
+__--gray-100__: `#FAFAFA`
+__--gray-200__: `#F7F7F7`
+__--gray-300__: `#EDEFF0`
+__--gray-400__: `#D4D6D8`
+__--gray-500__: `#A9B1B7`
+__--gray-600__: `#55606E`
+__--gray-700__: `#232E3D`
+__--black__: `#000`
+__--light-yellow__: `#FFE17E`
+__--yellow__: `#FFEB00`
+__--dark-yellow__: `#FBC412`
+__--light-red__: `#FFBCB7`
+__--red__: `#EE402D`
+__--dark-red__: `#D12800`
+__--light-green__: `#B8ECB6`
+__--green__: `#6DE354`
+__--dark-green__: `#59BA47`
+__--light-azure__: `#A2DAF3`
+__--azure__: `#60D4F2`
+__--dark-azure__: `#00C1FF`
