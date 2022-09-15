@@ -12,7 +12,7 @@ Run the terminal or command prompt and then run the following
 
 ```
 git clone {{git repo link}}
-cd Access-All-Data-Viz
+cd {{folder-name}}
 npm install
 ```
 ### Local Development
@@ -31,7 +31,7 @@ This project is build in Visual Studio Code, therefore the project is already se
 
 ## Production Workflow
 
-We use [SiteGround](https://tools.siteground.com/filemanager?siteId=TFE3MFlYOEpJUT09) for deployment. To get access to SiteGround contact Naledi Hollbruegge (naledi.hollbruegge@undp.org) or Gayan Peiris (gayan.peiris@undp.org).
+We use [SiteGround](https://tools.siteground.com/filemanager?siteId=TFE3MFlYOEpJUT09) for deployment. To get access to SiteGround contact Gayan Peiris (gayan.peiris@undp.org).
 
 __The development workflow should be roughly as follows:__
 1. Make changes locally (see Local Development)
