@@ -1,0 +1,46 @@
+.stat-card {
+  padding: 2rem;
+  background-color: var(--gray-200);
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--black);
+  transition: 300ms all;
+}
+
+.stat-card:hover {
+  background-color: var(--light-yellow);
+}
+
+.stat-card:hover h2 {
+  color: var(--black);
+}
+
+.stat-card h2 {
+  line-height: 1.09;
+  margin-bottom: 0;
+  text-shadow: none;
+  -webkit-text-stroke: 2px var(--black);
+  color: var(--gray-200);
+  font-size: 5rem;
+  letter-spacing: .05rem;
+}
+@media (min-width: 48em) {
+    .stats-card.small h2 {
+      font-size: 4.375rem;
+  }
+}
+
+.stat-card h4 {
+  line-height: 1.15;
+  margin-bottom: 0;
+  color: var(--black);
+  font-size: 1.563rem;
+  letter-spacing: .05rem;
+}
+
+.stat-card p {
+  line-height: 1.15;
+  margin-bottom: 0;
+  margin-top: 2rem;
+  font-size: 1rem;
+}

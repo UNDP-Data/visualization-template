@@ -1,4 +1,4 @@
-# Access All Data Visualization in DFP
+# {{Project Name}} in DFP
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and uses [Craco](https://www.npmjs.com/package/@craco/craco) to add a configuration layer for CRA. For this porject, we use [Typescript](https://www.typescriptlang.org/), a strongly typed programming language that builds on JavaScript. Typescript helps in better documentation of the code and communication between developers.
 
@@ -11,7 +11,7 @@ To install the project, sinply clone the the repo and them run `npm install` in 
 Run the terminal or command prompt and then run the following
 
 ```
-git clone https://github.com/UNDP-Data/Access-All-Data-Viz.git
+git clone {{git repo link}}
 cd Access-All-Data-Viz
 npm install
 ```
@@ -75,12 +75,36 @@ Craco is used to add a cofiguration layer for CRA. The primary function is to st
 * __React__: React is used as MVC framework.
 * __CRACO__: Craco is used to configure different scripts (See Available Scripts for more details)
 * __styled-components__: Utilises tagged template literals  and the power of CSS, allows to write actual CSS code to style the components in JS/TS.
-* __Various D3 Libraries__: Various D3 libraries are used for visualizations, adding interaction and reading the csv data file.
 * __ant design__: For UI elements like dropdown, buttons, checkbox, and slider.
-* __dom-to-image__: This is used to allow users to download images of various visualization views they create.
-* __lodash__: This is used for manipulating and iterating arrays and objects.
 
-## Data and Meta Data Used
+## Classes to use for styling AntD components
 
-* __Indicator Meta Data__: https://github.com/UNDP-Data/Indicators-MetaData
-* __Country Taxonomy__: https://github.com/UNDP-Data/Country-Taxonomy
+### For Buttons
+__Required Classs__: `undp-button`
+__Additonal Variations Classes__: `button-primary` `button-secondary` `button-tertiary` `button-arrow` `disabled`
+
+### For Stat Cards
+__Required Classs__: `stat-card`
+
+### For Selection Dropdown
+__Required Classs For `Select` tag__: `undp-select`
+__Required Classs For `Option` tag__: `undp-select-option`
+
+### For Tabs
+__Required Classs For `Tabs` tag__: `undp-tabs`
+__Required Classs For `TabPane` tag__: `undp-tab-content`
+
+### For Checkbox
+__Required Classs For `Checkbox` tag__: `undp-checkbox`
+
+### For Radio
+__Required Classs For `Radio` tag__: `undp-radio`
+
+### For Text Input
+__Required Classs For `Input` tag__: `undp-input`
+
+### For Modal
+__Required Classs For `Modal` tag__: `undp-modal`
+
+### For Curtom Scrollbar
+__Required Classs For parent element__: `undp-scrollbar`

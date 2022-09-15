@@ -29,6 +29,17 @@
   --dark-azure: #00C1FF;
 }
 
+@keyframes lineLoop-animation {
+  0% {
+    background-position: 100% 100%, -30px 100%;
+    background-size: 100% 2px, 0 2px;
+  }
+  to {
+    background-position: calc(100% + 30px) 100%, 0 100%;
+    background-size: 0 2px, 100% 2px;
+  }
+}
+
 body {
   font-family: "proxima-nova", "Helvetica Neue", "sans-serif";
   font-size: 1rem;
@@ -38,107 +49,6 @@ body {
   body {
       font-size: 1.25rem;
   }
-}
-
-.button {
-  align-items: center;
-  background: transparent;
-  border: none;
-  display: flex;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: .03em;
-  line-height: 1;
-  text-transform: uppercase;
-  color: #fff;
-  cursor: pointer;
-  justify-content: center;
-  padding: 1rem 1.5rem;
-}
-
-
-.button:focus-visible {
-  box-shadow: 0 0 4px #0468b1;
-  outline: 0;
-}
-
-.button.button-primary {
-  background-color: var(--dark-red);
-}
-
-.button.button-primary:hover {
-  background-color: var(--red);
-}
-
-.button.button-primary.button-arrow:after {
-  transition: .2s ease;
-  background: url(https://design.undp.org/static/media/chevron-right-black.f618eac3.svg) no-repeat left center;
-  color: var(--dark-red);
-  height: 20px;
-  margin-left: 0.75rem;
-  content: "";
-  width: 13px;
-}
-
-.button.button-primary.button-arrow:hover:after {
-  transform: translate(70%, 0);
-}
-
-.button.button-primary.button-arrow.disabled:after {
-  background: url(https://design.undp.org/static/media/chevron-right-white.c14d1d86.svg) no-repeat left center;
-  content: ""
-}
-
-.button.button-secondary {
-  background-color: var(--blue-600);
-}
-
-.button.button-secondary:hover {
-  background-color: var(--blue-400);
-}
-
-.button.disabled {
-  background-color: var(--gray-400);
-  color: var(--gray-300);
-  pointer-events: none;
-}
-
-
-.button.button-tertiary {
-  background-color: var(--white);
-  color: var(--black);
-}
-
-.button.button-tertiary:hover {
-  color: var(--red);
-}
-
-.button.button-tertiary.button-arrow:after {
-  transition: .2s ease;
-  background: url(https://design.undp.org/static/media/chevron-right-black.f618eac3.svg) no-repeat left center;
-  height: 20px;
-  margin-left: 0.75rem;
-  content: "";
-  width: 13px;
-}
-
-.button.button-tertiary.button-arrow:hover:after {
-  background: url(https://design.undp.org/icons/chevron-right.svg) no-repeat left center;
-  transform: translate(70%, 0);
-}
-
-.button.button-tertiary.disabled {
-  color: var(--gray-400);
-}
-
-.button.button-tertiary.disabled.button-arrow:after {
-  transition: .2s ease;
-  background: url(https://design.undp.org/static/media/chevron-right-black.f618eac3.svg) no-repeat left center;
-  height: 20px;
-  margin-left: 0.75rem;
-  content: "";
-  width: 13px;
-  opacity: 0.3;
 }
 
 hr {
@@ -234,54 +144,6 @@ h6 {
   text-transform: uppercase;
 }
 
-.stat-card {
-  padding: 2rem;
-  background-color: var(--gray-200);
-  font-size: 1.25rem;
-  cursor: pointer;
-  color: var(--black);
-  transition: 300ms all;
-}
-
-.stat-card:hover {
-  background-color: var(--light-yellow);
-}
-
-.stat-card:hover h2 {
-  color: var(--black);
-}
-
-.stat-card h2 {
-  line-height: 1.09;
-  margin-bottom: 0;
-  text-shadow: none;
-  -webkit-text-stroke: 2px var(--black);
-  color: var(--gray-200);
-  font-size: 5rem;
-  letter-spacing: .05rem;
-}
-@media (min-width: 48em) {
-    .stats-card.small h2 {
-      font-size: 4.375rem;
-  }
-}
-
-.stat-card h4 {
-  line-height: 1.15;
-  margin-bottom: 0;
-  color: var(--black);
-  font-size: 1.563rem;
-  letter-spacing: .05rem;
-}
-
-.stat-card p {
-  line-height: 1.15;
-  margin-bottom: 0;
-  margin-top: 2rem;
-  font-size: 1rem;
-}
-
-
 a {
   background-image: linear-gradient(var(--dark-red), var(--dark-red)), linear-gradient(var(--dark-red), var(--dark-red));
   background-position: 100% 100%, -30px 100%;
@@ -289,7 +151,43 @@ a {
   background-size: 100% 2px, 0 1px;
   color: var(--black);
 }
+
 a:hover {
   animation: lineLoop-animation 2s linear infinite;
-  color: var(--dark-red);
+  color: var(--black);
+}
+
+a.dark-bg {
+  background-image: linear-gradient(var(--white), var(--white)), linear-gradient(var(--white), var(--white));
+  background-position: 100% 100%, -30px 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 2px, 0 1px;
+  color: var(--white);
+}
+
+a.dark-bg:hover {
+  animation: lineLoop-animation 2s linear infinite;
+  color: var(--white);
+}
+
+
+.undp-scrollbar {
+  overflow-x: auto;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+.undp-scrollbar::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+.undp-scrollbar::-webkit-scrollbar-track {
+  background: #000;
+  background-clip: padding-box;
+  border: 2px solid #fff;
+}
+.undp-scrollbar::-webkit-scrollbar-corner {
+  display: none;
+}
+.undp-scrollbar::-webkit-scrollbar-thumb {
+  background: #000;
 }

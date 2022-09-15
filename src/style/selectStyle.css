@@ -53,14 +53,14 @@
   line-height: 1.4;
 }
 
-.undp-select-option.ant-select-item-option-selected{
-  background-color: var(--blue-100);
+
+.undp-select-option.ant-select-item-option-selected{  
+  background-color: transparent;
 }
 
-.undp-select-option.ant-select-item-option-active:not(.ant-select-item-option-disabled){
-  background-color: var(--gray-200);
+.undp-select-option.ant-select-item-option-active {
+  background-color: var(--gray-100);
 }
-
 
 .undp-select.ant-select-single .ant-select-selector:after, .undp-select.ant-select-single .ant-select-selector .ant-select-selection-item:after, .undp-select.ant-select-single .ant-select-selector .ant-select-selection-placeholder:after{
   display: none;
@@ -74,15 +74,16 @@
   margin-top: 2px;
   font-size: 1.25rem;
 }
+
 .undp-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-search-input {
   height: 2rem;
   padding-bottom: 0;
 }
+
 .undp-select.ant-select-single .ant-select-selection-search-input {
   padding: 0.875rem 0 0 0 !important;
   font-size: 1.25rem;
 }
-
 
 .undp-select.ant-select-multiple .ant-select-selection-item {
   font-size: 1rem;
@@ -92,8 +93,28 @@
   padding: 0 5px !important;
 }
 
+.undp-select-option.ant-select-item-option-selected .ant-select-item-option-state .anticon-check svg {
+  fill: var(--dark-red) !important;
+}
+
+.undp-select.ant-select-multiple .ant-select-selector .ant-select-selection-overflow .ant-select-selection-item {
+  background-color: var(--gray-300);
+}
+
+.undp-select.ant-select-multiple .ant-select-selector .ant-select-selection-overflow .ant-select-selection-item .ant-select-selection-item-remove .anticon-close svg {
+  fill: var(--gray-700) !important;
+}
+
+.undp-select.ant-select-multiple .ant-select-selector .ant-select-selection-overflow .ant-select-selection-item .ant-select-selection-item-remove .anticon-close svg:hover {
+  fill: var(--dark-red) !important;
+}
+
 .undp-select .ant-select-selector{
   padding: 0 5px;
+}
+
+.ant-select-dropdown{
+  padding: 0;
 }
 
 .clearIcon {
