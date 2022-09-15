@@ -1,5 +1,5 @@
 import {
-  Checkbox, Input, Radio, Select, Tabs,
+  Checkbox, Input, Modal, Radio, Select, Tabs,
 } from 'antd';
 import 'antd/dist/antd.css';
 import './style/style.css';
@@ -8,6 +8,7 @@ import './style/checkboxStyle.css';
 import './style/radioStyle.css';
 import './style/selectStyle.css';
 import './style/inputStyle.css';
+import './style/modalStyle.css';
 
 const App = () => (
   <>
@@ -81,6 +82,11 @@ const App = () => (
       <Radio className='undp-radio' disabled value={4}>D</Radio>
     </Radio.Group>
     <Input style={{ width: '30%', margin: '2rem' }} className='undp-input' placeholder='Basic usage' />
+    <Modal className='undp-modal' title='Basic Modal' visible>
+      <p>Some contents...</p>
+      <p>Some contents...</p>
+      <p>Some contents...</p>
+    </Modal>
   </>
 );
 
