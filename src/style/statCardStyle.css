@@ -32,7 +32,6 @@
 
 .stat-card h4 {
   line-height: 1.15;
-  margin-bottom: 0;
   color: var(--black);
   font-size: 1.563rem;
   letter-spacing: .05rem;
@@ -40,7 +39,5 @@
 
 .stat-card p {
   line-height: 1.15;
-  margin-bottom: 0;
-  margin-top: 2rem;
   font-size: 1rem;
 }

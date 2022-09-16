@@ -27,6 +27,17 @@
   --light-azure: #A2DAF3;
   --azure: #60D4F2;
   --dark-azure: #00C1FF;
+  --spacing-00: 0;
+  --spacing-01: 0.125rem;
+  --spacing-02: 0.25rem;
+  --spacing-03: 0.5rem;
+  --spacing-04: 0.75rem;
+  --spacing-05: 1rem;
+  --spacing-06: 1.5rem;
+  --spacing-07: 2rem;
+  --spacing-08: 2.5rem;
+  --spacing-09: 3rem;
+  --spacing-10: 4rem;
 }
 
 @keyframes lineLoop-animation {
@@ -45,11 +56,6 @@ body {
   font-size: 1rem;
   line-height: 1.4;
 }
-@media (min-width: 48em) {
-  body {
-      font-size: 1.25rem;
-  }
-}
 
 hr {
   border: 1px solid var(--black);
@@ -57,6 +63,14 @@ hr {
 
 p {
   margin-top: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+@media (min-width: 48em) {
+  body, p {
+      font-size: 1.25rem;
+  }
 }
 
 caption, h1, h2, h3, h4, h5, h6 {
@@ -175,6 +189,163 @@ a:focus-visible {
   outline: 0;
 }
 
+.container {
+  width: 100%;
+  max-width: 1280px;
+  padding: 0 var(--spacing-05);
+  margin: auto;
+}
+
+.flex-div {
+  display: flex;
+  gap: var(--spacing-05);
+}
+
+.flex-vert-align-center {  
+  align-items: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-space-between {
+  justify-content: space-between;
+}
+
+.flex-hor-align-center {
+  justify-content: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.italics {
+  font-style: italic;
+}
+
+.small {
+  font-size: 1.25rem;
+}
+
+.label {
+  margin-bottom: var(--spacing-03);
+  margin-top: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+@media (min-width: 48em) {
+  .label {
+      font-size: 1.25rem;
+  }
+}
+
+.margin-top-00 {
+  margin-top: var(--spacing-00);
+}
+
+.margin-bottom-00 {
+  margin-bottom: var(--spacing-00);
+}
+
+.margin-top-01 {
+  margin-top: var(--spacing-01);
+}
+
+.margin-bottom-01 {
+  margin-bottom: var(--spacing-01);
+}
+
+.margin-top-01 {
+  margin-top: var(--spacing-01);
+}
+
+.margin-bottom-01 {
+  margin-bottom: var(--spacing-01);
+}
+
+.margin-top-02 {
+  margin-top: var(--spacing-02);
+}
+
+.margin-bottom-02 {
+  margin-bottom: var(--spacing-02);
+}
+
+.margin-top-02 {
+  margin-top: var(--spacing-02);
+}
+
+.margin-bottom-02 {
+  margin-bottom: var(--spacing-02);
+}
+
+.margin-top-03 {
+  margin-top: var(--spacing-03);
+}
+
+.margin-bottom-03 {
+  margin-bottom: var(--spacing-03);
+}
+
+.margin-top-04 {
+  margin-top: var(--spacing-04);
+}
+
+.margin-bottom-04 {
+  margin-bottom: var(--spacing-04);
+}
+
+.margin-top-05 {
+  margin-top: var(--spacing-05);
+}
+
+.margin-bottom-05 {
+  margin-bottom: var(--spacing-05);
+}
+
+.margin-top-06 {
+  margin-top: var(--spacing-06);
+}
+
+.margin-bottom-06 {
+  margin-bottom: var(--spacing-06);
+}
+
+.margin-top-07 {
+  margin-top: var(--spacing-07);
+}
+
+.margin-bottom-07 {
+  margin-bottom: var(--spacing-07);
+}
+
+.margin-top-08 {
+  margin-top: var(--spacing-08);
+}
+
+.margin-bottom-08 {
+  margin-bottom: var(--spacing-08);
+}
+
+.margin-top-09 {
+  margin-top: var(--spacing-09);
+}
+
+.margin-bottom-09 {
+  margin-bottom: var(--spacing-09);
+}
+
+.margin-top-10 {
+  margin-top: var(--spacing-10);
+}
+
+.margin-bottom-10 {
+  margin-bottom: var(--spacing-10);
+}
+
 .undp-scrollbar {
   overflow-x: auto;
   overflow-y: auto;
@@ -194,4 +365,32 @@ a:focus-visible {
 }
 .undp-scrollbar::-webkit-scrollbar-thumb {
   background: #000;
+}
+
+@keyframes loader-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  animation: loader-animation 2s linear infinite;
+  border-radius: 50%;
+  border: 8px solid var(--blue-600);
+  border-top: 8px solid var(--gray-300);
+  height: 40px;
+  width: 40px;
+}
+
+@media (min-width: 48em) {
+  .loader {
+    border: 14px solid var(--blue-600);
+    border-top: 14px solid var(--gray-300);
+    height: 96px;
+    width: 96px;
+  }
 }
