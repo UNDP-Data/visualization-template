@@ -77,91 +77,134 @@ Craco is used to add a cofiguration layer for CRA. The primary function is to st
 * __styled-components__: Utilises tagged template literals  and the power of CSS, allows to write actual CSS code to style the components in JS/TS.
 * __ant design__: For UI elements like dropdown, buttons, checkbox, and slider.
 
-## Classes to use for styling AntD components
+## Classes to use for styling AntD components and different UI components
 
 ### For Buttons
-__Required Classs__: `undp-button`
+__Required Class__: `undp-button`
 __Additonal Variations Classes__: `button-primary` `button-secondary` `button-tertiary` `button-arrow` `disabled`
 
+### Labels for Dropdowns, Checkbox, Radio Button or Text Fields
+__Required Class__: `label`
+
+### For Selection Dropdown from AntD
+__Required Class For `Select` tag__: `undp-select`
+__Required Class For `Option` tag__: `undp-select-option`
+
+### For Checkbox from AntD
+__Required Class For `Checkbox` tag__: `undp-checkbox`
+
+### For Radio from AntD
+__Required Class For `Radio` tag__: `undp-radio`
+
+### For Text Input from AntD
+__Required Class For `Input` tag__: `undp-input`
+
+### For Tabs from AntD
+__Required Class For `Tabs` tag__: `undp-tabs`
+__Required Class For `TabPane` tag__: `undp-tab-content`
+
+### For Modal from AntD
+__Required Class For `Modal` tag__: `undp-modal`
+
 ### For Stat Cards
-__Required Classs__: `stat-card`
+__Required Class__: `stat-card`
 
-### For Selection Dropdown
-__Required Classs For `Select` tag__: `undp-select`
-__Required Classs For `Option` tag__: `undp-select-option`
+### For Table
+To build a table is slightly complicated. Instead of using `th` and `td` we use `div` for better flexibility of layouts and children divs.
 
-### For Tabs
-__Required Classs For `Tabs` tag__: `undp-tabs`
-__Required Classs For `TabPane` tag__: `undp-tab-content`
+Dummy table head code
+```
+<div className='undp-table-head undp-table-head-sticky'>
+  <div style={{ width:'15%' }} className='undp-table-head-cell'>
+    Head 1
+  </div>
+  <div style={{ width:'30%' }} className='undp-table-head-cell'>
+    Head 2
+  </div>
+  <div style={{ width:'55%' }} className='undp-table-head-cell'>
+    Head 3
+  </div>
+</div>
+```
+__Required Class for The Parent Div__: `undp-table-head` or `undp-table-head-small`
+__Additonal Variations Classes__: `undp-table-head-sticky` if the head needs to stick on the top while scrolling the table
+__Required Class for Individual Head Cells__: `undp-table-head-cell`
 
-### For Checkbox
-__Required Classs For `Checkbox` tag__: `undp-checkbox`
+Dummy table row code
+```
+<div className='undp-table-row'>
+  <div style={{ width:'15%' }} className='undp-table-row-cell'>
+    Head 1
+  </div>
+  <div style={{ width:'30%' }} className='undp-table-row-cell'>
+    Head 2
+  </div>
+  <div style={{ width:'55%' }} className='undp-table-row-cell'>
+    Head 3
+  </div>
+</div>
+```
+__Required Class for The Parent Div__: `undp-table-row` or `undp-table-row-small`
+__Required Class for Individual Head Cells__: `undp-table-head-cell` or `undp-table-row-cell-small`
 
-### For Radio
-__Required Classs For `Radio` tag__: `undp-radio`
-
-### For Text Input
-__Required Classs For `Input` tag__: `undp-input`
-
-### For Modal
-__Required Classs For `Modal` tag__: `undp-modal`
+### For Chips
+__Required Class for the div__:`undp-chip`
+__Additonal Variations Classes__: `undp-chip-small` `undp-chip-large` `undp-chip-red` `undp-chip-yellow` `undp-chip-blue` `undp-chip-green` `undp-chip-clickable`
 
 ### For Custom Scrollbar
-__Required Classs For parent element__: `undp-scrollbar`
+__Required Class For parent element__: `undp-scrollbar`
 
-### Color Variables for CSS
+### For Loader
+__Required Class For div__: `loader`
+
+## Different CSS variable
+
+### Color Variables
+
 __--blue-100__: `#B5D5F5`
-
 __--blue-200__: `#94C4F5`
-
 __--blue-300__: `#6BABEB`
-
 __--blue-400__: `#4F95DD`
-
 __--blue-500__: `#3288CE`
-
 __--blue-600__: `#006EB5`
-
 __--blue-700__: `#1F5A95`
-
 __--white__: `#FFF`
-
 __--gray-100__: `#FAFAFA`
-
 __--gray-200__: `#F7F7F7`
-
 __--gray-300__: `#EDEFF0`
-
 __--gray-400__: `#D4D6D8`
-
 __--gray-500__: `#A9B1B7`
-
 __--gray-600__: `#55606E`
-
 __--gray-700__: `#232E3D`
-
 __--black__: `#000`
-
 __--light-yellow__: `#FFE17E`
-
 __--yellow__: `#FFEB00`
-
 __--dark-yellow__: `#FBC412`
-
 __--light-red__: `#FFBCB7`
-
 __--red__: `#EE402D`
-
 __--dark-red__: `#D12800`
-
 __--light-green__: `#B8ECB6`
-
 __--green__: `#6DE354`
-
 __--dark-green__: `#59BA47`
-
 __--light-azure__: `#A2DAF3`
-
 __--azure__: `#60D4F2`
-
 __--dark-azure__: `#00C1FF`
+
+### Spacing Variables
+
+__--spacing-00__: `0`
+__--spacing-01__: `0.125rem`
+__--spacing-02__: `0.25rem`
+__--spacing-03__: `0.5rem`
+__--spacing-04__: `0.75rem`
+__--spacing-05__: `1rem`
+__--spacing-06__: `1.5rem`
+__--spacing-07__: `2rem`
+__--spacing-08__: `2.5rem`
+__--spacing-09__: `3rem`
+__--spacing-10__: `4rem`
+__--spacing-11__: `5rem`
+__--spacing-12__: `6rem`
+__--spacing-13__: `7rem`
+
+_1rem = 16px_
