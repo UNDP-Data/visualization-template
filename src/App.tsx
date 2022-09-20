@@ -17,7 +17,7 @@ import { TabsEl } from './Components/TabsEl';
 
 const App = () => (
   <>
-    <h1>UNDP Data Future Platform Template</h1>
+    <h4>UNDP Data Future Platform Style Guide</h4>
     <Tabs
       defaultActiveKey='1'
       className='undp-tabs'
