@@ -387,6 +387,10 @@ a:focus-visible {
   text-align: right;
 }
 
+.align-center {
+  text-align: center;
+}
+
 .no-shrink {
   flex-shrink: 0;
 }

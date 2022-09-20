@@ -139,3 +139,48 @@
   margin-top: 50%;
   transform: translate(-50%,-50%);
 }
+
+.undp-language-select {
+  width: auto;
+  height: auto;
+  border: 0;
+}
+
+.undp-language-select .ant-select-selection-item {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--blue-600);
+  padding: 11px 1.5rem 0 2rem !important;
+}
+
+.undp-language-select .ant-select-selection-search{
+  margin-top: 0;
+}
+
+.undp-language-select .ant-select-selection-search:before {
+  background-color: var(--blue-600);
+  display: inline-block;
+  content: '';
+  color: var(--blue-600);
+  width: 25px;
+  height: 26px;
+  mask: url(https://design.undp.org/static/media/language.fa0c73b0.svg) no-repeat left center;
+  margin-top: 13px;
+  margin-right: .5rem;
+}
+
+.undp-language-select .ant-select-selection-search input {
+  display: none;
+}
+
+.undp-language-select:after {
+  background: none;
+  background-color: var(--blue-600);
+  display: inline-block;
+  content: "";
+  height: 10px;
+  margin-left: .5rem;
+  mask: url(https://design.undp.org/static/media/arrow-blue.195b4397.svg) no-repeat left center;
+  width: 15px;
+}
