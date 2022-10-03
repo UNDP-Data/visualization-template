@@ -78,6 +78,26 @@ Craco is used to add a cofiguration layer for CRA. The primary function is to st
 
 ## Classes to use for styling AntD components and different UI components
 
+### Parent Container
+_All the div should be within a parent container for consistent styling with UNDP design style_
+__Require class__: `undp-container`
+__Additonal Variations Classes for max-width 1280px__: `max-width`
+
+### Typography
+__h1__: Required class `undp-typography`
+__h2__: Required class `undp-typography`
+__h3__: Required class `undp-typography`
+__h4__: Required class `undp-typography`
+__h5__: Required class `undp-typography`
+__h6__: Required class `undp-typography`
+__p__: Required class `undp-typography`
+
+### Text Link
+__a__: Required class `undp-style`
+
+### hr
+__Required class__: `undp-style`
+
 ### For Buttons
 __Required Class__: `undp-button`
 __Additonal Variations Classes__: `button-primary` `button-secondary` `button-tertiary` `button-arrow` `disabled`
@@ -102,12 +122,29 @@ __Required Class For `Radio` tag__: `undp-radio`
 ### For Text Input from AntD
 __Required Class For `Input` tag__: `undp-input`
 
+### For Password Input from AntD
+__Required Class For `Input.Password` tag__: `undp-input`
+
+### For Number Input from AntD
+__Required Class For `InputNumber` tag__: `undp-input`
+
+### For Date Input from AntD
+__Required Class For `DatePicker` tag__: `undp-input`
+
+### For Text Area Input from AntD
+__Required Class For `Input.TextArea` tag__: `undp-text-area`
+
 ### For Tabs from AntD
 __Required Class For `Tabs` tag__: `undp-tabs`
-__Required Class For `TabPane` tag__: `undp-tab-content`
 
 ### For Modal from AntD
 __Required Class For `Modal` tag__: `undp-modal`
+
+### For Slider from AntD
+__Required Class For `Slider` tag__: `undp-slider`
+
+### For Segmented from AntD
+__Required Class For `Segmented` tag__: `undp-segmented`
 
 ### For Stat Cards
 __Required Class__: `stat-card`

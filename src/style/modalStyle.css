@@ -10,6 +10,7 @@
   border-radius: 0;
   border: 0;
   color: var(--black);
+  font-family: var(--fontFamily);
 }
 
 .undp-modal .ant-modal-header{

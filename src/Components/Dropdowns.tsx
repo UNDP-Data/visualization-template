@@ -4,7 +4,7 @@ import '../style/selectStyle.css';
 export const Dropdowns = () => (
   <div className='flex-wrap margin-bottom-07'>
     <div className='margin-bottom-07'>
-      <h6>With Label No Search No Mutiple Select No Clear</h6>
+      <h6 className='undp-typography'>With Label No Search No Mutiple Select No Clear</h6>
       <div className='margin-top-07'>
         <p className='label'>Dropdown Label</p>
         <Select
@@ -20,9 +20,9 @@ export const Dropdowns = () => (
         </Select>
       </div>
     </div>
-    <hr />
+    <hr className='undp-style' />
     <div className='margin-top-07 margin-bottom-07'>
-      <h6>With Label Search Mutiple Select Allow Clear</h6>
+      <h6 className='undp-typography'>With Label Search Mutiple Select Allow Clear</h6>
       <div className='margin-top-07'>
         <p className='label'>Dropdown Label</p>
         <Select
@@ -44,9 +44,9 @@ export const Dropdowns = () => (
         </Select>
       </div>
     </div>
-    <hr />
+    <hr className='undp-style' />
     <div className='margin-top-07 margin-bottom-07'>
-      <h6>Language Select</h6>
+      <h6 className='undp-typography'>Language Select</h6>
       <div className='margin-top-07'>
         <Select
           className='undp-select undp-language-select'

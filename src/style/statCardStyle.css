@@ -22,6 +22,8 @@
   color: var(--gray-200);
   font-size: 5rem;
   letter-spacing: .05rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 @media (min-width: 48em) {
     .stats-card.small h2 {
@@ -34,6 +36,8 @@
   -webkit-text-stroke: 2px var(--black);
   color: var(--gray-200);
   letter-spacing: .05rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 @media (min-width: 48em) {
     .stats-card.small h3 {
@@ -44,14 +48,17 @@
   color: var(--black);
 }
 
-
 .stat-card h4 {
   line-height: 1.15;
   color: var(--black);
   font-size: 1.563rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 .stat-card p {
   line-height: 1.15;
   font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }

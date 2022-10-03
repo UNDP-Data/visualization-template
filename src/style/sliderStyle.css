@@ -1,0 +1,70 @@
+
+.undp-slider .ant-slider-rail {
+  background-color: var(--gray-300);
+}
+
+.undp-slider:hover .ant-slider-rail {
+  background-color: var(--gray-400);
+}
+
+.undp-slider .ant-slider-track {
+  background-color: var(--dark-red);
+}
+
+.undp-slider.ant-slider-disabled .ant-slider-rail {
+  background-color: var(--gray-300) !important;
+}
+
+.undp-slider.ant-slider-disabled .ant-slider-track {
+  background-color: var(--light-red) !important;
+}
+
+.undp-slider.ant-slider-disabled .ant-slider-handle{
+  border: solid 2px var(--light-red) !important;
+}
+.undp-slider.ant-slider-disabled:hover .ant-slider-handle{
+  background-color: var(--white) !important;
+}
+
+.undp-slider:hover .ant-slider-track {
+  background-color: var(--dark-red);
+}
+
+.undp-slider .ant-slider-handle{
+  border: solid 2px var(--dark-red);
+}
+
+.undp-slider:hover .ant-slider-handle{
+  background-color: var(--light-red);
+  border: solid 2px var(--dark-red);
+}
+
+.undp-slider .ant-slider-dot{
+  border: solid 2px var(--gray-400);
+}
+
+.undp-slider .ant-slider-dot-active{
+  border: solid 2px var(--dark-red);
+}
+
+.undp-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+  border-color: var(--dark-red);
+}
+
+.ant-tooltip-inner {
+  background-color: var(--gray-300);
+  box-shadow: none;
+  padding: var(--spacing-01) var(--spacing-02);
+  min-height: auto;
+  color: var(--gray-600);
+  font-family: var(--fontFamily);
+}
+
+.ant-tooltip-arrow-content::before{
+  background: var(--gray-300) !important;
+}
+
+.ant-tooltip-arrow-content {
+  background-color: var(--gray-300);
+  box-shadow: none;
+}

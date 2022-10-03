@@ -41,9 +41,10 @@
   --spacing-11: 5rem;
   --spacing-12: 6rem;
   --spacing-13: 7rem;
+  --fontFamily: 'proxima-nova', 'Helvetica Neue', 'sans-serif'
 }
 
-@keyframes lineLoop-animation {
+@keyframes lineLoop-animation-for-links {
   0% {
     background-position: 100% 100%, -30px 100%;
     background-size: 100% 2px, 0 2px;
@@ -54,126 +55,161 @@
   }
 }
 
-body {
-  font-family: "proxima-nova", "Helvetica Neue", "sans-serif";
+
+.undp-container {
+  font-family: var(--fontFamily);
   font-size: 1rem;
   line-height: 1.4;
+  width: 100%;
+  padding: 0 var(--spacing-05);
+  margin: auto;
 }
 
-hr {
+.max-width {
+  max-width: 1280px;
+  margin: auto;
+}
+
+hr.undp-style {
   border: 1px solid var(--black);
 }
 
-p {
+p.undp-typography {
   margin-top: 0;
   font-size: 1rem;
   line-height: 1.4;
 }
 
 @media (min-width: 48em) {
-  body, p {
+  .undp-container, p.undp-style {
       font-size: 1.25rem;
   }
 }
 
-caption, h1, h2, h3, h4, h5, h6 {
+caption.undp-typography, h1.undp-typography, h2.undp-typography, h3.undp-typography, h4.undp-typography, h5.undp-typography, h6.undp-typography {
   margin: 0 0 .75rem;
   padding: 0;
 }
 @media(min-width:48em) {
-  caption, h1, h2, h3, h4, h5, h6 {
+  caption.undp-typography, h1.undp-typography, h2.undp-typography, h3.undp-typography, h4.undp-typography, h5.undp-typography, h6.undp-typography.undp-typography.undp-typography.undp-typography.undp-typography {
     margin-bottom: 1rem;
   }
 }
 
-h1 {
+h1.undp-typography {
   font-size: 2.938rem;
   font-weight: 700;
   letter-spacing: .06rem;
   line-height: 1.08;
   text-transform: uppercase;
 }
-@media(min-width:48em) {
-  h1 {
-    font-size: 5.125rem;
-  }
-}
-@media(min-width:64em) {
-  h1 {
-    font-size: 6.25rem;
-  }
-}
 
-h2 {
+h2.undp-typography {
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.1;
 }
-@media(min-width:48em) {
-  h2 {
-    font-size: 2.813rem;
-  }
-}
-@media(min-width:64em) {
-  h2 {
-    font-size: 3.438rem;
-  }
-}
 
-h3 {
+h3.undp-typography {
   font-size: 1.875rem;
   font-weight: 600;
   line-height: 1.15;
 }
-@media(min-width:48em) {
-  h3 {
-    font-size: 2.188rem;
-  }
-}
 
-h4 {
+h4.undp-typography {
   font-size: 1.563rem;
   font-weight: 400;
   line-height: 1.15;
 }
-@media(min-width:48em) {
-  h4 {
-    font-size: 2.188rem;
-  }
-}
 
-h5 {
+h5.undp-typography {
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.15;
 }
-@media(min-width:48em) {
-  h5 {
-    font-size: 1.563rem;
+
+blockquote.undp-typography {
+  font-size: 1.625rem;
+  font-weight: 600;
+  line-height: 1.16;
+  margin: 0;
+}
+
+cite.undp-typography {
+  font-size: 1.25rem;
+  line-height: 1.1;
+  display: block;
+  font-style: inherit;
+  font-weight: 400;
+  margin-top: 1.125rem;
+}
+
+code.undp-typography {
+  font-size: 1rem;
+  font-family: monospace;
+  background: var(--gray-200);
+  padding: 0 var(--spacing-02) var(--spacing-02);
+}
+
+@media(min-width:64em) {
+  h2.undp-typography {
+    font-size: 3.438rem;
+  }
+  h1.undp-typography {
+    font-size: 6.25rem;
   }
 }
 
-h6 {
+@media(min-width:48em) {
+  h5.undp-typography {
+    font-size: 1.563rem;
+  }
+  h4.undp-typography {
+    font-size: 2.188rem;
+  }
+  h3.undp-typography {
+    font-size: 2.188rem;
+  }
+  h2.undp-typography {
+    font-size: 2.813rem;
+  }
+  h1.undp-typography {
+    font-size: 5.125rem;
+  }
+  blockquote.undp-typography {
+    font-size: 2.188rem;
+    line-height: 1.15;
+  }
+  cite.undp-typography {
+    font-size: 1.5rem;
+  }
+  code.undp-typography {
+    font-size: 1.25rem;
+  }
+}
+
+h6.undp-typography {
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.15;
   text-transform: uppercase;
 }
 
-a {
+a.undp-style {
   background-image: linear-gradient(var(--dark-red), var(--dark-red)), linear-gradient(var(--dark-red), var(--dark-red));
   background-position: 100% 100%, -30px 100%;
   background-repeat: no-repeat;
   background-size: 100% 2px, 0 1px;
+  text-decoration: none;
   color: var(--black);
 }
 
-a:hover {
-  animation: lineLoop-animation 2s linear infinite;
+a.undp-style:hover {
+  animation: lineLoop-animation-for-links 2s linear infinite;
   color: var(--black);
 }
 
-a.dark-bg {
+a.undp-style.dark-bg {
   background-image: linear-gradient(var(--white), var(--white)), linear-gradient(var(--white), var(--white));
   background-position: 100% 100%, -30px 100%;
   background-repeat: no-repeat;
@@ -181,21 +217,14 @@ a.dark-bg {
   color: var(--white);
 }
 
-a.dark-bg:hover {
-  animation: lineLoop-animation 2s linear infinite;
+a.undp-style.dark-bg:hover {
+  animation: lineLoop-animation-for-links 2s linear infinite;
   color: var(--white);
 }
 
-a:focus-visible {
+a.undp-style:focus-visible {
   box-shadow: 0 0 4px #0468b1;
   outline: 0;
-}
-
-.container {
-  width: 100%;
-  max-width: 1280px;
-  padding: 0 var(--spacing-05);
-  margin: auto;
 }
 
 .flex-div {
@@ -420,7 +449,7 @@ a:focus-visible {
   background: #000;
 }
 
-@keyframes loader-animation {
+@keyframes loader-animation-undp {
   0% {
     transform: rotate(0deg);
   }
@@ -431,7 +460,7 @@ a:focus-visible {
 }
 
 .loader {
-  animation: loader-animation 2s linear infinite;
+  animation: loader-animation-undp 2s linear infinite;
   border-radius: 50%;
   border: 8px solid var(--blue-600);
   border-top: 8px solid var(--gray-300);
