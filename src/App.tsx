@@ -16,6 +16,7 @@ import { TableEl } from './Components/TableEl';
 import { TabsEl } from './Components/TabsEl';
 import { SliderEl } from './Components/Slider';
 import { SegmentedEl } from './Components/SegmentedEl';
+import { HeaderEl } from './Components/HeaderEl';
 
 const items = [
   {
@@ -93,15 +94,22 @@ const items = [
     key: '15',
     children: <SegmentedEl />,
   },
+  {
+    label: 'Loader',
+    key: '16',
+    children: <div className='undp-loader' />,
+  },
 ];
 const App = () => (
   <div className='undp-container'>
-    <h4 className='undp-typography'>UNDP Data Future Platform Style Guide</h4>
-    <Tabs
-      defaultActiveKey='1'
-      className='undp-tabs'
-      items={items}
-    />
+    <HeaderEl />
+    <div style={{ marginTop: '10rem' }}>
+      <Tabs
+        defaultActiveKey='1'
+        className='undp-tabs'
+        items={items}
+      />
+    </div>
   </div>
 );
 

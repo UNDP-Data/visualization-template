@@ -374,7 +374,7 @@ a.undp-style:focus-visible {
 }
 
 .margin-bottom-10 {
-  margin-top: var(--spacing-10);
+  margin-bottom: var(--spacing-10);
 }
 
 .margin-top-11 {
@@ -459,7 +459,7 @@ a.undp-style:focus-visible {
   }
 }
 
-.loader {
+.undp-loader {
   animation: loader-animation-undp 2s linear infinite;
   border-radius: 50%;
   border: 8px solid var(--blue-600);
@@ -469,7 +469,7 @@ a.undp-style:focus-visible {
 }
 
 @media (min-width: 48em) {
-  .loader {
+  .undp-loader {
     border: 14px solid var(--blue-600);
     border-top: 14px solid var(--gray-300);
     height: 96px;

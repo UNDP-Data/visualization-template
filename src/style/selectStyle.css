@@ -26,87 +26,87 @@
 }
 
 .undp-select .ant-select-selection-placeholder {
-  font-size: 1rem;
-  color: black;
-  padding-left: 0;
-  font-weight: 600;
-  color: var(--gray-500);
+  font-size: 1rem !important;
+  color: black !important;
+  padding-left: 0 !important;
+  font-weight: 600 !important;
+  color: var(--gray-500) !important;
 }
 
 .undp-select:after {
-  transform: translateY(-50%);
-  transition: all 200ms ease-in-out;
-  background: url(https://design.undp.org/static/media/chevron-down.16c97a3f.svg) no-repeat center center;
-  content: "";
-  float: right;
-  height: 13px;
-  position: absolute;
-  pointer-events: none;
-  right: 14px;
-  top: 50%;
-  width: 20px;
+  transform: translateY(-50%) !important;
+  transition: all 200ms ease-in-out !important;
+  background: url(https://design.undp.org/static/media/chevron-down.16c97a3f.svg) no-repeat center center !important;
+  content: "" !important;
+  float: right !important;
+  height: 13px !important;
+  position: absolute !important;
+  pointer-events: none !important;
+  right: 14px !important;
+  top: 50% !important;
+  width: 20px !important;
 }
 
 .undp-select .ant-select-selection-item {
-  font-size: 1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: black;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  color: black !important;
   padding: 10px 3rem 0 0 !important;
 }
 
 
 .undp-select .ant-select-arrow {
-  opacity: 0;
+  opacity: 0 !important;
 }
 
 .undp-select-option {
-  font-size: 1.25rem;
-  white-space: normal;
-  padding: 1rem;
-  border-top: 1px solid var(--gray-400);
-  line-height: 1.4;
-  font-family: var(--fontFamily);
+  font-size: 1.25rem !important;
+  white-space: normal !important;
+  padding: 1rem !important;
+  border-top: 1px solid var(--gray-400) !important;
+  line-height: 1.4 !important;
+  font-family: var(--fontFamily) !important;
 }
 
 
 .undp-select-option.ant-select-item-option-selected{  
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 .undp-select-option.ant-select-item-option-active {
-  background-color: var(--gray-100);
+  background-color: var(--gray-100) !important;
 }
 
 .undp-select.ant-select-single .ant-select-selector:after, .undp-select.ant-select-single .ant-select-selector .ant-select-selection-item:after, .undp-select.ant-select-single .ant-select-selector .ant-select-selection-placeholder:after{
-  display: none;
+  display: none !important;
 }
 
 .undp-select.ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder{
-  padding-top: 10px;
+  padding-top: 10px !important;
 }
 
 .ant-select-selection-search {
-  margin-top: 2px;
-  font-size: 1.25rem;
+  margin-top: 2px !important;
+  font-size: 1.25rem !important;
 }
 
 .undp-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-search-input {
-  height: 2rem;
-  padding-bottom: 0;
+  height: 2rem !important;
+  padding-bottom: 0 !important;
 }
 
 .undp-select.ant-select-single .ant-select-selection-search-input {
   padding: 0.875rem 0 0 0 !important;
-  font-size: 1.25rem;
+  font-size: 1.25rem !important;
 }
 
 .undp-select.ant-select-multiple .ant-select-selection-item {
-  font-size: 1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: black;
-  padding: 0 5px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  color: black !important;
+  padding: 0 11px !important;
 }
 
 .undp-select-option.ant-select-item-option-selected .ant-select-item-option-state .anticon-check svg {
@@ -114,7 +114,7 @@
 }
 
 .undp-select.ant-select-multiple .ant-select-selector .ant-select-selection-overflow .ant-select-selection-item {
-  background-color: var(--gray-300);
+  background-color: var(--gray-300) !important;
 }
 
 .undp-select.ant-select-multiple .ant-select-selector .ant-select-selection-overflow .ant-select-selection-item .ant-select-selection-item-remove .anticon-close svg {
@@ -126,62 +126,62 @@
 }
 
 .undp-select .ant-select-selector{
-  padding: 0 5px;
+  padding: 0 11px !important;
 }
 
 .ant-select-dropdown{
-  padding: 0;
+  padding: 0 !important;
 }
 
 .clearIcon {
-  background: url(https://design.undp.org/icons/times-circle.svg) no-repeat center center;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-top: 50%;
-  transform: translate(-50%,-50%);
+  background: url(https://design.undp.org/icons/times-circle.svg) no-repeat center center !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  margin-top: 50% !important;
+  transform: translate(-50%,-50%) !important;
 }
 
 .undp-language-select {
-  width: auto;
-  height: auto;
-  border: 0;
+  width: auto !important;
+  height: auto !important;
+  border: 0 !important;
 }
 
 .undp-language-select .ant-select-selection-item {
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--blue-600);
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  color: var(--blue-600) !important;
   padding: 11px 1.5rem 0 2rem !important;
 }
 
 .undp-language-select .ant-select-selection-search{
-  margin-top: 0;
+  margin-top: 0 !important;
 }
 
 .undp-language-select .ant-select-selection-search:before {
-  background-color: var(--blue-600);
-  display: inline-block;
-  content: '';
-  color: var(--blue-600);
-  width: 25px;
-  height: 26px;
-  mask: url(https://design.undp.org/static/media/language.fa0c73b0.svg) no-repeat left center;
-  margin-top: 13px;
-  margin-right: .5rem;
+  background-color: var(--blue-600) !important;
+  display: inline-block !important;
+  content: '' !important;
+  color: var(--blue-600) !important;
+  width: 25px !important;
+  height: 26px !important;
+  mask: url(https://design.undp.org/static/media/language.fa0c73b0.svg) no-repeat left center !important;
+  margin-top: 13px !important;
+  margin-right: .5rem !important;
 }
 
 .undp-language-select .ant-select-selection-search input {
-  display: none;
+  display: none !important;
 }
 
 .undp-language-select:after {
-  background: none;
-  background-color: var(--blue-600);
-  display: inline-block;
-  content: "";
-  height: 10px;
-  margin-left: .5rem;
-  mask: url(https://design.undp.org/static/media/arrow-blue.195b4397.svg) no-repeat left center;
-  width: 15px;
+  background: none !important;
+  background-color: var(--blue-600) !important;
+  display: inline-block !important;
+  content: "" !important;
+  height: 10px !important;
+  margin-left: .5rem !important;
+  mask: url(https://design.undp.org/static/media/arrow-blue.195b4397.svg) no-repeat left center !important;
+  width: 15px !important;
 }

@@ -1,0 +1,48 @@
+.undp-country-header {
+  height: auto;
+  font-family: var(--fontFamily);
+  min-height: 7.1875rem;
+  background-color: var(--gray-100);
+  box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
+  height: 7.1875rem;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9;
+}
+
+.undp-country-header .undp-header-bg {
+  padding: 0 0.75rem;
+  max-width: 100%;
+}
+
+.undp-country-header .undp-site-title {
+  font-size: 1rem;
+  line-height: 1rem;
+  margin-top: -0.25rem;
+  padding: 0.438rem 0;
+  width: calc(100% - 52px);
+}
+
+@media  (min-width: 90em) {
+  .undp-country-header .undp-site-title {
+    font-size: 1.25rem;
+    margin-right: 2rem;
+    width: 14.4375rem;
+  }  
+}
+
+.undp-country-header .undp-site-title span {
+  display: flex;
+  margin-top: 0.3rem;
+}
+
+.undp-country-header .undp-site-title span:first-of-type {
+  border-bottom: 1px solid #a9b1b7;
+  color: #55606e;
+  display: inline-block;
+  font-size: .75rem;
+  margin: 0;
+  padding-bottom: 1px;
+}

@@ -18,10 +18,6 @@
   border-bottom: 1px solid var(--gray-200);
 }
 
-.undp-tabs .ant-tabs-nav-list{
-  transform: translate(2px, 0px) !important;
-}
-
 .undp-tabs .ant-tabs-tab .ant-tabs-tab-btn {
   color: var(--black);
   padding-bottom: 0.5rem;
@@ -63,4 +59,8 @@
 .undp-tabs .ant-tabs-content-holder {
   padding: 2.5rem 1rem 1.25rem 1rem;
   font-size: 1.25rem;
+}
+
+.ant-tabs-dropdown {
+  font-family: var(--fontFamily);
 }

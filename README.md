@@ -195,7 +195,7 @@ __Additonal Variations Classes__: `undp-chip-small` `undp-chip-large` `undp-chip
 __Required Class For parent element__: `undp-scrollbar`
 
 ### For Loader
-__Required Class For div__: `loader`
+__Required Class For div__: `undp-loader`
 
 ## Different CSS variable
 
