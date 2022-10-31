@@ -27,7 +27,6 @@
 
 .undp-select .ant-select-selection-placeholder {
   font-size: 1rem !important;
-  color: black !important;
   padding-left: 0 !important;
   font-weight: 600 !important;
   color: var(--gray-500) !important;
@@ -184,4 +183,11 @@
   margin-left: .5rem !important;
   mask: url(https://design.undp.org/static/media/arrow-blue.195b4397.svg) no-repeat left center !important;
   width: 15px !important;
+}
+
+.undp-select.ant-select-multiple .ant-select-selection-placeholder{
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  color: black !important;
 }
