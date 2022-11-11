@@ -16,6 +16,7 @@ import { TableEl } from './Components/TableEl';
 import { TabsEl } from './Components/TabsEl';
 import { SliderEl } from './Components/Slider';
 import { SegmentedEl } from './Components/SegmentedEl';
+import { SwitchEl } from './Components/SwitchEl';
 import { HeaderEl } from './Components/HeaderEl';
 
 const items = [
@@ -95,8 +96,13 @@ const items = [
     children: <SegmentedEl />,
   },
   {
-    label: 'Loader',
+    label: 'Switch',
     key: '16',
+    children: <SwitchEl />,
+  },
+  {
+    label: 'Loader',
+    key: '17',
     children: <div className='undp-loader' />,
   },
 ];
