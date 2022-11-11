@@ -249,15 +249,15 @@ a.undp-style:focus-visible {
 }
 
 .bold {
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 .italics {
-  font-style: italic;
+  font-style: italic !important;
 }
 
 .small-font {
-  font-size: 1rem;
+  font-size: 1rem !important;
 }
 
 .label {
