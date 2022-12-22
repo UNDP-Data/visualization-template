@@ -10,17 +10,17 @@
 }
 
 .undp-select.ant-select-focused {
-  box-shadow: 0 0 4px var(--blue-700);
+  box-shadow: 0 0 4px #0468b1;
   outline: 0;
 }
 
 .undp-select:focus {
-  box-shadow: 0 0 4px var(--blue-700);
+  box-shadow: 0 0 4px #0468b1;
   outline: 0;
 }
 
 .undp-select:focus-visible {
-  box-shadow: 0 0 4px var(--blue-700);
+  box-shadow: 0 0 4px #0468b1;
   outline: 0;
 }
 

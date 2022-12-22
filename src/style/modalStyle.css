@@ -3,6 +3,11 @@
   background: rgba(247,247,247,.8);
 }
 
+.undp-modal.ant-modal{
+  width: 90% !important;
+  max-width: 64rem;
+}
+
 .undp-modal .ant-modal-content {
   padding: 4rem;
   box-shadow: none;
@@ -11,6 +16,25 @@
   border: 0;
   color: var(--black);
   font-family: var(--fontFamily);
+  max-height: calc(100vh - 291px);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.undp-modal .ant-modal-content::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+.undp-modal .ant-modal-content::-webkit-scrollbar-track {
+  background: #000;
+  background-clip: padding-box;
+  border: 2px solid #fff;
+}
+.undp-modal .ant-modal-content::-webkit-scrollbar-corner {
+  display: none;
+}
+.undp-modal .ant-modal-content::-webkit-scrollbar-thumb {
+  background: #000;
 }
 
 .undp-modal .ant-modal-header{
@@ -33,7 +57,7 @@
   display: none;
 }
 
-.undp-modal .ant-modal-close-x {
+.undp-modal .ant-modal-close {
   background: url(https://design.undp.org/static/media/times-circle.69b7dcd7.svg) no-repeat left center;
   border: 0;
   cursor: pointer;

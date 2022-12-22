@@ -30,13 +30,13 @@
 
 .undp-input:focus{
   border: 2px solid var(--blue-700) !important; 
-  box-shadow: 0 0 4px var(--blue-700) !important;
+  box-shadow: 0 0 4px #0468b1 !important;
   outline: 0 !important;
 }
 
 .undp-input:focus-visible{
   border: 2px solid var(--blue-700) !important; 
-  box-shadow: 0 0 4px var(--blue-700) !important;
+  box-shadow: 0 0 4px #0468b1 !important;
   outline: 0 !important;
 }
 

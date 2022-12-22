@@ -29,7 +29,7 @@
 
 .undp-checkbox .ant-checkbox-input:focus-visible+.ant-checkbox-inner{
   outline: 0;
-  box-shadow: 0 0 6px var(--blue-700);
+  box-shadow: 0 0 4px #0468b1;
 }
 
 .undp-checkbox .ant-checkbox-input {

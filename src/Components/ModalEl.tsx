@@ -6,7 +6,7 @@ export const ModalEl = () => {
   const [openModal, setOpenModal] = useState(false);
   return (
     <div className='flex-wrap margin-bottom-07'>
-      <button type='button' className='undp-button button-primary button-arrow' onClick={() => { setOpenModal(true); }}>Open Modal</button>
+      <button type='button' tabIndex={0} className='undp-button button-primary button-arrow' onKeyDown={(e) => { if (e.key === 'Enter') setOpenModal(true); }} onClick={() => { setOpenModal(true); }}>Open Modal</button>
       <Modal
         className='undp-modal'
         onCancel={() => { setOpenModal(false); }}
