@@ -143,8 +143,11 @@ __Required Class For `Modal` tag__: `undp-modal`
 ### For Slider from AntD
 __Required Class For `Slider` tag__: `undp-slider`
 
-### For Segmented from AntD
-__Required Class For `Segmented` tag__: `undp-segmented`
+### For Large Segmented from AntD
+__Required Class For `Segmented` tag__: `undp-segmented` (this can be used to mavigate to different pages in place of tabs)
+
+### For Small Segmented from AntD
+__Required Class For `Segmented` tag__: `undp-segmented-small` (this can be used to filters or option selection)
 
 ### For Stat Cards
 __Required Class__: `stat-card`

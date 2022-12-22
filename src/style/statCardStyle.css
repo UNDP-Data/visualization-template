@@ -2,9 +2,9 @@
   padding: 2rem;
   background-color: var(--gray-200);
   font-size: 1.25rem;
-  cursor: pointer;
   color: var(--black);
   transition: 300ms all;
+  flex-grow: 1;
 }
 
 .stat-card:hover {
@@ -26,8 +26,8 @@
   margin-bottom: 1rem;
 }
 @media (min-width: 48em) {
-    .stats-card.small h2 {
-      font-size: 4.375rem;
+  .stats-card.small h2 {
+    font-size: 4.375rem;
   }
 }
 .stat-card h3 {
@@ -40,11 +40,13 @@
   margin-top: 0;
   margin-bottom: 1rem;
 }
+
 @media (min-width: 48em) {
     .stats-card.small h3 {
       font-size: 3.5rem;
   }
 }
+
 .stat-card:hover h3 {
   color: var(--black);
 }

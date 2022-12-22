@@ -236,6 +236,10 @@ a.undp-style:focus-visible {
   align-items: center;
 }
 
+.flex-vert-align-bottom {  
+  align-items: flex-end;
+}
+
 .flex-wrap {
   flex-wrap: wrap;
 }

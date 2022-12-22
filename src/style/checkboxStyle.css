@@ -1,61 +1,67 @@
 
 .undp-checkbox .ant-checkbox .ant-checkbox-inner {
-  -webkit-appearance: none !important;
-  appearance: none !important;
-  border: 2px solid var(--dark-red) !important;
-  cursor: pointer !important;
-  height: 16px !important;
-  margin: 0 !important;
-  width: 16px !important;
+  -webkit-appearance: none;
+  appearance: none;
+  border: 2px solid var(--dark-red);
+  cursor: pointer;
+  height: 16px;
+  margin: 0;
+  width: 16px;
 }
 
 .undp-checkbox .ant-checkbox-checked .ant-checkbox-inner{
-  background-color: transparent !important;
-}
-
-.undp-checkbox:hover .ant-checkbox .ant-checkbox-inner {
-  border: 2px solid var(--light-red) !important;
-}
-
-.undp-checkbox:hover .ant-checkbox-checked .ant-checkbox-inner {
-  border: 2px solid var(--light-red) !important;
+  background-color: transparent;
 }
 
 .undp-checkbox .ant-checkbox-checked {
-  background: url(https://design.undp.org/static/media/icon-check.b332b98d.svg) no-repeat center center !important;
+  background: url(https://design.undp.org/static/media/icon-check.b332b98d.svg) no-repeat center center;
+}
+
+.undp-checkbox:hover .ant-checkbox .ant-checkbox-inner {
+  background-color: rgba(238, 64, 45,0.2);
+  border: 2px solid var(--red);
+}
+
+.undp-checkbox:hover .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: rgba(238, 64, 45,0.2) !important;
+  border: 2px solid var(--red) !important;
+}
+
+.undp-checkbox .ant-checkbox-input:focus-visible+.ant-checkbox-inner{
+  outline: 0;
+  box-shadow: 0 0 6px var(--blue-700);
+}
+
+.undp-checkbox .ant-checkbox-input {
+  margin: 0;
 }
 
 .undp-checkbox .ant-checkbox-checked .ant-checkbox-inner:after {
   display: none !important;
 }
 
+
+.undp-checkbox .ant-checkbox-checked:after {
+  display: none !important;
+}
+
 .undp-checkbox-label {
-  font-size: 1rem !important;
-  margin: 0 7px !important;
-  line-height: 1rem !important;
+  font-size: 1rem;
+  margin: 0 7px;
+  line-height: 1rem;
 }
 
 .undp-checkbox .ant-checkbox + span {
-  padding: 0 7px !important;
-  font-size: 1rem !important;
+  padding: 0 7px;
+  font-size: 1rem;
   color: var(--black);
 }
 
 .undp-checkbox .ant-checkbox-disabled + span {
-  color: var(--gray-400) !important;
+  color: var(--gray-400);
 }
 
 .undp-checkbox .ant-checkbox-disabled .ant-checkbox-inner {
   background-color: var(--gray-200) !important;
   border-color: var(--gray-400) !important;
-}
-
-.undp-checkbox .ant-checkbox:focus {
-  box-shadow: 0 0 4px #0468b1 !important;
-  outline: 0;
-}
-
-.undp-checkbox .ant-checkbox:focus-visible {
-  box-shadow: 0 0 4px #0468b1 !important;
-  outline: 0;
 }
