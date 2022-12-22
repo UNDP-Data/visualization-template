@@ -5,24 +5,32 @@
   height: 3.25rem;
 }
 
+.undp-select:hover {
+  border: 2px solid var(--blue-700);
+}
+
 .undp-select.ant-select-focused {
-  box-shadow: 0 0 4px #0468b1;
+  box-shadow: 0 0 4px var(--blue-700);
   outline: 0;
 }
 
 .undp-select:focus {
-  box-shadow: 0 0 4px #0468b1;
+  box-shadow: 0 0 4px var(--blue-700);
   outline: 0;
 }
 
 .undp-select:focus-visible {
-  box-shadow: 0 0 4px #0468b1;
+  box-shadow: 0 0 4px var(--blue-700);
   outline: 0;
 }
 
-.ant-select-selector{
-  min-height: 3rem;
-  border: 0;
+.undp-select .ant-select-selector{
+  min-height: 3rem !important;
+  border: 0 !important;
+}
+
+.undp-select.ant-select-single .ant-select-selector{
+  padding-top: 0.5rem !important;
 }
 
 .undp-select .ant-select-selection-placeholder {
@@ -30,6 +38,10 @@
   padding-left: 0;
   font-weight: 600;
   color: var(--gray-500);
+}
+
+.undp-select .ant-select-selection-search{
+  margin-inline-start: 0;
 }
 
 .undp-select:after {
@@ -60,12 +72,12 @@
 }
 
 .undp-select-option {
-  font-size: 1.25rem;
-  white-space: normal;
-  padding: 1rem;
-  border-top: 1px solid var(--gray-400);
-  line-height: 1.4;
-  font-family: var(--fontFamily);
+  font-size: 1.25rem !important;
+  white-space: normal !important;
+  padding: 1rem !important;
+  border-top: 1px solid var(--gray-400) !important;
+  line-height: 1.4 !important;
+  font-family: var(--fontFamily) !important;
 }
 
 
@@ -81,10 +93,6 @@
   display: none;
 }
 
-.undp-select.ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder{
-  padding-top: 10px;
-}
-
 .ant-select-selection-search {
   margin-top: 2px;
   font-size: 1.25rem;
@@ -95,9 +103,14 @@
   padding-bottom: 0;
 }
 
-.undp-select.ant-select-single .ant-select-selection-search-input {
-  padding: 0.875rem 0 0 0;
-  font-size: 1.25rem;
+.undp-select .ant-select-selection-search-input {
+  padding: 0 !important;
+  font-size: 1.25rem !important;
+}
+
+.undp-select .ant-select-selection-search-input {
+  padding: 0 !important;
+  font-size: 1.25rem !important;
 }
 
 .undp-select.ant-select-multiple .ant-select-selection-item {
@@ -154,6 +167,11 @@
   padding: 11px 1.5rem 0 2rem;
 }
 
+.undp-language-select .ant-select-selector{
+  display: flex;
+  align-items: center;
+}
+
 .undp-language-select .ant-select-selection-search{
   margin-top: 0;
 }
@@ -167,7 +185,11 @@
   height: 26px;
   mask: url(https://design.undp.org/static/media/language.fa0c73b0.svg) no-repeat left center;
   margin-top: 13px;
-  margin-right: .5rem;
+}
+
+.undp-language-select .ant-select-selection-item {
+  margin-left: 2.25rem;
+  margin-right: 0.5rem;
 }
 
 .undp-language-select .ant-select-selection-search input {
@@ -180,9 +202,25 @@
   display: inline-block;
   content: "";
   height: 10px;
-  margin-left: .5rem;
   mask: url(https://design.undp.org/static/media/arrow-blue.195b4397.svg) no-repeat left center;
   width: 15px;
+}
+
+
+
+.undp-select.undp-language-select.ant-select-single .ant-select-selector{
+  padding-top: 0rem !important;
+}
+
+
+.undp-select.undp-language-select:hover {
+  border: 0;
+  opacity: 0.8;
+}
+
+
+.undp-select.undp-language-select.ant-select-single.ant-select-open .ant-select-selection-item {
+  color: var(--blue-400) !important;
 }
 
 .undp-select.ant-select-multiple .ant-select-selection-placeholder{

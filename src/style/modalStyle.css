@@ -48,3 +48,7 @@
 .undp-modal .ant-modal-content .ant-modal-body {
   padding: 0;
 }
+
+.undp-modal .ant-modal-close:hover{
+  background-color: transparent;
+}

@@ -8,7 +8,11 @@
   background-color: var(--light-red);
 }
 
-.undp-switch  .ant-switch-handle::before{
+.undp-switch .ant-switch-handle::before{
   background-color: var(--dark-red);
   box-shadow: none;
+}
+
+.undp-switch.ant-switch:hover:not(.ant-switch-disabled){
+  background-color: var(--light-red);
 }
