@@ -1,5 +1,4 @@
 import { DatePicker, Input, InputNumber } from 'antd';
-import '../style/inputStyle.css';
 
 export const InputField = () => (
   <div className='flex-wrap margin-bottom-07'>

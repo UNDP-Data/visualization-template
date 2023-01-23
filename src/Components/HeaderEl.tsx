@@ -1,5 +1,3 @@
-import '../style/headerStyle.css';
-
 export const HeaderEl = () => (
   <div className='margin-bottom07'>
     <header className='undp-country-header'>

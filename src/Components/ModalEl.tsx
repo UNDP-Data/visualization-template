@@ -1,6 +1,5 @@
 import { Modal } from 'antd';
 import { useState } from 'react';
-import '../style/modalStyle.css';
 
 export const ModalEl = () => {
   const [openModal, setOpenModal] = useState(false);

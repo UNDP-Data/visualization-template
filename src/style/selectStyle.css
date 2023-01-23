@@ -184,6 +184,7 @@
   width: 25px;
   height: 26px;
   mask: url(https://design.undp.org/static/media/language.fa0c73b0.svg) no-repeat left center;
+  -webkit-mask: url(https://design.undp.org/static/media/language.fa0c73b0.svg) no-repeat left center;
   margin-top: 13px;
 }
 
@@ -203,6 +204,7 @@
   content: "";
   height: 10px;
   mask: url(https://design.undp.org/static/media/arrow-blue.195b4397.svg) no-repeat left center;
+  -webkit-mask: url(https://design.undp.org/static/media/arrow-blue.195b4397.svg) no-repeat left center;
   width: 15px;
 }
 

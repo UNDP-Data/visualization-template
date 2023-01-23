@@ -1,5 +1,3 @@
-import '../style/tableStyle.css';
-
 export const TableEl = () => (
   <div className='flex-wrap margin-bottom-07'>
     <div className='margin-bottom-07'>

@@ -1,5 +1,4 @@
 import { Checkbox } from 'antd';
-import '../style/checkboxStyle.css';
 
 export const Checkboxes = () => (
   <div className='flex-wrap margin-bottom-07'>

@@ -1,6 +1,4 @@
 import { Tabs } from 'antd';
-import './style/style.css';
-import './style/tabStyle.css';
 import { Typography } from './Components/Typography';
 import { Buttons } from './Components/Buttons';
 import { Dropdowns } from './Components/Dropdowns';

@@ -1,3 +1,11 @@
+.stat-card-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-05);
+  align-items: stretch;
+  flex-grow: 1;
+}
+
 .stat-card {
   padding: 2rem;
   background-color: var(--gray-200);

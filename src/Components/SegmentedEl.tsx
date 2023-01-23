@@ -1,5 +1,4 @@
 import { Segmented } from 'antd';
-import '../style/segmentedStyle.css';
 
 export const SegmentedEl = () => (
   <div className='flex-wrap margin-bottom-09'>

@@ -1,5 +1,4 @@
 import { Switch } from 'antd';
-import '../style/switchStyle.css';
 
 export const SwitchEl = () => (
   <div className='flex-wrap margin-bottom-07'>

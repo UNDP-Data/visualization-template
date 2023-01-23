@@ -1,5 +1,4 @@
 import { Radio } from 'antd';
-import '../style/radioStyle.css';
 
 export const RadioEl = () => (
   <div className='flex-wrap margin-bottom-07'>

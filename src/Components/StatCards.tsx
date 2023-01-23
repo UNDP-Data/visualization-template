@@ -1,5 +1,3 @@
-import '../style/statCardStyle.css';
-
 export const StatCards = () => (
   <div className='flex-wrap margin-bottom-07'>
     <div className='margin-bottom-07'>
@@ -17,6 +15,36 @@ export const StatCards = () => (
       <h6>Stat Cards With H3</h6>
       <div style={{ width: '25%' }}>
         <div className='stat-card'>
+          <h3>832</h3>
+          <h4>Million</h4>
+          <p>Lorem Ipsum dolor sit Amet</p>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div className='margin-top-07 margin-bottom-07'>
+      <h6>Stat Cards Container</h6>
+      <div className='stat-card-container'>
+        <div className='stat-card' style={{ width: '25%' }}>
+          <h3>832</h3>
+          <h4>Million</h4>
+          <p>Lorem Ipsum dolor sit Amet</p>
+        </div>
+        <div className='stat-card' style={{ width: '25%' }}>
+          <h3>832</h3>
+          <h4>Million</h4>
+          <p>Lorem Ipsum dolor sit Amet</p>
+        </div>
+        <div className='stat-card' style={{ width: '25%' }}>
+          <h3>832</h3>
+          <h4>Million</h4>
+          <p>
+            Lorem Ipsum dolor sit Amet
+            <br />
+            Lorem Ipsum Dolor sit Amet
+          </p>
+        </div>
+        <div className='stat-card' style={{ width: '25%' }}>
           <h3>832</h3>
           <h4>Million</h4>
           <p>Lorem Ipsum dolor sit Amet</p>

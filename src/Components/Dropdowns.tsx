@@ -1,5 +1,4 @@
 import { Select } from 'antd';
-import '../style/selectStyle.css';
 
 export const Dropdowns = () => (
   <div className='flex-wrap margin-bottom-07'>

@@ -1,5 +1,4 @@
 import { Tabs } from 'antd';
-import '../style/tabStyle.css';
 
 export const TabsEl = () => (
   <div className='margin-bottom07'>

@@ -1,5 +1,3 @@
-import '../style/chipStyle.css';
-
 export const Chips = () => (
   <div className='flex-div flex-vert-align-center flex-wrap margin-bottom-07'>
     <div className='undp-chip'>Default Chip</div>

@@ -150,6 +150,7 @@ __Required Class For `Segmented` tag__: `undp-segmented` (this can be used to ma
 __Required Class For `Segmented` tag__: `undp-segmented-small` (this can be used to filters or option selection)
 
 ### For Stat Cards
+__Required Claas for Container div__: `stat-card-container`
 __Required Class__: `stat-card`
 
 ### For Table

@@ -1,6 +1,5 @@
 import { Slider } from 'antd';
 import { SliderMarks } from 'antd/lib/slider';
-import '../style/sliderStyle.css';
 
 const marks: SliderMarks = {
   0: '0°C',
